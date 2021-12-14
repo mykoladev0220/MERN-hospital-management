@@ -1,19 +1,19 @@
-import React, {lazy} from 'react'
+import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from '../pages/Home';
-
-const Layout = lazy(() => import('../containers/Layout'))
+import Home from "../pages/Home";
+import Dashboard from "../pages/Dashboard.jsx";
+import Booking from "../pages/Booking.jsx";
+import Layout from "../containers/Layout";
 
 export default function routes() {
-    return (
-        <BrowserRouter>
+  return (
+    <BrowserRouter>
+      <Layout>
         <Routes>
-          {/* Place new routes over this */}
-          <Route path="/app" exact component={Layout} />
-          <Route path="/home" exact element={<Home />} />
-          {/* If you have an index page, you can remothis Redirect */}
-          <Route path="/" element={<Navigate replace to="/app" />} />
+          <Route path="/dashboard" exact element={<Dashboard />} />
+          <Route path="/booking" exact element={<Booking />} />
         </Routes>
-      </BrowserRouter>
-    )
+      </Layout>
+    </BrowserRouter>
+  );
 }

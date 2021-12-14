@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react'
-
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from '../icons'
+import React from 'react'
 
 
-function Dashboard() {
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  return (
-    <>
-      <h1>Dashboard</h1>
-        <h1 className='text-2xl'>Blank</h1>
-        HOME
-    </>
-  )
+export default function Dashboard() {
+    return (
+        <div>
+            <div className=""><h1 className="text-center text-2xl">Dashboard</h1>
+            
+            </div>
+        </div>
+    )
 }
-
-export default Dashboard

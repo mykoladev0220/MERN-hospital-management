@@ -3,16 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Windmill } from "@windmill/react-ui";
-import { SidebarProvider } from "./context/SidebarContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SidebarProvider>
-      <Windmill>
-        <App />
-      </Windmill>
-    </SidebarProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
