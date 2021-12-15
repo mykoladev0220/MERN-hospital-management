@@ -15,7 +15,7 @@ export default function LoginAdmin() {
     <>
       <div className=" bg-maingreen-300">
         <Navbar />
-        <div className="min-h-screen flex flex-col justify-center items-center">
+        <div className="min-h-screen flex justify-center items-center">
           <div className="px-12 py-12 rounded-lg bg-white shadow-lg">
             <div>
               <h1 className="text-center font-bold text-2xl">Login Admin</h1>
