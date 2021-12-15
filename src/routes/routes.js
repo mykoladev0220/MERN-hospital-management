@@ -8,12 +8,27 @@ import Layout from "../containers/Layout";
 export default function routes() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/dashboard" exact element={<Dashboard />} />
-          <Route path="/booking" exact element={<Booking />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/dashboard"
+          exact
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
+        <Route
+          path="/booking"
+          exact
+          element={
+            <Layout>
+              <Booking />
+            </Layout>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
