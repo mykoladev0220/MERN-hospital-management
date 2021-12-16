@@ -44,7 +44,7 @@ export default function Layout(props) {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
-        className="bg-gray-100  max-h-full"
+        className=" bg-flashwhite  max-h-full"
       >
         <div className="mt-12">{props.children}</div>
       </Box>

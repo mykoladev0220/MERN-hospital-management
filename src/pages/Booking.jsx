@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RegisterPatient from "../components/Booking/RegisterPatient";
+import SelectSchedule from "../components/Booking/SelectSchedule";
 
 const steps = ["Patient Registration", "Select Schedule", "Confirmation Form"];
 
@@ -63,9 +64,7 @@ export default function Booking() {
         );
       case 1:
         return (
-          <Box p={3}>
-            <Typography>Select Schedule</Typography>
-          </Box>
+          <SelectSchedule/>
         );
       case 2:
         return (

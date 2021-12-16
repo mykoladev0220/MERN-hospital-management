@@ -18,7 +18,7 @@ export default function RegisterPatient() {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-  
+
   return (
     <div className="max-w-md mx-auto">
       <div className="py-4">
