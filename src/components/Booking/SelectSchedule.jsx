@@ -39,6 +39,11 @@ export default function SelectSchedule() {
     createData(1, "Facilty 1", "Doctor 1", "8:00 AM - 9:00 AM"),
     createData(2, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
     createData(3, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
+    createData(4, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
+    createData(5, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
+    createData(6, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
+    createData(7, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
+    createData(8, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
   ];
 
   const columns = [
@@ -67,13 +72,13 @@ export default function SelectSchedule() {
 
   return (
     <div className="mx-auto">
-      <div className="py-4">
+      <div className="pt-4">
         <h1 className="text-center font-semibold text-xl">Select Schedule</h1>
       </div>
-      <div className="flex flex-col md:flex-row-reverse justify-items-center my-4">
-        <div className="flex-1 my-4 mx-4 ">
+      <div className="flex flex-col lg:flex-row-reverse justify-items-center my-4">
+        <div className="flex-1 md:my-4 mx-4 ">
           <div className="mx-auto">
-            <div className="w-full h-96 rounded-xl bg-white shadow-md border-0">
+            <div className="w-full h-80 rounded-xl bg-white shadow-md border-0">
               <DataGrid
                 rows={rows}
                 columns={columns}
@@ -98,7 +103,7 @@ export default function SelectSchedule() {
                     value={SessionSchedule.facilty}
                     label="Select Facilty"
                     onChange={handleChange}
-                    className=" shadow-md border-0"
+                    className="shadow-md border-0 bg-white"
                   >
                     <MenuItem value={10}>UGD</MenuItem>
                     <MenuItem value={20}>Klinik THT</MenuItem>
@@ -107,7 +112,7 @@ export default function SelectSchedule() {
                 </FormControl>
               </div>
               <div className="mb-5">
-                <FormControl fullWidth>
+                <FormControl  fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Select Doctor
                   </InputLabel>
@@ -118,6 +123,7 @@ export default function SelectSchedule() {
                     value={SessionSchedule.doctor}
                     label="Select Doctor"
                     onChange={handleChange}
+                    className="shadow-md border-0 bg-white"
                   >
                     <MenuItem value={10}>Dr. Budi</MenuItem>
                     <MenuItem value={20}>Dr. Alma</MenuItem>
@@ -137,6 +143,7 @@ export default function SelectSchedule() {
                     value={SessionSchedule.schedule}
                     label="Select Schedule"
                     onChange={handleChange}
+                    className="shadow-md border-0 bg-white"
                   >
                     {schedules.map((schedule) => (
                       <MenuItem key={schedule.id} value={schedule.schedule}>

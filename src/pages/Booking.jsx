@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import RegisterPatient from "../components/Booking/RegisterPatient";
 import SelectSchedule from "../components/Booking/SelectSchedule";
+import ConfirmationForm from "../components/Booking/ConfirmationForm";
 
 const steps = ["Patient Registration", "Select Schedule", "Confirmation Form"];
 
@@ -59,19 +58,11 @@ export default function Booking() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return (
-          <RegisterPatient/>
-        );
+        return <RegisterPatient />;
       case 1:
-        return (
-          <SelectSchedule/>
-        );
+        return <SelectSchedule />;
       case 2:
-        return (
-          <Box p={3}>
-            <Typography>Confirmation Form</Typography>
-          </Box>
-        );
+        return <ConfirmationForm />;
       default:
         return "Unknown step";
     }
@@ -103,39 +94,41 @@ export default function Booking() {
           })}
         </Stepper>
         {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
+          <Fragment>
+            <h1 className="text-lg my-4">
               All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
+            </h1>
+            <div className="flex">
+              <div className="grow"></div>
+              <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md" onClick={handleReset}>Reset</button>
+            </div>
+          </Fragment>
         ) : (
-          <React.Fragment>
+          <Fragment>
             {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
+            <div className="flex flex-row justify-between pt-4">
+              <button
+                className={`${
+                  activeStep === 0
+                    ? "bg-gray-100 text-gray-200"
+                    : " bg-mainorange-200 text-white hover:bg-mainorange-100"
+                }    px-5 rounded-md`}
                 onClick={handleBack}
-                sx={{ mr: 1 }}
+                disabled={activeStep === 0}
               >
                 Back
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              {isStepOptional(activeStep) && (
-                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Skip
-                </Button>
-              )}
-
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
+              </button>
+              <div className="flex">
+                {isStepOptional(activeStep) && <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 mr-2 rounded-md" onClick={handleSkip}>Skip</button>}
+                <button
+                  className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md"
+                  onClick={handleNext}
+                >
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                </button>
+              </div>
+            </div>
+          </Fragment>
         )}
       </div>
     </div>
