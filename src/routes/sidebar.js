@@ -1,4 +1,4 @@
-import { HomeIcon } from "@heroicons/react/solid";
+import { HomeIcon, UserGroupIcon } from "@heroicons/react/solid";
 import { PencilAltIcon } from "@heroicons/react/outline";
 
 const menuItems = [
@@ -11,6 +11,11 @@ const menuItems = [
     text: "Booking",
     icon: <PencilAltIcon className="h-5 w-5 mr-2" />,
     path: "/booking",
+  },
+  {
+    text: "Patient Management",
+    icon: <UserGroupIcon className="h-5 w-5 mr-2" />,
+    path: "/patient-management",
   },
 ];
 

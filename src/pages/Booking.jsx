@@ -70,7 +70,7 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen">
-      <div className="mb-12">
+      <div className="mb-10">
         <h1 className="text-2xl font-semibold">Booking Outpatient</h1>
       </div>
       <div>

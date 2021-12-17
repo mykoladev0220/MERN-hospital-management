@@ -6,6 +6,7 @@ import Booking from "../pages/Booking.jsx";
 import Layout from "../containers/Layout";
 import Main from "../containers/Main";
 import LoginAdmin from "../pages/LoginAdmin.jsx";
+import PatientManagement from "../pages/PatientManagement.jsx";
 
 export default function routes() {
   return (
@@ -28,6 +29,15 @@ export default function routes() {
           element={
             <Layout>
               <Booking />
+            </Layout>
+          }
+        />
+        <Route
+          path="/patient-management"
+          exact
+          element={
+            <Layout>
+              <PatientManagement />
             </Layout>
           }
         />

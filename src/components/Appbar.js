@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import AppBar from "@mui/material/AppBar";
 import { Menu, Transition } from "@headlessui/react";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,6 +8,7 @@ import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
 
 export default function Appbar(props) {
   const { drawerWidth, handleDrawerToggle } = props;
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
     <AppBar
       position="fixed"
@@ -34,7 +35,17 @@ export default function Appbar(props) {
           <div className="flex-none">
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="inline-flex items-center justify-center w-full px-4 py-2 font-medium text-black text-lg rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                Hi, Admin <ChevronDownIcon className="h-6 w-6" />
+              <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="inline-flex items-center justify-center text-black  px-4 m w-full  font-medium  text-lg  bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                  >
+                    Hi, Admin
+                    <ChevronDownIcon
+                      className={`${
+                        isDropdownOpen ? "rotate-180" : null
+                      } h-6 w-6 mt-1 text-black`}
+                    />
+                  </button>
               </Menu.Button>
               <Transition
                 as={Fragment}
