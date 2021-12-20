@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn {
+.btn-main {
   @apply px-5 py-1 transition duration-300 rounded-md focus:outline-none focus:ring;
 }
 .btn-primary {

@@ -22,7 +22,7 @@ module.exports = {
   daisyui: {
     styled: true,
     themes: false,
-    base: true,
+    base: false,
     utils: true,
     logs: true,
     rtl: false,

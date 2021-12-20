@@ -65,8 +65,8 @@ export default function ModalEditPatient(props) {
         aria-describedby="modal-modal-description"
       > */}
         {/* <div className="min-h-screen flex items-center justify-center"> */}
-          <div className="relative transition ease-in-out delay-200 bg-white shadow-md rounded-b-md shadow-maingreen-200/70">
-            <div className="bg-maingreen-100 rounded-t-md py-4">
+          <div className="relative modal-box rounded-b-md ">
+            <div className="bg-maingreen-100 rounded-t-md absolute inset-x-0 top-0 py-4">
               <h1 className="text-white text-xl text-center">Edit Patient</h1>
             </div>
             <div class="mt-14">

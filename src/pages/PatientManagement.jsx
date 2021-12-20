@@ -68,7 +68,7 @@ export default function PatientManagement() {
               <div className="flex gap-1">
                 <a
                   href={`#edit-modal-${tableMeta.rowData[0]}`}
-                  className="btn btn-primary"
+                  className="btn-main btn-primary"
                   onClick={handleOpenModalEditPatient}
                 >
                   Edit
@@ -106,30 +106,30 @@ export default function PatientManagement() {
         </button>
       );
     },
-    customRowRender: (data) => {
-      const [id, name, nik, norm, gender, dob] = data;
-      return (
-        <tr key={id}>
-          <td>{id}</td>
-          <td>{name}</td>
-          <td>{nik}</td>
-          <td>{norm}</td>
-          <td>{gender}</td>
-          <td>{dob}</td>
-          <td>
-            <a
-              href={`#edit-modal-${id}`}
-              className="btn btn-primary"
-              onClick={handleOpenModalEditPatient}
-            >
-              Edit
-            </a>
-            <Button className="btn-secondary">Delete</Button>
-            <ModalEditPatient open={openModalEditPatient} onCLose={handleCloseModalEditPatient} id={id} data={data} />
-          </td>
-        </tr>
-      );
-    },
+    // customRowRender: (data) => {
+    //   const [id, name, nik, norm, gender, dob] = data;
+    //   return (
+    //     <tr key={id}>
+    //       <td>{id}</td>
+    //       <td>{name}</td>
+    //       <td>{nik}</td>
+    //       <td>{norm}</td>
+    //       <td>{gender}</td>
+    //       <td>{dob}</td>
+    //       <td>
+    //         <a
+    //           href={`#edit-modal-${id}`}
+    //           className="btn-main btn-primary"
+    //           onClick={handleOpenModalEditPatient}
+    //         >
+    //           Edit
+    //         </a>
+    //         <Button className="btn-secondary">Delete</Button>
+    //         <ModalEditPatient open={openModalEditPatient} onCLose={handleCloseModalEditPatient} id={id} data={data} />
+    //       </td>
+    //     </tr>
+    //   );
+    // },
   };
 
   const data = [

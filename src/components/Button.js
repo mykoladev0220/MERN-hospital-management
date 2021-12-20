@@ -4,7 +4,7 @@ export default function Button({ children, className, ...props }) {
   return (
     <button
       {...props}
-      className={`${className ? className : "btn-primary"} btn`}
+      className={`${className ? className : "btn-primary"} btn-main`}
     >
       {children}
     </button>
