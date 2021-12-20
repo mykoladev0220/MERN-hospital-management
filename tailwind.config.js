@@ -1,18 +1,16 @@
 module.exports = {
   // mode: 'jit',
-  content: [
-    "./src/**/*.{js,jsx}",
-  ],
+  content: ["./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       colors: {
         mainwhitebg: "F9FAFB",
-        maingreen:{
+        maingreen: {
           100: "#19B586",
           200: "#3EC19A",
           300: "#E1F1EE",
         },
-        mainorange:{
+        mainorange: {
           100: "#FFA43A",
           200: "#FFBE39",
         },
@@ -20,5 +18,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    styled: true,
+    themes: false,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+  },
 };

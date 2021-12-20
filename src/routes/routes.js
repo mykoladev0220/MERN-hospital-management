@@ -7,6 +7,7 @@ import Layout from "../containers/Layout";
 import Main from "../containers/Main";
 import LoginAdmin from "../pages/LoginAdmin.jsx";
 import PatientManagement from "../pages/PatientManagement.jsx";
+import Try from "../pages/TryDatables";
 
 export default function routes() {
   return (
@@ -38,6 +39,15 @@ export default function routes() {
           element={
             <Layout>
               <PatientManagement />
+            </Layout>
+          }
+        />
+        <Route  
+          path="/try"
+          exact
+          element={
+            <Layout>
+              <Try />
             </Layout>
           }
         />

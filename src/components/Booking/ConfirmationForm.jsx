@@ -10,7 +10,7 @@ export default function ConfirmationForm() {
         <div className="flex-1 bg-red-100 p-4">
           <table className="table-auto w-full">
             <tr className="py-5 bg-blue-100">
-              <td className="w-48 py-2">Fullname</td>
+              <td className="w-48 py-2 font-semibold">Fullname</td>
               <td>:</td>
               <td>Jhon Doe</td>
             </tr>
