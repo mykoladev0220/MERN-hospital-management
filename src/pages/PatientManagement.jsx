@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import { PencilIcon } from "@heroicons/react/outline";
 import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient";
-import ModalEdit from "../components/PatientManagement/ModalEdit";
+import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import Button from "../components/Button";
+import { DataPatients } from "../data/DataPatients";
+import GetDataPatients from "../hooks/GetDataPatients";
 
 export default function PatientManagement() {
   const [openModalAddPatient, setOpenModalAddPatient] = useState(false);
@@ -13,7 +15,8 @@ export default function PatientManagement() {
   const [openModalEditPatient, setopenModalEditPatient] = useState(false);
   const handleOpenModalEditPatient = () => setopenModalEditPatient(true);
   const handleCloseModalEditPatient = () => setopenModalEditPatient(false);
-
+  const { dataPatients } = GetDataPatients();
+  console.log(dataPatients, "DataPatients");
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -41,6 +44,14 @@ export default function PatientManagement() {
       },
     },
     {
+      name: "address",
+      label: "Address",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
       name: "gender",
       label: "Gender",
       options: {
@@ -57,11 +68,12 @@ export default function PatientManagement() {
       },
     },
     {
-      name: "id",
+      name: "action",
       label: "Action",
       options: {
         filter: false,
         sort: false,
+        empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <>
@@ -69,13 +81,27 @@ export default function PatientManagement() {
                 <a
                   href={`#edit-modal-${tableMeta.rowData[0]}`}
                   className="btn-main btn-primary"
-                  onClick={handleOpenModalEditPatient}
+                  onClick={() => handleOpenModalEditPatient}
+                  // onClick={() => {window.alert(`clicked row #edit-modal-${tableMeta.rowData[0]} with data ${tableMeta.rowData}`)}}
                 >
                   Edit
                 </a>
-                <Button className="btn-secondary">Delete</Button>
+                <a
+                  href={`#delete-modal-${tableMeta.rowData[0]}`}
+                  className="btn-main btn-secondary"
+                  onClick={() => handleOpenModalEditPatient}
+                >
+                  Delete
+                </a>
               </div>
               <ModalEditPatient
+                id={tableMeta.rowData[0]}
+                open={openModalEditPatient}
+                data={tableMeta.rowData}
+                alldata={tableMeta.tableData}
+                onClose={handleCloseModalEditPatient}
+              />
+              <ModalDeletePatient
                 id={tableMeta.rowData[0]}
                 open={openModalEditPatient}
                 data={tableMeta.rowData}
@@ -98,39 +124,30 @@ export default function PatientManagement() {
     actionsColumnIndex: -1,
     customToolbar: () => {
       return (
-        <button
-          className="px-2 py-0 mr-1 text-white rounded-md bg-maingreen-100"
-          onClick={handleOpenModalAddPatient}
-        >
-          Add Patient
-        </button>
+        <>
+          <a
+            href={`#add-modal-patient`}
+            className="btn-main btn-green"
+            onClick={() => handleOpenModalAddPatient()}
+          >
+            Add Patient
+          </a>
+        </>
       );
     },
-    // customRowRender: (data) => {
-    //   const [id, name, nik, norm, gender, dob] = data;
-    //   return (
-    //     <tr key={id}>
-    //       <td>{id}</td>
-    //       <td>{name}</td>
-    //       <td>{nik}</td>
-    //       <td>{norm}</td>
-    //       <td>{gender}</td>
-    //       <td>{dob}</td>
-    //       <td>
-    //         <a
-    //           href={`#edit-modal-${id}`}
-    //           className="btn-main btn-primary"
-    //           onClick={handleOpenModalEditPatient}
-    //         >
-    //           Edit
-    //         </a>
-    //         <Button className="btn-secondary">Delete</Button>
-    //         <ModalEditPatient open={openModalEditPatient} onCLose={handleCloseModalEditPatient} id={id} data={data} />
-    //       </td>
-    //     </tr>
-    //   );
-    // },
   };
+  let newData = [];
+  newData = dataPatients?.map((data) => {
+    return {
+      id: data.id,
+      name: data.fullName,
+      nik: data.col1,
+      norm: data.D,
+      address: data.C,
+      gender: data.E,
+      dob: data.F,
+    };
+  });
 
   const data = [
     {
@@ -138,6 +155,7 @@ export default function PatientManagement() {
       name: "Joe James",
       nik: 1231243432452345,
       norm: "RM000001",
+      address: "Malang",
       gender: "male",
       dob: "27-08-1997",
     },
@@ -146,6 +164,7 @@ export default function PatientManagement() {
       name: "John Walsh",
       nik: 1231243432452345,
       norm: "RM000001",
+      address: "Jogja",
       gender: "male",
       dob: "27-08-1997",
     },
@@ -154,6 +173,7 @@ export default function PatientManagement() {
       name: "Bob Herm",
       nik: 1231243432452345,
       norm: "RM000001",
+      address: "Jakarta",
       gender: "male",
       dob: "27-08-1997",
     },
@@ -162,6 +182,7 @@ export default function PatientManagement() {
       name: "James Houston",
       nik: 1231243432452345,
       norm: "RM000001",
+      address: "Malang",
       gender: "male",
       dob: "27-08-1997",
     },
@@ -175,15 +196,12 @@ export default function PatientManagement() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalAddPatient
-        open={openModalAddPatient}
-        onClose={handleCloseModalAddPatient}
-      />
+      <ModalAddPatient />
     </div>
   );
 }

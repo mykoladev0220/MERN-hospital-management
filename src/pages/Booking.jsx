@@ -70,10 +70,10 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen">
-      <div className="mb-10">
+      <div className="mb-8">
         <h1 className="text-2xl font-semibold">Booking Outpatient</h1>
       </div>
-      <div>
+      <div className="bg-white py-10 rounded-md">
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps = {};
@@ -106,7 +106,7 @@ export default function Booking() {
         ) : (
           <Fragment>
             {getStepContent(activeStep)}
-            <div className="flex flex-row justify-between pt-4">
+            <div className="flex flex-row justify-between mx-8 pt-4">
               <button
                 className={`${
                   activeStep === 0

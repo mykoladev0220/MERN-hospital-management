@@ -16,6 +16,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@windmill/react-ui": "^0.6.0",
+    "axios": "^0.24.0",
     "daisyui": "^1.16.6",
     "date-fns": "^2.27.0",
     "mui-datatables": "^4.0.0",

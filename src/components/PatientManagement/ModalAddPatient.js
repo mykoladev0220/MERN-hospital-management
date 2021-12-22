@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -10,105 +9,141 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
+import Modal from "../Modal";
 
 export default function ModalAddPatient(props) {
   const { open, onClose } = props;
   const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  const initState = {
+    fullname: "",
+    nik: "",
+    norm: "",
+    address: "",
+    dob: new Date("2014-08-18T21:11:54"),
+    gender: "",
+  };
+
+  const [valueForm, setvalueForm] = useState(initState);
+
+  const onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setvalueForm({
+      ...valueForm,
+      [name]: value,
+    });
   };
 
   return (
     <Modal
-      id="add-modal"
+      title="Add Patient"
+      id="add-modal-patient"
       open={open}
       onClose={onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white rounded-md max-w-sm w-full shadow-md shadow-maingreen-200/70 transition ease-in-out delay-200">
-          <div className="bg-maingreen-100 rounded-t-md py-4">
-            <h1 className="text-white text-xl text-center">Add Patient</h1>
-          </div>
-          <div>
-            <div className="my-4 px-4">
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Fullname"
-                color="primary"
-                variant="outlined"
-                size="small"
+      <div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="Fullname"
+            name="fullname"
+            //   placeholder={data[1]}
+            value={valueForm.fullname}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="NIK"
+            name="nik"
+            //   placeholder={data[2]}
+            value={valueForm.nik}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="No RM"
+            name="norm"
+            value={valueForm.norm}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="Address"
+            name="address"
+            value={valueForm.address}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Stack>
+              <DesktopDatePicker
+                label="Date of Birth"
+                inputFormat="dd/MM/yyyy"
+                name="dob"
+                value={valueForm.dob}
+                onChange={onChange}
+                renderInput={(params) => <TextField {...params} />}
               />
-            </div>
-            <div className="my-4 px-4">
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="NIK"
-                color="primary"
-                variant="outlined"
-                size="small"
+            </Stack>
+          </LocalizationProvider>
+        </div>
+        <div className="my-4">
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Gender</FormLabel>
+            <RadioGroup row aria-label="gender" name="row-radio-buttons-group">
+              <FormControlLabel
+                onChange={onChange}
+                name="gender"
+                value="male"
+                control={<Radio />}
+                label="Male"
               />
-            </div>
-            <div className="my-4 px-4">
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Address"
-                color="primary"
-                variant="outlined"
-                size="small"
+              <FormControlLabel
+                onChange={onChange}
+                value="female"
+                name="gender"
+                control={<Radio />}
+                label="Female"
               />
-            </div>
-            <div className="my-4 px-4">
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Stack>
-                  <DesktopDatePicker
-                    label="Date of Birth"
-                    inputFormat="MM/dd/yyyy"
-                    value={value}
-                    onChange={handleChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </Stack>
-              </LocalizationProvider>
-            </div>
-            <div className="my-4 px-4">
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Gender</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="gender"
-                  name="row-radio-buttons-group"
-                >
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-          </div>
-          <div className="my-4 mx-4 flex md:justify-end flex-col md:flex-row justify-center gap-2">
-            <button className="bg-maingreen-200 text-white px-4 py-1 rounded-md">
-              Submit
-            </button>
-            <button
-              className="bg-red-400 text-white px-4 py-1 rounded-md "
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-          </div>
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
+          <button className="btn-main btn-primary">
+            Submit
+          </button>
+          <a
+            href="#"
+            className="btn-main btn-secondary"
+            onClick={onClose}
+          >
+            Cancel
+          </a>
         </div>
       </div>
     </Modal>

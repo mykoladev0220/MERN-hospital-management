@@ -18,7 +18,7 @@ const menuItems = [
     path: "/patient-management",
   },
   {
-    text: "Try Datables",
+    text: "Booking Management",
     icon: <UserGroupIcon className="h-5 w-5 mr-2" />,
     path: "/try",
   },
