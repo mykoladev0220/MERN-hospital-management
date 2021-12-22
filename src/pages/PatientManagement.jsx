@@ -71,7 +71,6 @@ export default function PatientManagement() {
                 <a
                   href={`#edit-modal-${tableMeta.rowData[0]}`}
                   className="btn-main btn-primary"
-                  // onClick={() => {window.alert(`clicked row #edit-modal-${tableMeta.rowData[0]} with data ${tableMeta.rowData}`)}}
                 >
                   Edit
                 </a>
@@ -119,6 +118,7 @@ export default function PatientManagement() {
       );
     },
   };
+
   let newData = [];
   newData = dataPatients?.map((data) => {
     return {

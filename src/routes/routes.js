@@ -8,6 +8,10 @@ import Main from "../containers/Main";
 import LoginAdmin from "../pages/LoginAdmin.jsx";
 import PatientManagement from "../pages/PatientManagement.jsx";
 import Try from "../pages/TryDatables";
+import BookingManagement from "../pages/BookingManagement.jsx";
+import SessionScheduleManagement from "../pages/SessionScheduleManagement.jsx";
+import FaciltyManagement from "../pages/FaciltyManagement.jsx";
+import DoctorManagement from "../pages/DoctorManagement.jsx";
 
 export default function routes() {
   return (
@@ -42,12 +46,39 @@ export default function routes() {
             </Layout>
           }
         />
-        <Route  
-          path="/try"
+        <Route
+          path="/booking-management"
           exact
           element={
             <Layout>
-              <Try />
+              <BookingManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/session-schedule-management"
+          exact
+          element={
+            <Layout>
+              <SessionScheduleManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/facilty-management"
+          exact
+          element={
+            <Layout>
+              <FaciltyManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/doctor-management"
+          exact
+          element={
+            <Layout>
+              <DoctorManagement />
             </Layout>
           }
         />
