@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
-import { PencilIcon } from "@heroicons/react/outline";
 import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient";
 import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
-import Button from "../components/Button";
-import { DataPatients } from "../data/DataPatients";
 import GetDataPatients from "../hooks/GetDataPatients";
 
 export default function PatientManagement() {
-  const [openModalAddPatient, setOpenModalAddPatient] = useState(false);
-  const handleOpenModalAddPatient = () => setOpenModalAddPatient(true);
-  const handleCloseModalAddPatient = () => setOpenModalAddPatient(false);
-  const [openModalEditPatient, setopenModalEditPatient] = useState(false);
-  const handleOpenModalEditPatient = () => setopenModalEditPatient(true);
-  const handleCloseModalEditPatient = () => setopenModalEditPatient(false);
   const { dataPatients } = GetDataPatients();
-  console.log(dataPatients, "DataPatients");
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -81,7 +71,6 @@ export default function PatientManagement() {
                 <a
                   href={`#edit-modal-${tableMeta.rowData[0]}`}
                   className="btn-main btn-primary"
-                  onClick={() => handleOpenModalEditPatient}
                   // onClick={() => {window.alert(`clicked row #edit-modal-${tableMeta.rowData[0]} with data ${tableMeta.rowData}`)}}
                 >
                   Edit
@@ -89,24 +78,19 @@ export default function PatientManagement() {
                 <a
                   href={`#delete-modal-${tableMeta.rowData[0]}`}
                   className="btn-main btn-secondary"
-                  onClick={() => handleOpenModalEditPatient}
                 >
                   Delete
                 </a>
               </div>
               <ModalEditPatient
                 id={tableMeta.rowData[0]}
-                open={openModalEditPatient}
                 data={tableMeta.rowData}
                 alldata={tableMeta.tableData}
-                onClose={handleCloseModalEditPatient}
               />
               <ModalDeletePatient
                 id={tableMeta.rowData[0]}
-                open={openModalEditPatient}
                 data={tableMeta.rowData}
                 alldata={tableMeta.tableData}
-                onClose={handleCloseModalEditPatient}
               />
             </>
           );
@@ -128,7 +112,6 @@ export default function PatientManagement() {
           <a
             href={`#add-modal-patient`}
             className="btn-main btn-green"
-            onClick={() => handleOpenModalAddPatient()}
           >
             Add Patient
           </a>
