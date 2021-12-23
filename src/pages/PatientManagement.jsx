@@ -4,9 +4,14 @@ import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient";
 import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import GetDataPatients from "../hooks/GetDataPatients";
+import axios from "axios";
 
 export default function PatientManagement() {
+  // const [dataPatients, setDataPatients] = useState([]);
+
   const { dataPatients } = GetDataPatients();
+
+  // const { dataPatients } = GetDataPatients();
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -108,10 +113,7 @@ export default function PatientManagement() {
     customToolbar: () => {
       return (
         <>
-          <a
-            href={`#add-modal-patient`}
-            className="btn-main btn-green"
-          >
+          <a href={`#add-modal-patient`} className="btn-main btn-green">
             Add Patient
           </a>
         </>
