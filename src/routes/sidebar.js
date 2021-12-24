@@ -45,7 +45,7 @@ const menuItems = [
   {
     text: "Schedule Management",
     icon: <ClockIcon className="h-5 w-5 mr-2" />,
-    path: "/schdule-management",
+    path: "/schedule-management",
   },
 ];
 

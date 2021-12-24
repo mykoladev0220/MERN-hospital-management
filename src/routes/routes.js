@@ -12,6 +12,8 @@ import BookingManagement from "../pages/BookingManagement.jsx";
 import SessionScheduleManagement from "../pages/SessionScheduleManagement.jsx";
 import FaciltyManagement from "../pages/FaciltyManagement.jsx";
 import DoctorManagement from "../pages/DoctorManagement.jsx";
+import NurseManagemet from "../pages/NurseManagemet";
+import ScheduleManagement from "../pages/ScheduleManagement";
 
 export default function routes() {
   return (
@@ -79,6 +81,24 @@ export default function routes() {
           element={
             <Layout>
               <DoctorManagement />
+            </Layout>
+          }
+        />
+         <Route
+          path="/nurse-management"
+          exact
+          element={
+            <Layout>
+              <NurseManagemet />
+            </Layout>
+          }
+        />
+         <Route
+          path="/schedule-management"
+          exact
+          element={
+            <Layout>
+              <ScheduleManagement />
             </Layout>
           }
         />

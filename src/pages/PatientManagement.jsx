@@ -4,14 +4,16 @@ import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient";
 import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import GetDataPatients from "../hooks/GetDataPatients";
-import axios from "axios";
+
+import ModalEdit from "../components/PatientManagement/ModalEdit";
 
 export default function PatientManagement() {
-  // const [dataPatients, setDataPatients] = useState([]);
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [rowData, setRowData] = useState([]);
   const { dataPatients } = GetDataPatients();
 
-  // const { dataPatients } = GetDataPatients();
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -73,12 +75,16 @@ export default function PatientManagement() {
           return (
             <>
               <div className="flex gap-1">
-                <a
-                  href={`#edit-modal-${tableMeta.rowData[0]}`}
+                <button
                   className="btn-main btn-primary"
+                  onClick={() => {
+                    // alert(`Edit ${tableMeta.rowData}`);
+                    handleOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
                 >
                   Edit
-                </a>
+                </button>
                 <a
                   href={`#delete-modal-${tableMeta.rowData[0]}`}
                   className="btn-main btn-secondary"
@@ -86,11 +92,6 @@ export default function PatientManagement() {
                   Delete
                 </a>
               </div>
-              <ModalEditPatient
-                id={tableMeta.rowData[0]}
-                data={tableMeta.rowData}
-                alldata={tableMeta.tableData}
-              />
               <ModalDeletePatient
                 id={tableMeta.rowData[0]}
                 data={tableMeta.rowData}
@@ -187,6 +188,7 @@ export default function PatientManagement() {
         />
       </div>
       <ModalAddPatient />
+      <ModalEditPatient open={open} onClose={handleClose} rowData={rowData} />
     </div>
   );
 }

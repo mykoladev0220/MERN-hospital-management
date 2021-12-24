@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -10,27 +10,30 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import Typography from "@mui/material/Typography";
+// import Modal from "@mui/material/Modal";
 
 export default function ModalEditPatient(props) {
-  const { open, onClose, data, id } = props;
-  const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
-  console.log(data, "data");
+  const { open, onClose, rowData, id } = props;
+  console.log("rowData", rowData);
 
-  console.log(id, "id");
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  let initState = useMemo(() => [{}], []);
+  initState = {
+    id: rowData[0],
+    fullname: rowData[1],
+    nik: rowData[2],
+    norm: rowData[3],
+    address: rowData[4],
+    dob: new Date(rowData[6]),
+    gender: rowData[5],
   };
-  const initState = {
-    id: data[0],
-    fullname: data[1],
-    nik: data[2],
-    norm: data[3],
-    address: data[4],
-    dob: new Date(data[6]),
-    gender: data[5],
-  };
+
   const [valueForm, setvalueForm] = useState(initState);
-
+  console.log("initState", initState);
+  console.log("value Form ", valueForm);
+  useEffect(() => {
+    setvalueForm(initState);
+  }, [initState]);
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -42,8 +45,24 @@ export default function ModalEditPatient(props) {
   };
 
   return (
-    <Modal title="Edit Patient" id={`edit-modal-${id}`}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      title="Edit Patient"
+      id={`edit-modal-${id}`}
+    >
       <div>
+        {/* <div>
+          {rowData.map((data) => {
+            return (
+              <div>
+                <Typography id="modal-modal-description" variant="subtitle1">
+                  {data}
+                </Typography>
+              </div>
+            );
+          })}
+        </div> */}
         <div className="my-4">
           <TextField
             fullWidth
@@ -134,16 +153,10 @@ export default function ModalEditPatient(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">
-            Submit
-          </button>
-          <a
-            href="#"
-            className="btn-main btn-secondary"
-            onClick={onClose}
-          >
+          <button className="btn-main btn-primary">Submit</button>
+          <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
-          </a>
+          </button>
         </div>
       </div>
     </Modal>
