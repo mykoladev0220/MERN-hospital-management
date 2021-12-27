@@ -17,8 +17,8 @@ export default function ModalEditPatient(props) {
   const { open, onClose, rowData, id } = props;
   console.log("rowData", rowData);
 
-  let initState = useMemo(() => [{}], []);
-  initState = {
+  // let initState = useMemo(() => [{}], []);
+  let initState = {
     id: rowData[0],
     fullname: rowData[1],
     nik: rowData[2],
@@ -29,11 +29,13 @@ export default function ModalEditPatient(props) {
   };
 
   const [valueForm, setvalueForm] = useState(initState);
-  console.log("initState", initState);
+  
   console.log("value Form ", valueForm);
+
   useEffect(() => {
     setvalueForm(initState);
-  }, [initState]);
+  }, [rowData]);
+
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
