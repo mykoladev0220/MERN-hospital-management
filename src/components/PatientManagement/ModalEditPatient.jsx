@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -11,20 +11,24 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 
-export default function ModalAddPatient(props) {
-  const { open, onClose } = props;
-  const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
+export default function ModalEditPatient(props) {
+  const { open, onClose, rowData } = props;
 
-  const initState = {
-    fullname: "",
-    nik: "",
-    norm: "",
-    address: "",
-    dob: new Date("2014-08-18T21:11:54"),
-    gender: "",
+  let initState = {
+    id: rowData[0],
+    fullname: rowData[1],
+    nik: rowData[2],
+    norm: rowData[3],
+    address: rowData[4],
+    dob: new Date(rowData[6]),
+    gender: rowData[5],
   };
 
   const [valueForm, setvalueForm] = useState(initState);
+
+  useEffect(() => {
+    setvalueForm(initState);
+  }, [rowData]);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -38,10 +42,9 @@ export default function ModalAddPatient(props) {
 
   return (
     <Modal
-      title="Add Patient"
-      id="add-modal-patient"
       open={open}
       onClose={onClose}
+      title="Edit Patient"
     >
       <div>
         <div className="my-4">
@@ -134,16 +137,10 @@ export default function ModalAddPatient(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">
-            Submit
-          </button>
-          <a
-            href="#"
-            className="btn-main btn-secondary"
-            onClick={onClose}
-          >
+          <button className="btn-main btn-primary">Submit</button>
+          <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
-          </a>
+          </button>
         </div>
       </div>
     </Modal>

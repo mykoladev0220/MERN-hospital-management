@@ -10,7 +10,7 @@ import PatientManagement from "../pages/PatientManagement.jsx";
 import Try from "../pages/TryDatables";
 import BookingManagement from "../pages/BookingManagement.jsx";
 import SessionScheduleManagement from "../pages/SessionScheduleManagement.jsx";
-import FaciltyManagement from "../pages/FaciltyManagement.jsx";
+import FacilityManagement from "../pages/FacilityManagement.jsx";
 import DoctorManagement from "../pages/DoctorManagement.jsx";
 import NurseManagemet from "../pages/NurseManagemet";
 import ScheduleManagement from "../pages/ScheduleManagement";
@@ -71,7 +71,7 @@ export default function routes() {
           exact
           element={
             <Layout>
-              <FaciltyManagement />
+              <FacilityManagement />
             </Layout>
           }
         />

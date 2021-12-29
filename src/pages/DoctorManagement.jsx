@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
+import ModalEditDoctor from "../components/DoctorManagement/ModalEditDoctor";
+import ModalAddDoctor from "../components/DoctorManagement/ModalAddDoctor";
+import ModalDeleteDoctor from "../components/DoctorManagement/ModalDeleteDoctor";
 
 export default function DoctorManagement() {
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleEditOpen = () => setOpenModalEdit(true);
+  const handleEditClose = () => setOpenModalEdit(false);
+  const handleAddOpen = () => setOpenModalAdd(true);
+  const handleAddClose = () => setOpenModalAdd(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
+  const [rowData, setRowData] = useState([]);
+
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -77,25 +91,30 @@ export default function DoctorManagement() {
         sort: false,
         empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          <>
-            <div className="flex gap-1">
-              <a
-                href={`#edit-modal-facilty-${tableMeta.rowData[0]}`}
-                className="btn-main btn-primary"
-                onClick={() => {
-                    console.log(tableMeta.rowData[0]);
-                }}
-              >
-                Edit
-              </a>
-              <a
-                href={`#delete-modal-facilty-${tableMeta.rowData[0]}`}
-                className="btn-main btn-secondary"
-              >
-                Delete
-              </a>
-            </div>
-          </>;
+          return (
+            <>
+              <div className="flex gap-1">
+                <button
+                  className="btn-main btn-primary"
+                  onClick={() => {
+                    handleEditOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn-main btn-secondary"
+                  onClick={() => {
+                    handleDeleteOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </>
+          );
         },
       },
     },
@@ -111,9 +130,14 @@ export default function DoctorManagement() {
     customToolbar: () => {
       return (
         <>
-          <a href={`#add-modal-doctor`} className="btn-main btn-green">
+          <button
+            className="btn-main btn-green"
+            onClick={() => {
+              handleAddOpen();
+            }}
+          >
             Add Doctor
-          </a>
+          </button>
         </>
       );
     },
@@ -157,6 +181,17 @@ export default function DoctorManagement() {
           options={options}
         />
       </div>
+      <ModalEditDoctor
+        open={openModalEdit}
+        onClose={handleEditClose}
+        rowData={rowData}
+      />
+      <ModalAddDoctor open={openModalAdd} onClose={handleAddClose} />
+      <ModalDeleteDoctor
+        open={openModalDelete}
+        onClose={handleDeleteClose}
+        rowData={rowData}
+      />
     </div>
   );
 }

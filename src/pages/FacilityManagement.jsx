@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
-import ModalAddSchedule from "../components/ScheduleManagement/ModalAddSchedule";
-import ModalEditSchedule from "../components/ScheduleManagement/ModalEditSchedule";
-import ModalDeleteSchedule from "../components/ScheduleManagement/ModalDeleteSchedule";
+import ModalAddFacility from "../components/FacilityManagement/ModalAddFacility";
+import ModalEditFacility from "../components/FacilityManagement/ModalEditFacility";
+import ModalDeleteFacility from "../components/FacilityManagement/ModalDeleteFacility";
 
-export default function ScheduleManagement() {
+export default function FaciltyManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -19,24 +19,24 @@ export default function ScheduleManagement() {
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
-      name: "day",
-      label: "Day",
+      name: "name",
+      label: "Name Facility",
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: "start",
-      label: "Start",
+      name: "capacity",
+      label: "Capacity",
       options: {
-        filter: true,
+        filter: false,
         sort: true,
       },
     },
     {
-      name: "end",
-      label: "End",
+      name: "location",
+      label: "Location",
       options: {
         filter: true,
         sort: true,
@@ -95,7 +95,7 @@ export default function ScheduleManagement() {
               handleAddOpen();
             }}
           >
-            Add Schedule
+            Add Facility
           </button>
         </>
       );
@@ -105,40 +105,43 @@ export default function ScheduleManagement() {
   const data = [
     {
       id: 1,
-      day: "Monday",
-      start: "08:00",
-      end: "16:00",
+      name: "Facility 1",
+      capacity: "100",
+      location: "Gedung A",
     },
     {
       id: 2,
-      day: "Tuesday",
-      start: "08:00",
-      end: "16:00",
+      name: "Facility 2",
+      capacity: "200",
+      location: "Gedung B",
+    },
+    {
+      id: 3,
+      name: "Facility 3",
+      capacity: "300",
+      location: "Gedung A",
     },
   ];
-
   return (
     <div className="min-h-screen">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-left">
-          Schedule Management
-        </h1>
+        <h1 className="text-2xl font-semibold text-left">Facilty Management</h1>
       </div>
       <div>
         <MUIDataTable
-          title={"Schedule List"}
+          title={"Facilty List"}
           data={data}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalAddSchedule open={openModalAdd} onClose={handleAddClose} />
-      <ModalEditSchedule
+      <ModalAddFacility open={openModalAdd} onClose={handleAddClose} />
+      <ModalEditFacility
         open={openModalEdit}
         onClose={handleEditClose}
         rowData={rowData}
       />
-      <ModalDeleteSchedule
+      <ModalDeleteFacility
         open={openModalDelete}
         onClose={handleDeleteClose}
         rowData={rowData}

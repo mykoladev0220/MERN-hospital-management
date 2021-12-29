@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalDeleteBooking from "../components/BookingManagement/ModalDeleteBooking";
 
 export default function BookingManagement() {
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
+  const [rowData, setRowData] = useState([]);
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -55,18 +59,15 @@ export default function BookingManagement() {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <>
-              <div className="flex gap-1">
-                <a
-                  href={`#delete-booking-modal-${tableMeta.rowData[0]}`}
-                  className="btn-main btn-secondary"
-                >
-                  Delete
-                </a>
-              </div>
-              <ModalDeleteBooking
-                id={tableMeta.rowData[0]}
-                data={tableMeta.rowData}
-              />
+              <button
+                className="btn-main btn-secondary"
+                onClick={() => {
+                  handleDeleteOpen();
+                  setRowData(tableMeta.rowData);
+                }}
+              >
+                Delete
+              </button>
             </>
           );
         },
@@ -114,6 +115,11 @@ export default function BookingManagement() {
           options={options}
         />
       </div>
+      <ModalDeleteBooking
+        open={openModalDelete}
+        onClose={handleDeleteClose}
+        rowData={rowData}
+      />
     </div>
   );
 }

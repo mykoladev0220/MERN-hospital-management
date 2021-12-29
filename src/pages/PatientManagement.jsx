@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
-import ModalEditPatient from "../components/PatientManagement/ModalEditPatient";
+import ModalEditPatient from "../components/PatientManagement/ModalEditPatient.jsx";
 import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import GetDataPatients from "../hooks/GetDataPatients";
 
-import ModalEdit from "../components/PatientManagement/ModalEdit";
-
 export default function PatientManagement() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleEditOpen = () => setOpenModalEdit(true);
+  const handleEditClose = () => setOpenModalEdit(false);
+  const handleAddOpen = () => setOpenModalAdd(true);
+  const handleAddClose = () => setOpenModalAdd(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const { dataPatients } = GetDataPatients();
 
@@ -78,25 +82,22 @@ export default function PatientManagement() {
                 <button
                   className="btn-main btn-primary"
                   onClick={() => {
-                    // alert(`Edit ${tableMeta.rowData}`);
-                    handleOpen();
+                    handleEditOpen();
                     setRowData(tableMeta.rowData);
                   }}
                 >
                   Edit
                 </button>
-                <a
-                  href={`#delete-modal-${tableMeta.rowData[0]}`}
+                <button
                   className="btn-main btn-secondary"
+                  onClick={() => {
+                    handleDeleteOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
                 >
                   Delete
-                </a>
+                </button>
               </div>
-              <ModalDeletePatient
-                id={tableMeta.rowData[0]}
-                data={tableMeta.rowData}
-                alldata={tableMeta.tableData}
-              />
             </>
           );
         },
@@ -114,9 +115,14 @@ export default function PatientManagement() {
     customToolbar: () => {
       return (
         <>
-          <a href={`#add-modal-patient`} className="btn-main btn-green">
+          <button
+            className="btn-main btn-green"
+            onClick={() => {
+              handleAddOpen();
+            }}
+          >
             Add Patient
-          </a>
+          </button>
         </>
       );
     },
@@ -187,8 +193,17 @@ export default function PatientManagement() {
           options={options}
         />
       </div>
-      <ModalAddPatient />
-      <ModalEditPatient open={open} onClose={handleClose} rowData={rowData} />
+      <ModalAddPatient open={openModalAdd} onClose={handleAddClose} />
+      <ModalEditPatient
+        open={openModalEdit}
+        onClose={handleEditClose}
+        rowData={rowData}
+      />
+      <ModalDeletePatient
+        open={openModalDelete}
+        onClose={handleDeleteClose}
+        rowData={rowData}
+      />
     </div>
   );
 }

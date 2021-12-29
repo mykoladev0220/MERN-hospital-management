@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddSessionSchedule from "../components/SessionScheduleManagement/ModalAddSessionSchedule";
 import ModalEditSessionSchedule from "../components/SessionScheduleManagement/ModalEditSessionSchedule";
 import ModalDeleteSessionSchedule from "../components/SessionScheduleManagement/ModalDeleteSessionSchedule";
 
 export default function SessionScheduleManagement() {
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleEditOpen = () => setOpenModalEdit(true);
+  const handleEditClose = () => setOpenModalEdit(false);
+  const handleAddOpen = () => setOpenModalAdd(true);
+  const handleAddClose = () => setOpenModalAdd(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
+  const [rowData, setRowData] = useState([]);
+
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -42,18 +53,24 @@ export default function SessionScheduleManagement() {
           return (
             <>
               <div className="flex gap-1">
-                <a
-                  href={`#edit-modal-${tableMeta.rowData[0]}`}
+                <button
                   className="btn-main btn-primary"
+                  onClick={() => {
+                    handleEditOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
                 >
                   Edit
-                </a>
-                <a
-                  href={`#delete-modal-${tableMeta.rowData[0]}`}
+                </button>
+                <button
                   className="btn-main btn-secondary"
+                  onClick={() => {
+                    handleDeleteOpen();
+                    setRowData(tableMeta.rowData);
+                  }}
                 >
                   Delete
-                </a>
+                </button>
               </div>
             </>
           );
@@ -72,12 +89,14 @@ export default function SessionScheduleManagement() {
     customToolbar: () => {
       return (
         <>
-          <a
-            href={`#add-session-schedule-modal`}
+          <button
             className="btn-main btn-green"
+            onClick={() => {
+              handleAddOpen();
+            }}
           >
             Add Session Schedule
-          </a>
+          </button>
         </>
       );
     },
@@ -113,6 +132,20 @@ export default function SessionScheduleManagement() {
           options={options}
         />
       </div>
+      <ModalAddSessionSchedule
+        open={openModalAdd}
+        onClose={handleAddClose}
+      />
+      <ModalEditSessionSchedule
+        open={openModalEdit}
+        onClose={handleEditClose}
+        rowData={rowData}
+      />
+      <ModalDeleteSessionSchedule
+        open={openModalDelete}
+        onClose={handleDeleteClose}
+        rowData={rowData}
+      />
     </div>
   );
 }
