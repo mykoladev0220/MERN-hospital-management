@@ -27,7 +27,7 @@ export default function Modal({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <div  className="max-w-md">
+        <div  className="max-w-md bg-white rounded-md p-4 mt-4">
           <div className="modal-box rounded-b-md max-w-sm">
             <div className="bg-maingreen-100 rounded-t-md absolute inset-x-0 top-0 py-4">
               <h1 className="text-white text-xl text-center">{title}</h1>

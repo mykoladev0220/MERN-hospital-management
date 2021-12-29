@@ -18,13 +18,13 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    styled: true,
-    themes: false,
-    base: false,
-    utils: true,
-    logs: true,
-    rtl: false,
-  },
+  plugins: [],
+  // daisyui: {
+  //   styled: true,
+  //   themes: false,
+  //   base: false,
+  //   utils: true,
+  //   logs: true,
+  //   rtl: false,
+  // },
 };
