@@ -1,5 +1,5 @@
 import React from "react";
-import menuItems from "../../routes/sidebar";
+import menuItems from "../../routes/sidebarDoctor";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";

@@ -8,7 +8,7 @@ export default function LoginAdmin() {
 
     const onClick = () => {
         console.log("clicked") ;
-        navigate("/dashboard");
+        navigate("/dashboard-admin");
     };
 
   return (
