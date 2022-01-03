@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
-import Dashboard from "../pages/Dashboard.jsx";
+import DashboardAdmin from "../pages/DashboardAdmin";
 import Booking from "../pages/Booking.jsx";
 import Layout from "../containers/Layout";
 import Main from "../containers/Main";
@@ -26,7 +26,7 @@ export default function routes() {
           exact
           element={
             <Layout>
-              <Dashboard />
+              <DashboardAdmin />
             </Layout>
           }
         />
