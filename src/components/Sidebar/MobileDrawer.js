@@ -3,7 +3,7 @@ import Drawer from "@mui/material/Drawer";
 import MenuItems from "./MenuItems";
 
 export default function MobileDrawer(props) {
-  const { container, mobileOpen, handleDrawerToggle, drawerWidth } = props;
+  const { container, mobileOpen, handleDrawerToggle, drawerWidth, id } = props;
   return (
     <Drawer
       container={container}
@@ -21,7 +21,7 @@ export default function MobileDrawer(props) {
         },
       }}
     >
-      <MenuItems />
+      <MenuItems id={id} />
     </Drawer>
   );
 }

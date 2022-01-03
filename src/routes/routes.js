@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import DashboardAdmin from "../pages/DashboardAdmin";
 import DashboardDoctor from "../pages/DashboardDoctor";
+import DashboardNurse from "../pages/DashboardNurse";
 import Booking from "../pages/Booking.jsx";
 import Layout from "../containers/Layout";
 import Main from "../containers/Main";
 import LoginAdmin from "../pages/LoginAdmin.jsx";
 import LoginDoctor from "../pages/LoginDoctor.jsx";
+import LoginNurse from "../pages/LoginNurse.jsx";
 import PatientManagement from "../pages/PatientManagement.jsx";
 import Try from "../pages/TryDatables";
 import BookingManagement from "../pages/BookingManagement.jsx";
@@ -16,6 +18,7 @@ import FacilityManagement from "../pages/FacilityManagement.jsx";
 import DoctorManagement from "../pages/DoctorManagement.jsx";
 import NurseManagemet from "../pages/NurseManagemet";
 import ScheduleManagement from "../pages/ScheduleManagement";
+import PatientPrescription from "../pages/PatientPrescription";
 
 export default function routes() {
   return (
@@ -24,6 +27,7 @@ export default function routes() {
         <Route path="/" element={<Home />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/login-doctor" element={<LoginDoctor />} />
+        <Route path="/login-nurse" element={<LoginNurse />} />
         <Route
           path="/dashboard-admin"
           exact
@@ -43,10 +47,19 @@ export default function routes() {
           }
         />
         <Route
+          path="/dashboard-nurse"
+          exact
+          element={
+            <Layout id="nurse">
+              <DashboardNurse />
+            </Layout>
+          }
+        />
+        <Route
           path="/booking"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <Booking />
             </Layout>
           }
@@ -55,7 +68,7 @@ export default function routes() {
           path="/patient-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <PatientManagement />
             </Layout>
           }
@@ -64,7 +77,7 @@ export default function routes() {
           path="/booking-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <BookingManagement />
             </Layout>
           }
@@ -73,7 +86,7 @@ export default function routes() {
           path="/session-schedule-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <SessionScheduleManagement />
             </Layout>
           }
@@ -82,7 +95,7 @@ export default function routes() {
           path="/facilty-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <FacilityManagement />
             </Layout>
           }
@@ -91,26 +104,35 @@ export default function routes() {
           path="/doctor-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <DoctorManagement />
             </Layout>
           }
         />
-         <Route
+        <Route
           path="/nurse-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <NurseManagemet />
             </Layout>
           }
         />
-         <Route
+        <Route
           path="/schedule-management"
           exact
           element={
-            <Layout>
+            <Layout id="admin">
               <ScheduleManagement />
+            </Layout>
+          }
+        />
+        <Route
+          path="/patient-prescription"
+          exact
+          element={
+            <Layout id="doctor">
+              <PatientPrescription />
             </Layout>
           }
         />

@@ -1,11 +1,13 @@
 import React from "react";
-import menuItems from "../../routes/sidebar";
+import menuItemsAdmin from "../../routes/sidebar";
+import menuItemsDoctor from "../../routes/sidebarDoctor";
+import menuItemsNurse from "../../routes/sidebarNurse";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function MenuItems() {
+export default function MenuItems({ id }) {
   const navigate = useNavigate();
   const location = useLocation();
   const active = (
@@ -14,7 +16,18 @@ export default function MenuItems() {
       aria-hidden="true"
     ></span>
   );
-  
+
+  let menuItems = [];
+  if (id === "admin") {
+    menuItems = menuItemsAdmin;
+  } else if (id === "doctor") {
+    menuItems = menuItemsDoctor;
+  } else if (id === "nurse") {
+    menuItems = menuItemsNurse;
+  } else {
+    menuItems = menuItemsAdmin;
+  }
+
   return (
     <div>
       <List>

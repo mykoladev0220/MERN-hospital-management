@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Appbar from "../components/Appbar";
 import AppbarDoctor from "../components/AppbarDoctor";
+import AppbarNurse from "../components/AppbarNurse";
 import DesktopDrawer from "../components/Sidebar/DesktopDrawer";
 import MobileDrawer from "../components/Sidebar/MobileDrawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,9 +21,20 @@ export default function Layout(props) {
     <Box sx={{ display: "flex" }}>
       {/* App Bar */}
       {id === "doctor" ? (
-        <AppbarDoctor handleDrawerToggle={handleDrawerToggle} />
+        <AppbarDoctor
+          handleDrawerToggle={handleDrawerToggle}
+          drawerWidth={drawerWidth}
+        />
+      ) : id === "nurse" ? (
+        <AppbarNurse
+          handleDrawerToggle={handleDrawerToggle}
+          drawerWidth={drawerWidth}
+        />
       ) : (
-        <Appbar handleDrawerToggle={handleDrawerToggle} />
+        <Appbar
+          handleDrawerToggle={handleDrawerToggle}
+          drawerWidth={drawerWidth}
+        />
       )}
       <Box
         component="nav"
@@ -35,6 +47,7 @@ export default function Layout(props) {
           mobileOpen={mobileOpen}
           container={container}
           handleDrawerToggle={handleDrawerToggle}
+          id={id}
         />
         {/* Side Drawer */}
         <DesktopDrawer drawerWidth={drawerWidth} id={id} />
