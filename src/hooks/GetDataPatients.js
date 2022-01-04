@@ -3,9 +3,9 @@ import axios from "axios";
 
 export default function GetDataPatients() {
   const api = axios.create({
-    baseURL: "https://retoolapi.dev/AqetsK/",
+    baseURL: process.env.REACT_APP_API_URL,
   });
-  api.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+  
   const [dataPatients, setDataPatients] = useState([]);
   useEffect(() => {
     api
