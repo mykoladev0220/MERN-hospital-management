@@ -2,16 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn-main {
+  @apply px-5 py-1 transition duration-300 rounded-md focus:outline-none focus:ring;
+}
+.btn-primary {
+  @apply text-white bg-blue-500 focus:ring-blue-500 hover:bg-blue-700;
+}
+
+.btn-secondary {
+  @apply text-white bg-red-500 focus:ring-red-500 hover:bg-red-700;
+}
+
+.btn-green {
+  @apply text-white bg-maingreen-200 focus:ring-green-500 hover:bg-maingreen-100;
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

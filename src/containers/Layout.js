@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Appbar from "../components/Appbar";
 import DesktopDrawer from "../components/Sidebar/DesktopDrawer";
 import MobileDrawer from "../components/Sidebar/MobileDrawer";
-
+import Toolbar from "@mui/material/Toolbar";
 const drawerWidth = 240;
 
 export default function Layout(props) {
@@ -44,9 +44,10 @@ export default function Layout(props) {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
-        className="bg-gray-100  max-h-full"
+        className=" bg-flashwhite  min-h-full"
       >
-        <div className="mt-12">{props.children}</div>
+        <Toolbar />
+        <div>{props.children}</div>
       </Box>
     </Box>
   );
