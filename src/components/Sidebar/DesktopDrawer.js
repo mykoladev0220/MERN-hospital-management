@@ -4,7 +4,7 @@ import { PlusCircleIcon } from "@heroicons/react/outline";
 import MenuItems from "./MenuItems";
 
 export default function DesktopDrawer(props) {
-  const { drawerWidth } = props;
+  const { drawerWidth, id } = props;
   return (
     <Drawer
       variant="permanent"
@@ -22,7 +22,7 @@ export default function DesktopDrawer(props) {
         <h1 className="text-2xl font-bold text-maingreen-100 my-4">Hospital</h1>
       </div>
       {/* List */}
-      <MenuItems />
+      <MenuItems id={id} />
     </Drawer>
   );
 }

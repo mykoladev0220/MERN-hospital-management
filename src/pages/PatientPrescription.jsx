@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
-import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
-import ModalEditPatient from "../components/PatientManagement/ModalEditPatient.jsx";
-import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import GetDataPatients from "../hooks/GetDataPatients";
+import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
 
-export default function PatientManagement() {
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [openModalDelete, setOpenModalDelete] = useState(false);
-  const handleEditOpen = () => setOpenModalEdit(true);
-  const handleEditClose = () => setOpenModalEdit(false);
-  const handleAddOpen = () => setOpenModalAdd(true);
-  const handleAddClose = () => setOpenModalAdd(false);
-  const handleDeleteOpen = () => setOpenModalDelete(true);
-  const handleDeleteClose = () => setOpenModalDelete(false);
-  const [rowData, setRowData] = useState([]);
+export default function PatientPrescription() {
+    const [openModalEdit, setOpenModalEdit] = useState(false);
+    const [openModalAdd, setOpenModalAdd] = useState(false);
+    const [openModalDelete, setOpenModalDelete] = useState(false);
+    const handleEditOpen = () => setOpenModalEdit(true);
+    const handleEditClose = () => setOpenModalEdit(false);
+    const handleAddOpen = () => setOpenModalAdd(true);
+    const handleAddClose = () => setOpenModalAdd(false);
+    const handleDeleteOpen = () => setOpenModalDelete(true);
+    const handleDeleteClose = () => setOpenModalDelete(false);
+    const [rowData, setRowData] = useState([]);
   const { dataPatients } = GetDataPatients();
 
   const columns = [
@@ -82,20 +80,20 @@ export default function PatientManagement() {
                 <button
                   className="btn-main btn-primary"
                   onClick={() => {
-                    handleEditOpen();
+                    handleAddOpen();
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Edit
+                  Add Recipe
                 </button>
                 <button
-                  className="btn-main btn-secondary"
+                  className="btn-main btn-green"
                   onClick={() => {
                     handleDeleteOpen();
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Delete
+                  View Recipe
                 </button>
               </div>
             </>
@@ -111,21 +109,6 @@ export default function PatientManagement() {
     download: false,
     print: false,
     viewColumns: false,
-    actionsColumnIndex: -1,
-    customToolbar: () => {
-      return (
-        <>
-          <button
-            className="btn-main btn-green"
-            onClick={() => {
-              handleAddOpen();
-            }}
-          >
-            Add Patient
-          </button>
-        </>
-      );
-    },
   };
 
   let newData = [];
@@ -183,7 +166,9 @@ export default function PatientManagement() {
   return (
     <div className="min-h-screen">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-left">Patient Management</h1>
+        <h1 className="text-left text-2xl font-semibold">
+          Patient Prescription
+        </h1>
       </div>
       <div>
         <MUIDataTable
@@ -193,15 +178,9 @@ export default function PatientManagement() {
           options={options}
         />
       </div>
-      <ModalAddPatient open={openModalAdd} onClose={handleAddClose} />
-      <ModalEditPatient
-        open={openModalEdit}
-        onClose={handleEditClose}
-        rowData={rowData}
-      />
-      <ModalDeletePatient
-        open={openModalDelete}
-        onClose={handleDeleteClose}
+      <ModalAddRecipe
+        open={openModalAdd}
+        onClose={handleAddClose}
         rowData={rowData}
       />
     </div>

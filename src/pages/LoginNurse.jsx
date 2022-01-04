@@ -3,14 +3,13 @@ import { TextField } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginDoctor() {
+export default function LoginNurse() {
   const navigate = useNavigate();
 
   const onClick = () => {
     console.log("clicked");
-    navigate("/dashboard-doctor");
+    navigate("/dashboard-nurse");
   };
-
   return (
     <>
       <div className=" bg-maingreen-300">
@@ -18,7 +17,7 @@ export default function LoginDoctor() {
         <div className="min-h-screen flex justify-center items-center">
           <div className="px-12 py-12 rounded-lg bg-white shadow-lg">
             <div>
-              <h1 className="text-center font-bold text-2xl">Login Doctor</h1>
+              <h1 className="text-center font-bold text-2xl">Login Nurse</h1>
             </div>
             <div>
               <h5>Enter your credentials to access your account</h5>
