@@ -15,7 +15,15 @@ export default function LoginAuthAdmin() {
     },
   });
 
-  const [resultLogin, setResultLogin] = useState({});
+  const [resultLogin, setResultLogin] = useState({
+    meta: {
+      rc: null,
+      message: "",
+    },
+    data: {
+      token: "",
+    },
+  });
   
   const sendDataToServer = (payload) => {
     payload = {
@@ -28,7 +36,6 @@ export default function LoginAuthAdmin() {
       .then((res) => {
         if (res.data.meta.rc === 200) {
           setResultLogin(res.data);
-          localStorage.setItem(ACCESS_TOKEN_NAME, res.data.data.token);
         } else if (res.data.meta.rc === 500) {
           setResultLogin(res.data);
         } else {
