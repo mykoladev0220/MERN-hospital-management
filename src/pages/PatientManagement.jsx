@@ -188,7 +188,7 @@ export default function PatientManagement() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={newData}
+          data={data}
           columns={columns}
           options={options}
         />

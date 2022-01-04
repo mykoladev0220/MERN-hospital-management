@@ -124,6 +124,45 @@ export default function PatientPrescription() {
     };
   });
 
+  const data = [
+    {
+      id: 1,
+      name: "Joe James",
+      nik: 1231243432452345,
+      norm: "RM000001",
+      address: "Malang",
+      gender: "male",
+      dob: "27-08-1997",
+    },
+    {
+      id: 2,
+      name: "John Walsh",
+      nik: 1231243432452345,
+      norm: "RM000001",
+      address: "Jogja",
+      gender: "male",
+      dob: "27-08-1997",
+    },
+    {
+      id: 3,
+      name: "Bob Herm",
+      nik: 1231243432452345,
+      norm: "RM000001",
+      address: "Jakarta",
+      gender: "male",
+      dob: "27-08-1997",
+    },
+    {
+      id: 4,
+      name: "James Houston",
+      nik: 1231243432452345,
+      norm: "RM000001",
+      address: "Malang",
+      gender: "male",
+      dob: "27-08-1997",
+    },
+  ];
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -134,7 +173,7 @@ export default function PatientPrescription() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={newData}
+          data={data}
           columns={columns}
           options={options}
         />
