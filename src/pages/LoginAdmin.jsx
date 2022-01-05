@@ -26,7 +26,6 @@ export default function LoginAdmin() {
   const [messageLogin, setMessageLogin] = useState(initMessage);
 
   const [loginForm, setLoginForm] = useState(initLogin);
-  console.log(loginForm, "loginForm");
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -37,27 +36,6 @@ export default function LoginAdmin() {
       [name]: value,
     });
   };
-
-  // const loginAuth = () => {
-  //   sendDataToServer(loginForm);
-  //   if (resultLogin.meta.rc === 200) {
-  //     setMessageLogin({
-  //       status: true,
-  //       message: "Login Success",
-  //     });
-  //     localStorage.setItem(ACCESS_TOKEN_NAME, resultLogin.data.token);
-  //   } else if (resultLogin.meta.rc === 500) {
-  //     setMessageLogin({
-  //       status: false,
-  //       message: "Login Failed",
-  //     });
-  //   } else {
-  //     setMessageLogin({
-  //       status: false,
-  //       message: "Login Failed",
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     if (resultLogin) {
@@ -77,7 +55,7 @@ export default function LoginAdmin() {
           );
           setMessageLogin({
             status: true,
-            message: "Login Success",
+            message: resultLogin.data.message,
           });
           redirectToDashboard();
         } else if (resultLogin.meta.rc === 500) {
@@ -89,7 +67,7 @@ export default function LoginAdmin() {
           );
           setMessageLogin({
             status: false,
-            message: "Login Failed",
+            message: resultLogin.meta.messages,
           });
         } else {
           dispatch(
@@ -151,6 +129,7 @@ export default function LoginAdmin() {
                     id="outlined-basic"
                     label="Password"
                     name="password"
+                    type="password"
                     value={loginForm.password}
                     onChange={onChange}
                     color="primary"
@@ -167,7 +146,7 @@ export default function LoginAdmin() {
                   </button>
                 </div>
                 {messageLogin.status === false ? (
-                  <div className="text-red-500 text-sm">
+                  <div className="text-red-500 text-sm my-2">
                     {messageLogin.message}
                   </div>
                 ) : null}

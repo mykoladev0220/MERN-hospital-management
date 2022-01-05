@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { ACCESS_TOKEN_NAME } from "../context/apiContext";
 
 export default function LoginAuthAdmin() {
   
   const api = axios.create({
-    baseURL: "http://localhost:9090/http://127.0.0.1:8080",
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -34,21 +33,12 @@ export default function LoginAuthAdmin() {
     api
       .post("/api/v1/admins/login", payload)
       .then((res) => {
-        if (res.data.meta.rc === 200) {
-          setResultLogin(res.data);
-        } else if (res.data.meta.rc === 500) {
-          setResultLogin(res.data);
-        } else {
-          setResultLogin(res.data);
-        }
-        console.log(res, "res");
         setResultLogin(res.data);
       })
       .catch((err) => {
-        console.log(err, "err");
+        setResultLogin(err.response.data);
       });
   };
-  console.log(resultLogin, "resultLogin");
 
   return { resultLogin, sendDataToServer };
 }

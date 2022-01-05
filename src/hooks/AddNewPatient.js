@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataPatients() {
-
+export default function AddNewPatient() {
   const bearerToken = useSelector((state) => state.login.token);
-
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -18,19 +16,28 @@ export default function GetDataPatients() {
     },
   });
 
-  const [dataPatients, setDataPatients] = useState({});
+  const [resultAddNewPatien, setResultAddNewPatien] = useState({});
 
-  useEffect(() => {
+  const sendDataToServer = (payload) => {
+    payload = {
+      fullname: payload.fullname,
+      NIK: parseInt(payload.nik),
+      no_rm: payload.norm,
+      address: payload.address,
+      dob: payload.dob,
+      gender: payload.gender,
+    };
+
     api
-      .get("/api/v1/admins/list/patient")
+      .post("/api/v1/admins/add/patient", payload)
       .then((res) => {
-        setDataPatients(res.data);
+        setResultAddNewPatien(res.data);
       })
       .catch((err) => {
-        setDataPatients(err.response.data);
+        setResultAddNewPatien(err.response.data);
       });
-  }, []);
+  };
 
-  console.log(dataPatients, "dataPatients dari hooks");
-  return { dataPatients };
+  console.log(resultAddNewPatien, "resultAddNewPatien");
+  return { resultAddNewPatien, sendDataToServer };
 }

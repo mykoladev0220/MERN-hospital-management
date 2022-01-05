@@ -20,7 +20,7 @@ export default function ModalEditPatient(props) {
     nik: rowData[2],
     norm: rowData[3],
     address: rowData[4],
-    dob: new Date(rowData[6]),
+    dob: rowData[6],
     gender: rowData[5],
   };
 
@@ -40,6 +40,14 @@ export default function ModalEditPatient(props) {
     });
   };
 
+  const onChangeDate = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      dob: newValue,
+    });
+  };
+
+
   return (
     <Modal
       open={open}
@@ -53,7 +61,6 @@ export default function ModalEditPatient(props) {
             id="outlined-basic"
             label="Fullname"
             name="fullname"
-            //   placeholder={data[1]}
             value={valueForm.fullname}
             onChange={onChange}
             color="primary"
@@ -64,10 +71,10 @@ export default function ModalEditPatient(props) {
         <div className="my-4">
           <TextField
             fullWidth
-            id="outlined-basic"
+            id="outlined-number"
             label="NIK"
             name="nik"
-            //   placeholder={data[2]}
+            type="number"
             value={valueForm.nik}
             onChange={onChange}
             color="primary"
@@ -109,7 +116,7 @@ export default function ModalEditPatient(props) {
                 inputFormat="dd/MM/yyyy"
                 name="dob"
                 value={valueForm.dob}
-                onChange={onChange}
+                onChange={onChangeDate}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>

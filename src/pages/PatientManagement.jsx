@@ -84,6 +84,7 @@ export default function PatientManagement() {
                   onClick={() => {
                     handleEditOpen();
                     setRowData(tableMeta.rowData);
+                    console.log(tableMeta.rowData, "table meta");
                   }}
                 >
                   Edit
@@ -128,58 +129,39 @@ export default function PatientManagement() {
     },
   };
 
+  // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+
   let newData = [];
-  newData = dataPatients?.map((data) => {
+  newData = dataPatients.data?.map((data) => {
     return {
-      id: data.id,
-      name: data.fullName,
-      nik: data.col1,
-      norm: data.D,
-      address: data.C,
-      gender: data.E,
-      dob: data.F,
+      id: data['id:'],
+      name: data.fullname,
+      nik: data.nik,
+      norm: data.no_rm,
+      address: data.address,
+      gender: data.gender,
+      dob: dateFormat(data.dob),
     };
   });
 
-  const data = [
-    {
-      id: 1,
-      name: "Joe James",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 2,
-      name: "John Walsh",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jogja",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 3,
-      name: "Bob Herm",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jakarta",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 4,
-      name: "James Houston",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-  ];
-
+  console.log(newData, "newData");
+  console.log(dataPatients.data, "data Patients")
+  dataPatients.data?.map((data) => {
+    console.log(data.fullname, "f name")
+    console.log(data['id:'])
+  })
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -188,7 +170,7 @@ export default function PatientManagement() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
