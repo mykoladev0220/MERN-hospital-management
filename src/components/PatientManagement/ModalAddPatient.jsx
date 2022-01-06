@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -11,16 +11,17 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 import AddNewPatient from "../../hooks/AddNewPatient";
+import GetDataPatients from "../../hooks/GetDataPatients";
 
 export default function ModalAddPatient(props) {
   const { open, onClose } = props;
-  const { resultAddPatient, sendDataToServer } = AddNewPatient();
-  
+  const { submitted, resultAddPatient, sendDataToServer } = AddNewPatient();
+  const { dataPatients, getDataPatients } = GetDataPatients();
   // const formatDate = AdapterDateFns(new Date(), "yyyy-MM-dd");
 
   const initState = {
     fullname: "",
-    nik: 0,
+    nik: "",
     norm: "",
     address: "",
     dob: "",
@@ -28,6 +29,8 @@ export default function ModalAddPatient(props) {
   };
 
   const [valueForm, setvalueForm] = useState(initState);
+
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -46,13 +49,31 @@ export default function ModalAddPatient(props) {
     });
   };
 
-  console.log(valueForm);
-  console.log(resultAddPatient, "ini resultAddPatient");
+  let newData = [];
+  newData = dataPatients.data?.map((data) => {
+    return {
+      id: data.id,
+    };
+  });
+
+  console.log(newData);
+  console.log(resultAddPatient);
+  console.log(submitted, "ini submitted");
+  console.log(submittedForm, "ini submitted form");
 
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setSubmittedForm(true);
   };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      getDataPatients();
+      setSubmittedForm(false);
+    }
+  }, [submitted, onClose, submittedForm]);
 
   return (
     <Modal title="Add Patient" open={open} onClose={onClose}>

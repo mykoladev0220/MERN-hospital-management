@@ -10,9 +10,11 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import EditPatient from "../../hooks/EditPatient";
 
 export default function ModalEditPatient(props) {
   const { open, onClose, rowData } = props;
+  const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
 
   let initState = {
     id: rowData[0],
@@ -25,6 +27,7 @@ export default function ModalEditPatient(props) {
   };
 
   const [valueForm, setvalueForm] = useState(initState);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   useEffect(() => {
     setvalueForm(initState);
@@ -47,14 +50,23 @@ export default function ModalEditPatient(props) {
     });
   };
 
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      // getDataPatients();
+      setSubmittedForm(false);
+    }
+  }, [submitted, onClose, submittedForm]);
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      title="Edit Patient"
-    >
-      <div>
+    <Modal open={open} onClose={onClose} title="Edit Patient">
+      <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
             fullWidth
@@ -144,12 +156,14 @@ export default function ModalEditPatient(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

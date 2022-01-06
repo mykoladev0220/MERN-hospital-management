@@ -3,7 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 export default function GetDataPatients() {
-
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -20,17 +19,16 @@ export default function GetDataPatients() {
 
   const [dataPatients, setDataPatients] = useState({});
 
-  useEffect(() => {
-    api
-      .get("/api/v1/admins/list/patient")
-      .then((res) => {
-        setDataPatients(res.data);
-      })
-      .catch((err) => {
-        setDataPatients(err.response.data);
-      });
-  }, []);
+  const getDataPatients = () => {
+    api.get("/api/v1/admins/list/patient").then((res) => {
+      setDataPatients(res.data);
+    });
+    // .catch((err) => {
+    //   setDataPatients(err.response.data);
+    // });
+  };
 
-  console.log(dataPatients, "dataPatients dari hooks");
-  return { dataPatients };
+  useEffect(() => getDataPatients(), []);
+
+  return { dataPatients, getDataPatients };
 }

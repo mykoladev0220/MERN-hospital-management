@@ -146,7 +146,7 @@ export default function PatientManagement() {
   let newData = [];
   newData = dataPatients.data?.map((data) => {
     return {
-      id: data['id:'],
+      id: data.id,
       name: data.fullname,
       nik: data.nik,
       norm: data.no_rm,
@@ -158,10 +158,7 @@ export default function PatientManagement() {
 
   console.log(newData, "newData");
   console.log(dataPatients.data, "data Patients")
-  dataPatients.data?.map((data) => {
-    console.log(data.fullname, "f name")
-    console.log(data['id:'])
-  })
+ 
   return (
     <div className="min-h-screen">
       <div className="mb-8">
