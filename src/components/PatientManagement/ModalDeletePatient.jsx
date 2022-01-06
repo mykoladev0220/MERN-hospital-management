@@ -25,8 +25,8 @@ export default function ModalDeletePatient(props) {
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
-  console.log(submitted, "ini submitted");
-  console.log(submittedForm, "ini submitted form");
+  // console.log(submitted, "ini submitted");
+  // console.log(submittedForm, "ini submitted form");
 
   const onClick = (e) => {
     e.preventDefault();

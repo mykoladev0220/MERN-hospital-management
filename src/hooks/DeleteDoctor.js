@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddNewPatient() {
+export default function DeleteDoctor() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,32 +16,22 @@ export default function AddNewPatient() {
     },
   });
 
-  const [resultAddNewPatien, setResultAddNewPatien] = useState({});
+  const [resultDeleteDoctor, setResultDeleteDoctor] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
-    payload = {
-      fullname: payload.fullname,
-      NIK: parseInt(payload.nik),
-      no_rm: payload.norm,
-      address: payload.address,
-      dob: payload.dob,
-      gender: payload.gender,
-    };
-
+    let id = payload.id;
     api
-      .post("/api/v1/admins/add/patient", payload)
+      .delete(`/api/v1/admins/delete/doctor/${id}`)
       .then((res) => {
-        setResultAddNewPatien(res.data);
+        setResultDeleteDoctor(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultAddNewPatien(err.response.data);
+        setResultDeleteDoctor(err.response.data);
         setSubmitted(false);
       });
   };
 
-  // useEffect(() => sendDataToServer(), []);
-
-  return { submitted, resultAddNewPatien, sendDataToServer };
+  return { resultDeleteDoctor, sendDataToServer, submitted };
 }

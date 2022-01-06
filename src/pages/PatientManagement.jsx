@@ -84,7 +84,6 @@ export default function PatientManagement() {
                   onClick={() => {
                     handleEditOpen();
                     setRowData(tableMeta.rowData);
-                    console.log(tableMeta.rowData, "table meta");
                   }}
                 >
                   Edit

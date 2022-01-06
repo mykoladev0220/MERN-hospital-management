@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddNewPatient() {
+export default function EditDoctor() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,32 +16,31 @@ export default function AddNewPatient() {
     },
   });
 
-  const [resultAddNewPatien, setResultAddNewPatien] = useState({});
+  const [resultEditDoctor, setResultEditDoctor] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
+    let id = payload.id;
     payload = {
+      username: payload.username,
+      password: payload.password,
       fullname: payload.fullname,
-      NIK: parseInt(payload.nik),
-      no_rm: payload.norm,
+      specialist: payload.specialist,
       address: payload.address,
+      phone_number: payload.phone_number,
       dob: payload.dob,
-      gender: payload.gender,
+      //   gender: payload.gender,
     };
-
     api
-      .post("/api/v1/admins/add/patient", payload)
+      .put(`/api/v1/admins/update/doctor/${id}`, payload)
       .then((res) => {
-        setResultAddNewPatien(res.data);
+        setResultEditDoctor(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultAddNewPatien(err.response.data);
+        setResultEditDoctor(err.response.data);
         setSubmitted(false);
       });
   };
-
-  // useEffect(() => sendDataToServer(), []);
-
-  return { submitted, resultAddNewPatien, sendDataToServer };
+  return { submitted, resultEditDoctor, sendDataToServer };
 }
