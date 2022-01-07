@@ -28,7 +28,6 @@ export default function ModalAddDoctor(props) {
   };
 
   const [valueForm, setvalueForm] = useState(initState);
-
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const onChange = (e) => {
@@ -60,6 +59,7 @@ export default function ModalAddDoctor(props) {
       setSubmittedForm(false);
     }
   }, [submitted, onClose, submittedForm]);
+  
   return (
     <Modal title="Add Doctor" open={open} onClose={onClose}>
       <form onSubmit={onClick}>

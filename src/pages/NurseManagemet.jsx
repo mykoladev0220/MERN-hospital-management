@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import ModalEditNurse from "../components/NurseManagement/ModalEditNurse";
 import ModalAddNurse from "../components/NurseManagement/ModalAddNurse";
 import ModalDeleteNurse from "../components/NurseManagement/ModalDeleteNurse";
+import GetDataNurses from "../hooks/GetDataNurses";
 
 export default function NurseManagemet() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -15,11 +16,12 @@ export default function NurseManagemet() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
+  const { dataNurses, getDataNurses } = GetDataNurses();
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
-      name: "name",
+      name: "fullname",
       label: "Name Nurse",
       options: {
         filter: true,
@@ -60,7 +62,7 @@ export default function NurseManagemet() {
       },
     },
     {
-      name: "phone",
+      name: "phone_number",
       label: "Phone",
       options: {
         filter: false,
@@ -135,28 +137,31 @@ export default function NurseManagemet() {
     },
   };
 
-  const data = [
-    {
-      id: "1",
-      name: "Nurse 1",
-      username: "nurse1",
-      password: "nurse1",
-      gender: "male",
-      address: "jakarta",
-      phone: "08635335434",
-      dob: "12-08-1978",
-    },
-    {
-      id: "2",
-      name: "Nurse 2",
-      username: "nurse2",
-      password: "nurse2",
-      gender: "male",
-      address: "jakarta",
-      phone: "08635335434",
-      dob: "12-08-1978",
-    },
-  ];
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  let newData = [];
+  newData = dataNurses.data?.map((item) => {
+    return {
+      id: item.id,
+      fullname: item.fullname,
+      username: item.username,
+      address: item.address,
+      phone_number: item.phone_number,
+      dob: dateFormat(item.dob),
+      gender: item.gender,
+    };
+  });
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -165,7 +170,7 @@ export default function NurseManagemet() {
       <div>
         <MUIDataTable
           title={"Nurse List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />

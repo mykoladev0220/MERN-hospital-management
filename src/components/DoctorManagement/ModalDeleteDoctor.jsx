@@ -38,6 +38,7 @@ export default function ModalDeleteDoctor(props) {
       setSubmittedForm(false);
     }
   }, [submitted, onClose, submittedForm]);
+  
   return (
     <Modal open={open} onClose={onClose} title="Delete Doctor">
       <form onSubmit={onClick}>
