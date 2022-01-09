@@ -13,7 +13,7 @@ import Modal from "../Modal";
 import EditDoctor from "../../hooks/EditDoctor";
 
 export default function ModalEditDoctor(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultEditDoctor, sendDataToServer, submitted } = EditDoctor();
 
   const initState = {
@@ -56,15 +56,16 @@ export default function ModalEditDoctor(props) {
     e.preventDefault();
     sendDataToServer(valueForm);
     setSubmittedForm(true);
+    setRefresh(false);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      // getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal title="Add Doctor" open={open} onClose={onClose}>

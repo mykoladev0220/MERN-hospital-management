@@ -11,13 +11,10 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 import AddNewPatient from "../../hooks/AddNewPatient";
-import GetDataPatients from "../../hooks/GetDataPatients";
 
 export default function ModalAddPatient(props) {
-  const { open, onClose } = props;
+  const { open, onClose, refresh, setRefresh } = props;
   const { submitted, resultAddPatient, sendDataToServer } = AddNewPatient();
-  const { dataPatients, getDataPatients } = GetDataPatients();
-  // const formatDate = AdapterDateFns(new Date(), "yyyy-MM-dd");
 
   const initState = {
     fullname: "",
@@ -49,31 +46,20 @@ export default function ModalAddPatient(props) {
     });
   };
 
-  let newData = [];
-  newData = dataPatients.data?.map((data) => {
-    return {
-      id: data.id,
-    };
-  });
-
-  console.log(newData);
-  console.log(resultAddPatient);
-  console.log(submitted, "ini submitted");
-  console.log(submittedForm, "ini submitted form");
-
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setRefresh(false);
     setSubmittedForm(true);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm, dataPatients]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal title="Add Patient" open={open} onClose={onClose}>

@@ -1,43 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Modal from "../Modal";
+import DeleteFacility from "../../hooks/DeleteFacility";
 
 export default function ModalDeleteFacility(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
+  const { resultDeleteFacility, sendDataToServer, submitted } =
+    DeleteFacility();
 
   const initState = {
     id: rowData[0],
-    facility: rowData[1],
+    name: rowData[1],
     capacity: rowData[2],
     location: rowData[3],
   };
-
-  const [valueForm, setvalueForm] = useState(initState);
 
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);
 
-  const onChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+  const [valueForm, setvalueForm] = useState(initState);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
-    setvalueForm({
-      ...valueForm,
-      [name]: value,
-    });
+  console.log(valueForm);
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    setSubmittedForm(true);
+    console.log("click", valueForm);
   };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submitted, onClose, submittedForm, refresh]);
+
   return (
     <Modal open={open} onClose={onClose} title="Delete Facility">
-      <div>
+      <form onSubmit={onClick}>
         <h1>{`Are you sure to delete this data with ID : ${valueForm.id} and Facility : ${valueForm.facility} `}</h1>
-      </div>
-      <div className="flex justify-end gap-2 mt-5">
-        <button className="btn-main btn-primary">Submit</button>
-        <button className="btn-main btn-secondary" onClick={onClose}>
-          Cancel
-        </button>
-      </div>
+        <div className="flex justify-end gap-2 mt-5">
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
+          <button className="btn-main btn-secondary" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataNurses() {
+export default function GetDataNurses(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -25,7 +25,7 @@ export default function GetDataNurses() {
     });
   };
 
-  useEffect(() => getDataNurses(), []);
+  useEffect(() => getDataNurses(), [refresh]);
 
   return { dataNurses, getDataNurses };
 }

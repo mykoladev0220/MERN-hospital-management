@@ -13,7 +13,7 @@ import Modal from "../Modal";
 import EditNurse from "../../hooks/EditNurse";
 
 export default function ModalEditNurse(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultEditNurse, sendDataToServer, submitted } = EditNurse();
 
   const initState = {
@@ -54,16 +54,17 @@ export default function ModalEditNurse(props) {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setRefresh(false);
     setSubmittedForm(true);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      // getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal title="Add Nurse" open={open} onClose={onClose}>
@@ -112,7 +113,7 @@ export default function ModalEditNurse(props) {
             fullWidth
             id="outlined-basic"
             label="Phone"
-            name="phone"
+            name="phone_number"
             value={valueForm.phone_number}
             onChange={onChange}
             color="primary"

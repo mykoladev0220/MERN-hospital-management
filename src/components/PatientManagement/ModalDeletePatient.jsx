@@ -4,7 +4,7 @@ import DeletePatient from "../../hooks/DeletePatient";
 import GetDataPatients from "../../hooks/GetDataPatients";
 
 export default function ModalDeletePatient(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultDeletePatient, sendDataToServer, submitted } = DeletePatient();
   const { dataPatients, getDataPatients } = GetDataPatients();
 
@@ -25,12 +25,10 @@ export default function ModalDeletePatient(props) {
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
-  // console.log(submitted, "ini submitted");
-  // console.log(submittedForm, "ini submitted form");
-
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setRefresh(false);
     setSubmittedForm(true);
   };
 
@@ -39,8 +37,9 @@ export default function ModalDeletePatient(props) {
       onClose();
       getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal open={open} onClose={onClose} title="Delete Patient">

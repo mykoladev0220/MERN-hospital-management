@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient.jsx";
@@ -16,7 +16,8 @@ export default function PatientManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataPatients } = GetDataPatients();
+  const [refresh, setRefresh] = useState(true);
+  const { dataPatients } = GetDataPatients(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -141,7 +142,6 @@ export default function PatientManagement() {
     return [day, month, year].join("/");
   };
 
-
   let newData = [];
   newData = dataPatients.data?.map((data) => {
     return {
@@ -155,9 +155,6 @@ export default function PatientManagement() {
     };
   });
 
-  console.log(newData, "newData");
-  console.log(dataPatients.data, "data Patients")
- 
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -171,13 +168,22 @@ export default function PatientManagement() {
           options={options}
         />
       </div>
-      <ModalAddPatient open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddPatient
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalEditPatient
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
       <ModalDeletePatient
+        setRefresh={setRefresh}
+        refresh={refresh}
         open={openModalDelete}
         onClose={handleDeleteClose}
         rowData={rowData}

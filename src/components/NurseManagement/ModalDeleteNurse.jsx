@@ -3,9 +3,8 @@ import Modal from "../Modal";
 import DeleteNurse from "../../hooks/DeleteNurse";
 
 export default function ModalDeleteNurse(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultDeleteNurse, sendDataToServer, submitted } = DeleteNurse();
-
   const initState = {
     id: rowData[0],
     fullname: rowData[1],
@@ -27,16 +26,17 @@ export default function ModalDeleteNurse(props) {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setRefresh(false);
     setSubmittedForm(true);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      // getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal open={open} onClose={onClose} title="Delete Nurse">

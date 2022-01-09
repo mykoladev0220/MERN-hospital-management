@@ -3,7 +3,7 @@ import Modal from "../Modal";
 import DeleteDoctor from "../../hooks/DeleteDoctor";
 
 export default function ModalDeleteDoctor(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultDeleteDoctor, sendDataToServer, submitted } = DeleteDoctor();
 
   const initState = {
@@ -29,16 +29,17 @@ export default function ModalDeleteDoctor(props) {
     e.preventDefault();
     sendDataToServer(valueForm);
     setSubmittedForm(true);
+    setRefresh(false);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      // getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
-  
+  }, [submitted, onClose, submittedForm, refresh]);
+
   return (
     <Modal open={open} onClose={onClose} title="Delete Doctor">
       <form onSubmit={onClick}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddDoctor() {
+export default function AddFacility() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,41 +16,27 @@ export default function AddDoctor() {
     },
   });
 
-  const [resultAddDoctor, setResultAddDoctor] = useState({
-    meta: {
-      rc: 0,
-      message: "",
-      messages: [],
-    },
-    data: {},
-  });
-
+  const [dataFacility, setDataFacility] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
     payload = {
-      username: payload.username,
-      password: payload.password,
-      fullname: payload.fullname,
-      specialist: payload.specialist,
-      address: payload.address,
-      phone_number: payload.phone_number,
-      dob: payload.dob,
-      //   gender: payload.gender,
+      name: payload.name,
+      queue: parseInt(payload.queue),
+      location: payload.location,
+      capacity: parseInt(payload.capacity),
     };
     api
-      .post("/api/v1/admins/add/doctor", payload)
+      .post("/api/v1/admins/add/facilty", payload)
       .then((res) => {
-        setResultAddDoctor(res.data);
+        setDataFacility(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultAddDoctor(err.response.data);
+        setDataFacility(err.response.data);
         setSubmitted(false);
       });
   };
 
-  console.log(resultAddDoctor, "hooks");
-  
-  return { submitted, resultAddDoctor, sendDataToServer };
+  return { dataFacility, sendDataToServer, submitted };
 }

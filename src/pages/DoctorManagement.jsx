@@ -16,7 +16,8 @@ export default function DoctorManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataDoctors, getDataDoctors } = GetDataDoctors();
+  const [refresh, setRefresh] = useState(true);
+  const { dataDoctors } = GetDataDoctors(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -185,12 +186,21 @@ export default function DoctorManagement() {
       </div>
       <ModalEditDoctor
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
-      <ModalAddDoctor open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddDoctor
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalDeleteDoctor
         open={openModalDelete}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleDeleteClose}
         rowData={rowData}
       />

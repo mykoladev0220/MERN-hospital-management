@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddNurse() {
+export default function DeleteFacility() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,37 +16,22 @@ export default function AddNurse() {
     },
   });
 
-  const [resultAddNurse, setResultAddNurse] = useState({
-    meta: {
-      rc: 0,
-      message: "",
-      messages: [],
-    },
-    data: {},
-  });
+  const [resultDeleteFacility, setResultDeleteFacility] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
-    payload = {
-      username: payload.username,
-      password: payload.password,
-      fullname: payload.fullname,
-      address: payload.address,
-      phone_number: payload.phone_number,
-      dob: payload.dob,
-      gender: payload.gender,
-    };
+    let id = payload.id;
     api
-      .post("/api/v1/admins/add/nurse", payload)
+      .delete(`/api/v1/admins/delete/facilty/${id}`, payload)
       .then((res) => {
-        setResultAddNurse(res.data);
+        setResultDeleteFacility(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultAddNurse(err.response.data);
-        setSubmitted(false);
+        setResultDeleteFacility(err.response.data);
+        setSubmitted(true);
       });
+    console.log(resultDeleteFacility);
   };
-
-  return { submitted, resultAddNurse, sendDataToServer };
+  return { resultDeleteFacility, sendDataToServer, submitted };
 }

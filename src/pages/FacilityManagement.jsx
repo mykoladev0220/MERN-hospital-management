@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import ModalAddFacility from "../components/FacilityManagement/ModalAddFacility";
 import ModalEditFacility from "../components/FacilityManagement/ModalEditFacility";
 import ModalDeleteFacility from "../components/FacilityManagement/ModalDeleteFacility";
+import GetDataFacilities from "../hooks/GetDataFacilities";
 
 export default function FaciltyManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -15,6 +16,8 @@ export default function FaciltyManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const { dataFacilities, getDataFacilities } = GetDataFacilities(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -37,6 +40,14 @@ export default function FaciltyManagement() {
     {
       name: "location",
       label: "Location",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "queue",
+      label: "Queue",
       options: {
         filter: true,
         sort: true,
@@ -102,26 +113,17 @@ export default function FaciltyManagement() {
     },
   };
 
-  const data = [
-    {
-      id: 1,
-      name: "Facility 1",
-      capacity: "100",
-      location: "Gedung A",
-    },
-    {
-      id: 2,
-      name: "Facility 2",
-      capacity: "200",
-      location: "Gedung B",
-    },
-    {
-      id: 3,
-      name: "Facility 3",
-      capacity: "300",
-      location: "Gedung A",
-    },
-  ];
+  let newData = [];
+  newData = dataFacilities.data?.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      capacity: item.capacity,
+      location: item.location,
+      queue: item.queue,
+    };
+  });
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -130,19 +132,28 @@ export default function FaciltyManagement() {
       <div>
         <MUIDataTable
           title={"Facilty List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalAddFacility open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddFacility
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalEditFacility
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
       <ModalDeleteFacility
         open={openModalDelete}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleDeleteClose}
         rowData={rowData}
       />

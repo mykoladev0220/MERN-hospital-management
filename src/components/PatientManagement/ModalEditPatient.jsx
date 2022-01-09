@@ -13,7 +13,7 @@ import Modal from "../Modal";
 import EditPatient from "../../hooks/EditPatient";
 
 export default function ModalEditPatient(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
 
   let initState = {
@@ -53,16 +53,17 @@ export default function ModalEditPatient(props) {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
+    setRefresh(false);
     setSubmittedForm(true);
   };
 
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      // getDataPatients();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal open={open} onClose={onClose} title="Edit Patient">

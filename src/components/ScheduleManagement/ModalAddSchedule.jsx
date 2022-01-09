@@ -8,7 +8,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Stack from "@mui/material/Stack";
 
 export default function ModalAddSchedule(props) {
-  const { open, onClose } = props;
+  const { open, onClose, refresh, setRefresh } = props;
 
   const initState = {
     day: "",

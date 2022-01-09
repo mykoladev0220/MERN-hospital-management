@@ -16,6 +16,7 @@ export default function ModalDeleteSchedule(props) {
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);
+  
   return (
     <Modal open={open} onClose={onClose} title="Delete Schedule">
       <div>

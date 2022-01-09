@@ -16,7 +16,8 @@ export default function NurseManagemet() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataNurses, getDataNurses } = GetDataNurses();
+  const [refresh, setRefresh] = useState(true);
+  const { dataNurses, getDataNurses } = GetDataNurses(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -177,12 +178,21 @@ export default function NurseManagemet() {
       </div>
       <ModalEditNurse
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
-      <ModalAddNurse open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddNurse
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalDeleteNurse
         open={openModalDelete}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleDeleteClose}
         rowData={rowData}
       />

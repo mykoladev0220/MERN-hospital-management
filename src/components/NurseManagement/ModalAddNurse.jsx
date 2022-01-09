@@ -13,7 +13,7 @@ import Modal from "../Modal";
 import AddNurse from "../../hooks/AddNurse";
 
 export default function ModalAddNurse(props) {
-  const { open, onClose } = props;
+  const { open, onClose, refresh, setRefresh } = props;
   const { resultAddNurse, sendDataToServer, submitted } = AddNurse();
 
   const initState = {
@@ -26,8 +26,16 @@ export default function ModalAddNurse(props) {
     gender: "",
   };
 
+  const initMessage = {
+    status: true,
+    message: "",
+  };
+
+  console.log(resultAddNurse, submitted, "add nurse");
+
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
+  const [message, setMessage] = useState(initMessage);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -49,15 +57,32 @@ export default function ModalAddNurse(props) {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);
-    setSubmittedForm(true);
+    setRefresh(false);
+    // setSubmittedForm(true);
   };
 
   useEffect(() => {
+    if (resultAddNurse) {
+      if (resultAddNurse.meta?.rc === 200) {
+        // setSubmittedForm(true);
+        setMessage({
+          status: true,
+          message: "",
+        });
+      } else {
+        // setSubmittedForm(false);
+        setMessage({
+          status: false,
+          message: resultAddNurse.meta.messages,
+        });
+      }
+    }
     if (submittedForm === true) {
       onClose();
       setSubmittedForm(false);
+      setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm]);
+  }, [submitted, onClose, refresh]);
 
   return (
     <Modal title="Add Nurse" open={open} onClose={onClose}>
@@ -161,6 +186,11 @@ export default function ModalAddNurse(props) {
               />
             </RadioGroup>
           </FormControl>
+        </div>
+        <div>
+          {message.status === false ? (
+            <div className="text-red-500 text-sm my-2">{message.message}</div>
+          ) : null}
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
           <button onSubmit={onClick} className="btn-main btn-primary">
