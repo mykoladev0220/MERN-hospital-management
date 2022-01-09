@@ -6,7 +6,6 @@ import GetDataPatients from "../../hooks/GetDataPatients";
 export default function ModalDeletePatient(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultDeletePatient, sendDataToServer, submitted } = DeletePatient();
-  const { dataPatients, getDataPatients } = GetDataPatients();
 
   let initState = {
     id: rowData[0],
@@ -35,7 +34,6 @@ export default function ModalDeletePatient(props) {
   useEffect(() => {
     if (submittedForm === true) {
       onClose();
-      getDataPatients();
       setSubmittedForm(false);
       setRefresh(true);
     }

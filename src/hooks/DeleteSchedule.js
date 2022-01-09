@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function EditPatient() {
+export default function DeleteSchedule() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,38 +16,23 @@ export default function EditPatient() {
     },
   });
 
-  const [resultEditPatien, setResultEditPatien] = useState({
-    meta: {
-      rc: 0,
-      message: "",
-      messages: [],
-    },
-    data: {},
-  });
+  const [resultDeleteSchedule, setResultDeleteSchedule] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
     let id = payload.id;
-    payload = {
-      fullname: payload.fullname,
-      NIK: parseInt(payload.nik),
-      no_rm: payload.norm,
-      address: payload.address,
-      dob: payload.dob,
-      gender: payload.gender,
-    };
 
     api
-      .put(`/api/v1/admins/update/patient/${id}`, payload)
+      .delete(`/api/v1/admins/delete/schedule/${id}`)
       .then((res) => {
-        setResultEditPatien(res.data);
+        setResultDeleteSchedule(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultEditPatien(err.response.data);
-        setSubmitted(true);
+        setResultDeleteSchedule(err.response.data);
+        setSubmitted(false);
       });
   };
 
-  return { resultEditPatien, sendDataToServer, submitted };
+  return { resultDeleteSchedule, sendDataToServer, submitted };
 }

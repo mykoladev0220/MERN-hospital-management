@@ -16,7 +16,14 @@ export default function EditNurse() {
     },
   });
 
-  const [resultEditNurse, setResultEditNurse] = useState({});
+  const [resultEditNurse, setResultEditNurse] = useState({
+    meta: {
+      rc: 0,
+      message: "",
+      messages: [],
+    },
+    data: {},
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {

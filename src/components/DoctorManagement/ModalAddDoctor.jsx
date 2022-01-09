@@ -68,7 +68,6 @@ export default function ModalAddDoctor(props) {
         });
         setRefresh(true);
         setSubmittedForm(true);
-        setTimeout(setSubmittedForm(!submittedForm), 500);
       } else {
         setMessage({
           status: false,
@@ -82,7 +81,7 @@ export default function ModalAddDoctor(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [onClose, refresh, resultAddDoctor]);
+  }, [refresh, resultAddDoctor]);
 
   return (
     <Modal title="Add Doctor" open={open} onClose={onClose}>

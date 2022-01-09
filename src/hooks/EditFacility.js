@@ -16,7 +16,14 @@ export default function EditFacility() {
     },
   });
 
-  const [resultEditFacility, setResultEditFacility] = useState({});
+  const [resultEditFacility, setResultEditFacility] = useState({
+    meta: {
+      rc: 0,
+      message: "",
+      messages: [],
+    },
+    data: {},
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {

@@ -16,7 +16,14 @@ export default function EditDoctor() {
     },
   });
 
-  const [resultEditDoctor, setResultEditDoctor] = useState({});
+  const [resultEditDoctor, setResultEditDoctor] = useState({
+    meta: {
+      rc: 0,
+      message: "",
+      messages: [],
+    },
+    data: {},
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {

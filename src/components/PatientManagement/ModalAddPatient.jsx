@@ -59,7 +59,7 @@ export default function ModalAddPatient(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm, refresh]);
+  }, [, submittedForm, refresh]);
 
   return (
     <Modal title="Add Patient" open={open} onClose={onClose}>
