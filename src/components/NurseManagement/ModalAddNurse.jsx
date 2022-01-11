@@ -62,27 +62,21 @@ export default function ModalAddNurse(props) {
   };
 
   useEffect(() => {
-    if (resultAddNurse) {
-      if (resultAddNurse.meta?.rc === 200) {
-        // setSubmittedForm(true);
-        setMessage({
-          status: true,
-          message: "",
-        });
-      } else {
-        // setSubmittedForm(false);
-        setMessage({
-          status: false,
-          message: resultAddNurse.meta.messages,
-        });
-      }
-    }
-    if (submittedForm === true) {
+    if (submitted === true) {
       onClose();
       setSubmittedForm(false);
       setRefresh(true);
+      setMessage({
+        status: true,
+        message: "",
+      });
+    } else {
+      setMessage({
+        status: false,
+        message: resultAddNurse.meta.messages,
+      });
     }
-  }, [submitted, onClose, refresh]);
+  }, [submitted, submittedForm, refresh, resultAddNurse]);
 
   return (
     <Modal title="Add Nurse" open={open} onClose={onClose}>
