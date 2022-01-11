@@ -28,8 +28,14 @@ export default function ModalEditDoctor(props) {
     gender: rowData[5],
   };
 
+  const initMessage = {
+    status: true,
+    message: "",
+  };
+
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
+  const [message, setMessage] = useState(initMessage);
 
   useEffect(() => {
     setvalueForm(initState);
@@ -60,12 +66,21 @@ export default function ModalEditDoctor(props) {
   };
 
   useEffect(() => {
-    if (submittedForm === true) {
+    if (submitted === true) {
       onClose();
       setSubmittedForm(false);
       setRefresh(true);
+      setMessage({
+        status: true,
+        message: "",
+      });
+    } else {
+      setMessage({
+        status: false,
+        message: resultEditDoctor.meta.messages,
+      });
     }
-  }, [submitted, onClose, submittedForm, refresh]);
+  }, [submitted, submittedForm, refresh, resultEditDoctor]);
 
   return (
     <Modal title="Add Doctor" open={open} onClose={onClose}>
@@ -182,6 +197,11 @@ export default function ModalEditDoctor(props) {
               />
             </RadioGroup>
           </FormControl>
+        </div>
+        <div>
+          {message.status === false ? (
+            <div className="text-red-500 text-sm my-2">{message.message}</div>
+          ) : null}
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
           <button onSubmit={onClick} className="btn-main btn-primary">

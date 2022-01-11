@@ -31,10 +31,10 @@ export default function EditSchedule() {
     let id = payload.id;
     payload = {
       day: payload.day,
-      start: payload.start,
+      start: payload.start, 
       end: payload.end,
     };
-
+    
     api
       .put(`/api/v1/admins/update/schedule/${id}`, payload)
       .then((res) => {

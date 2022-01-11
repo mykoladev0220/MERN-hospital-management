@@ -105,7 +105,6 @@ export default function ScheduleManagement() {
     },
   };
 
-  
   const timeFormat = (time) => {
     var d = new Date(time),
       hour = "" + d.getHours(),

@@ -86,6 +86,7 @@ export default function ModalEditSchedule(props) {
               <DesktopTimePicker
                 label="Start"
                 name="start"
+                type="time"
                 value={valueForm.start}
                 onChange={onChangeStart}
                 renderInput={(params) => <TextField {...params} />}

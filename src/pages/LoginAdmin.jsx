@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN_NAME } from "../context/apiContext";
 import LoginAuthAdmin from "../hooks/LoginAuthAdmin";
 import { useDispatch } from "react-redux";
 import { login } from "../store/loginSlice";
@@ -24,7 +23,6 @@ export default function LoginAdmin() {
   };
 
   const [messageLogin, setMessageLogin] = useState(initMessage);
-
   const [loginForm, setLoginForm] = useState(initLogin);
 
   const onChange = (e) => {
@@ -88,8 +86,6 @@ export default function LoginAdmin() {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(loginForm);
-    console.log(resultLogin, "dataLogin");
-    console.log(messageLogin, "messageLogin");
   };
 
   const redirectToDashboard = () => {

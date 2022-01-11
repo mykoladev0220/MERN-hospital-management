@@ -40,7 +40,7 @@ export default function ModalAddFacility(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submitted, onClose, submittedForm, refresh]);
+  }, [submitted, submittedForm, refresh]);
 
   return (
     <Modal title="Add Facility" open={open} onClose={onClose}>

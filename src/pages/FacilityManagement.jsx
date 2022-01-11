@@ -17,7 +17,7 @@ export default function FaciltyManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataFacilities, getDataFacilities } = GetDataFacilities(refresh);
+  const { dataFacilities } = GetDataFacilities(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },

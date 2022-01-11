@@ -60,28 +60,21 @@ export default function ModalAddDoctor(props) {
   };
 
   useEffect(() => {
-    if (resultAddDoctor) {
-      if (resultAddDoctor.meta?.rc === 200) {
-        setMessage({
-          status: true,
-          message: "",
-        });
-        setRefresh(true);
-        setSubmittedForm(true);
-      } else {
-        setMessage({
-          status: false,
-          message: resultAddDoctor.meta.messages,
-        });
-        setSubmittedForm(false);
-      }
-    }
-    if (submittedForm === true) {
+    if (submitted === true) {
       onClose();
       setSubmittedForm(false);
       setRefresh(true);
+      setMessage({
+        status: true,
+        message: "",
+      });
+    } else {
+      setMessage({
+        status: false,
+        message: resultAddDoctor.meta.messages,
+      });
     }
-  }, [refresh, resultAddDoctor]);
+  }, [submitted, submittedForm, refresh, resultAddDoctor]);
 
   return (
     <Modal title="Add Doctor" open={open} onClose={onClose}>
@@ -170,7 +163,7 @@ export default function ModalAddDoctor(props) {
               <DesktopDatePicker
                 label="Date of Birth"
                 inputFormat="dd/MM/yyyy"
-                name="dob"
+                n ame="dob"
                 value={valueForm.dob}
                 onChange={onChangeDate}
                 renderInput={(params) => <TextField {...params} />}
