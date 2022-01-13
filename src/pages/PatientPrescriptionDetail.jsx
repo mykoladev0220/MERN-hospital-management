@@ -1,20 +1,26 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 
 export default function PatientPrescriptionDetail() {
+  const params = useParams();
+  console.log(params,"params");
   const resep = [
     {
       id: 1,
+      id_patient: 1,
       name: "Obat 1",
       rules: "1 tablet sehari",
     },
     {
       id: 2,
+      id_patient: 2,
       name: "Obat 2",
       rules: "2 tablet sehari",
     },
     {
       id: 3,
+      id_patient: 1,
       name: "Obat 3",
       rules: "3 tablet sehari",
     },

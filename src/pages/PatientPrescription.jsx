@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import GetDataPatients from "../hooks/GetDataPatients";
+import { useNavigate, Link } from "react-router-dom";
 import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
 
 export default function PatientPrescription() {
-    const [openModalEdit, setOpenModalEdit] = useState(false);
-    const [openModalAdd, setOpenModalAdd] = useState(false);
-    const [openModalDelete, setOpenModalDelete] = useState(false);
-    const handleEditOpen = () => setOpenModalEdit(true);
-    const handleEditClose = () => setOpenModalEdit(false);
-    const handleAddOpen = () => setOpenModalAdd(true);
-    const handleAddClose = () => setOpenModalAdd(false);
-    const handleDeleteOpen = () => setOpenModalDelete(true);
-    const handleDeleteClose = () => setOpenModalDelete(false);
-    const [rowData, setRowData] = useState([]);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleEditOpen = () => setOpenModalEdit(true);
+  const handleEditClose = () => setOpenModalEdit(false);
+  const handleAddOpen = () => setOpenModalAdd(true);
+  const handleAddClose = () => setOpenModalAdd(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
+  const [rowData, setRowData] = useState([]);
   const { dataPatients } = GetDataPatients();
+  const navigate = useNavigate();
+
+  const redirectToPrescriptionDetail2 = () => {
+    navigate(`/prescription-detail`);
+  };
+
+  const redirectToPrescriptionDetail = (id) => {
+    navigate(`/prescription-detail/${id}`);
+  };
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -86,15 +96,13 @@ export default function PatientPrescription() {
                 >
                   Add Recipe
                 </button>
-                <button
+
+                <Link
+                  to={`/prescription-detail/${tableMeta.rowData[0]}`}
                   className="btn-main btn-green"
-                  onClick={() => {
-                    handleDeleteOpen();
-                    setRowData(tableMeta.rowData);
-                  }}
                 >
                   View Recipe
-                </button>
+                </Link>
               </div>
             </>
           );
@@ -111,18 +119,18 @@ export default function PatientPrescription() {
     viewColumns: false,
   };
 
-  let newData = [];
-  newData = dataPatients?.map((data) => {
-    return {
-      id: data.id,
-      name: data.fullName,
-      nik: data.col1,
-      norm: data.D,
-      address: data.C,
-      gender: data.E,
-      dob: data.F,
-    };
-  });
+  // let newData = [];
+  // newData = dataPatients?.map((data) => {
+  //   return {
+  //     id: data.id,
+  //     name: data.fullName,
+  //     nik: data.col1,
+  //     norm: data.D,
+  //     address: data.C,
+  //     gender: data.E,
+  //     dob: data.F,
+  //   };
+  // });
 
   const data = [
     {
