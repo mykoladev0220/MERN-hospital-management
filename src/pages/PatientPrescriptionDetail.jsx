@@ -3,14 +3,21 @@ import { useParams } from "react-router-dom";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { useNavigate } from "react-router-dom";
 import GetDataPrescription from "../hooks/GetDataPrescription";
+import ModalEditPrescription from "../components/PatientPrescriptionDetail/ModalEditPrescription";
+import ModalDeletePrescription from "../components/PatientPrescriptionDetail/ModalDeletePrescription";
 
 export default function PatientPrescriptionDetail() {
   const params = useParams();
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(true);
   const { dataPrescription } = GetDataPrescription(refresh);
-
-  console.log(dataPrescription, "dataPrescription");
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleEditOpen = () => setOpenModalEdit(true);
+  const handleEditClose = () => setOpenModalEdit(false);
+  const handleDeleteOpen = () => setOpenModalDelete(true);
+  const handleDeleteClose = () => setOpenModalDelete(false);
+  const [rowData, setRowData] = useState({});
 
   let newData = [];
   newData = dataPrescription.data?.map((item) => {
@@ -24,7 +31,7 @@ export default function PatientPrescriptionDetail() {
     };
   });
   newData = newData?.filter((item) => item.id_patient === params.id);
-
+  
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -61,11 +68,23 @@ export default function PatientPrescriptionDetail() {
                   </tr>
                 </table>
               </div>
-              <div className="flex flex-col md:flex-row items-center">
-                <button className="bg-blue-500 text-white font-medium py-1 px-4 m-1 rounded-md">
+              <div className="flex flex-col gap-1 md:flex-row items-center">
+                <button
+                  className="btn-main btn-primary"
+                  onClick={() => {
+                    handleEditOpen();
+                    setRowData(data);
+                  }}
+                >
                   Edit
                 </button>
-                <button className="bg-red-500 text-white font-medium py-1 px-4 m-1 rounded-md">
+                <button
+                  className="btn-main btn-secondary"
+                  onClick={() => {
+                    handleDeleteOpen();
+                    setRowData(data);
+                  }}
+                >
                   Delete
                 </button>
               </div>
@@ -73,6 +92,20 @@ export default function PatientPrescriptionDetail() {
           </div>
         ))}
       </div>
+      <ModalEditPrescription
+        open={openModalEdit}
+        onClose={handleEditClose}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        rowData={rowData}
+      />
+      <ModalDeletePrescription
+        open={openModalDelete}
+        onClose={handleDeleteClose}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        rowData={rowData}
+      />
     </div>
   );
 }
