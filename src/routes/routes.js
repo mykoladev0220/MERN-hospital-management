@@ -19,6 +19,7 @@ import DoctorManagement from "../pages/DoctorManagement.jsx";
 import NurseManagemet from "../pages/NurseManagemet";
 import ScheduleManagement from "../pages/ScheduleManagement";
 import PatientPrescription from "../pages/PatientPrescription";
+import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 
 export default function routes() {
   return (
@@ -133,6 +134,15 @@ export default function routes() {
           element={
             <Layout id="doctor">
               <PatientPrescription />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-detail"
+          exact
+          element={
+            <Layout id="doctor">
+              <PatientPrescriptionDetail />
             </Layout>
           }
         />
