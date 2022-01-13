@@ -1,30 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { useNavigate } from "react-router-dom";
+import GetDataPrescription from "../hooks/GetDataPrescription";
 
 export default function PatientPrescriptionDetail() {
   const params = useParams();
-  console.log(params,"params");
-  const resep = [
-    {
-      id: 1,
-      id_patient: 1,
-      name: "Obat 1",
-      rules: "1 tablet sehari",
-    },
-    {
-      id: 2,
-      id_patient: 2,
-      name: "Obat 2",
-      rules: "2 tablet sehari",
-    },
-    {
-      id: 3,
-      id_patient: 1,
-      name: "Obat 3",
-      rules: "3 tablet sehari",
-    },
-  ];
+  const navigate = useNavigate();
+  const [refresh, setRefresh] = useState(true);
+  const { dataPrescription } = GetDataPrescription(refresh);
+
+  console.log(dataPrescription, "dataPrescription");
+
+  let newData = [];
+  newData = dataPrescription.data?.map((item) => {
+    return {
+      id: item.id,
+      name: item.medicine_name,
+      rules: item.medication_rules,
+      id_patient: item.id_patient,
+      id_doctor: item.id_doctor,
+      id_sessionbooking: item.id_sessionbooking,
+    };
+  });
+  newData = newData?.filter((item) => item.id_patient === params.id);
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -32,7 +32,10 @@ export default function PatientPrescriptionDetail() {
           Patient Prescription Detail
         </h1>
         <div className="my-4">
-          <button className="text-left font-medium flex items-center">
+          <button
+            className="text-left font-medium flex items-center"
+            onClick={() => navigate(-1)}
+          >
             <span>
               <ChevronLeftIcon className="w-5 h-5" />
             </span>
@@ -41,7 +44,7 @@ export default function PatientPrescriptionDetail() {
         </div>
       </div>
       <div>
-        {resep.map((data) => (
+        {newData?.map((data) => (
           <div className=" bg-white p-4 rounded-md shadow-lg my-4">
             <div className="flex justify-between">
               <div>

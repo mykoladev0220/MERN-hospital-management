@@ -22,27 +22,6 @@ import PatientPrescription from "../pages/PatientPrescription";
 import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 
 export default function routes() {
-  const resep = [
-    {
-      id: 1,
-      id_patient: 1,
-      name: "Obat 1",
-      rules: "1 tablet sehari",
-    },
-    {
-      id: 2,
-      id_patient: 2,
-      name: "Obat 2",
-      rules: "2 tablet sehari",
-    },
-    {
-      id: 3,
-      id_patient: 1,
-      name: "Obat 3",
-      rules: "3 tablet sehari",
-    },
-  ];
-
   return (
     <BrowserRouter>
       <Routes>
@@ -158,14 +137,6 @@ export default function routes() {
             </Layout>
           }
         />
-        {/* {resep.map((item) => {
-          return (
-            <Link
-              key={item.id}
-              to={`/patient-prescription/${item.id_patient}`}
-            />
-          );
-        })} */}
         <Route
           path="/prescription-detail/:id"
           exact

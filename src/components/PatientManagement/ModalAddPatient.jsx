@@ -26,7 +26,6 @@ export default function ModalAddPatient(props) {
   };
 
   const [valueForm, setvalueForm] = useState(initState);
-
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const onChange = (e) => {

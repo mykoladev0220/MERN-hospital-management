@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Modal from "../Modal";
+import AddPrescription from "../../hooks/AddPrescription";
 
 export default function ModalAddRecipe(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
+  const { submitted, properties, resultAddPrescription, sendDataToServer } =
+    AddPrescription();
 
-  const initState = {
+  // function integer to string
+  const intToString = (value) => {
+    return value.toString();
+  };
+
+  var initState = {
     medicine_name: "",
-    medicine_rules: "",
+    medication_rules: "",
+    id_patient: "",
+    id_doctor: "12",
+    id_sessionbooking: "1",
   };
 
   const [valueForm, setvalueForm] = useState(initState);
-  console.log(props);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
+
+  console.log("rowData", rowData);
+  console.log("valueForm", valueForm);
+
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -21,15 +36,39 @@ export default function ModalAddRecipe(props) {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    setvalueForm({
+      ...valueForm,
+      id_patient: rowData[0] + "",
+    });
+  }, [rowData]);
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submittedForm, refresh]);
+
   return (
     <Modal title="Add Recipe" open={open} onClose={onClose}>
-      <div>
+      <form onSubmit={onClick}>
         <div className="my-4">
           <table class="table-auto">
             <tr>
               <td className="font-semibold">Name Patient </td>
               <td> : </td>
               <td> {rowData[1]}</td>
+              <td>ID : {rowData[0]}</td>
             </tr>
           </table>
         </div>
@@ -51,8 +90,8 @@ export default function ModalAddRecipe(props) {
             fullWidth
             id="outlined-basic"
             label="Medicine Rules"
-            name="medicine_rules"
-            value={valueForm.medicine_rules}
+            name="medication_rules"
+            value={valueForm.medication_rules}
             onChange={onChange}
             color="primary"
             variant="outlined"
@@ -60,12 +99,14 @@ export default function ModalAddRecipe(props) {
           />
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

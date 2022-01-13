@@ -15,16 +15,9 @@ export default function PatientPrescription() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataPatients } = GetDataPatients();
+  const [refresh, setRefresh] = useState(true);
+  const { dataPatients } = GetDataPatients(refresh);
   const navigate = useNavigate();
-
-  const redirectToPrescriptionDetail2 = () => {
-    navigate(`/prescription-detail`);
-  };
-
-  const redirectToPrescriptionDetail = (id) => {
-    navigate(`/prescription-detail/${id}`);
-  };
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -96,7 +89,6 @@ export default function PatientPrescription() {
                 >
                   Add Recipe
                 </button>
-
                 <Link
                   to={`/prescription-detail/${tableMeta.rowData[0]}`}
                   className="btn-main btn-green"
@@ -118,19 +110,6 @@ export default function PatientPrescription() {
     print: false,
     viewColumns: false,
   };
-
-  // let newData = [];
-  // newData = dataPatients?.map((data) => {
-  //   return {
-  //     id: data.id,
-  //     name: data.fullName,
-  //     nik: data.col1,
-  //     norm: data.D,
-  //     address: data.C,
-  //     gender: data.E,
-  //     dob: data.F,
-  //   };
-  // });
 
   const data = [
     {
@@ -190,6 +169,8 @@ export default function PatientPrescription() {
         open={openModalAdd}
         onClose={handleAddClose}
         rowData={rowData}
+        refresh={refresh}
+        setRefresh={setRefresh}
       />
     </div>
   );
