@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -10,21 +10,24 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import AddNewPatient from "../../hooks/AddNewPatient";
 
 export default function ModalAddPatient(props) {
-  const { open, onClose } = props;
-  // const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
-  
+  const { open, onClose, refresh, setRefresh } = props;
+  const { submitted, resultAddPatient, sendDataToServer } = AddNewPatient();
+
   const initState = {
     fullname: "",
     nik: "",
     norm: "",
     address: "",
-    dob: new Date("2014-08-18T21:11:54"),
+    dob: "",
     gender: "",
   };
 
   const [valueForm, setvalueForm] = useState(initState);
+
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -36,13 +39,31 @@ export default function ModalAddPatient(props) {
     });
   };
 
+  const onChangeDate = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      dob: newValue,
+    });
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submittedForm, refresh]);
+
   return (
-    <Modal
-      title="Add Patient"
-      open={open}
-      onClose={onClose}
-    >
-      <div>
+    <Modal title="Add Patient" open={open} onClose={onClose}>
+      <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
             fullWidth
@@ -59,9 +80,10 @@ export default function ModalAddPatient(props) {
         <div className="my-4">
           <TextField
             fullWidth
-            id="outlined-basic"
+            id="outlined-number"
             label="NIK"
             name="nik"
+            type="number"
             value={valueForm.nik}
             onChange={onChange}
             color="primary"
@@ -103,7 +125,7 @@ export default function ModalAddPatient(props) {
                 inputFormat="dd/MM/yyyy"
                 name="dob"
                 value={valueForm.dob}
-                onChange={onChange}
+                onChange={onChangeDate}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -131,12 +153,14 @@ export default function ModalAddPatient(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-        <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

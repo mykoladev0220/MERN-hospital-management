@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
-export default function LoginAuthAdmin() {
+export default function LoginAuthNurse() {
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -24,9 +23,6 @@ export default function LoginAuthAdmin() {
     },
   });
 
-  const [token, setToken] = useState(null);
-
-  console.log(token);
   const sendDataToServer = (payload) => {
     payload = {
       username: payload.username,
@@ -34,19 +30,13 @@ export default function LoginAuthAdmin() {
     };
 
     api
-      .post("/api/v1/admins/login", payload)
+      .post("/api/v1/nurses/login", payload)
       .then((res) => {
         setResultLogin(res.data);
-        let decoded = jwt_decode(res.data.data.token);
-        console.log(res.data.data.token, decoded, "decoded ");
-        setToken(decoded);
-        localStorage.setItem("role", decoded.role);
-        localStorage.setItem("exp", decoded.exp);
       })
       .catch((err) => {
         setResultLogin(err.response.data);
       });
   };
-
   return { resultLogin, sendDataToServer };
 }

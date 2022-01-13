@@ -10,9 +10,11 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import EditPatient from "../../hooks/EditPatient";
 
 export default function ModalEditPatient(props) {
-  const { open, onClose, rowData } = props;
+  const { open, onClose, rowData, refresh, setRefresh } = props;
+  const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
 
   let initState = {
     id: rowData[0],
@@ -20,11 +22,12 @@ export default function ModalEditPatient(props) {
     nik: rowData[2],
     norm: rowData[3],
     address: rowData[4],
-    dob: new Date(rowData[6]),
+    dob: rowData[6],
     gender: rowData[5],
   };
 
   const [valueForm, setvalueForm] = useState(initState);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   useEffect(() => {
     setvalueForm(initState);
@@ -40,20 +43,37 @@ export default function ModalEditPatient(props) {
     });
   };
 
+  const onChangeDate = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      dob: newValue,
+    });
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submitted, onClose, submittedForm, refresh]);
+
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      title="Edit Patient"
-    >
-      <div>
+    <Modal open={open} onClose={onClose} title="Edit Patient">
+      <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
             fullWidth
             id="outlined-basic"
             label="Fullname"
             name="fullname"
-            //   placeholder={data[1]}
             value={valueForm.fullname}
             onChange={onChange}
             color="primary"
@@ -64,10 +84,10 @@ export default function ModalEditPatient(props) {
         <div className="my-4">
           <TextField
             fullWidth
-            id="outlined-basic"
+            id="outlined-number"
             label="NIK"
             name="nik"
-            //   placeholder={data[2]}
+            type="number"
             value={valueForm.nik}
             onChange={onChange}
             color="primary"
@@ -109,7 +129,7 @@ export default function ModalEditPatient(props) {
                 inputFormat="dd/MM/yyyy"
                 name="dob"
                 value={valueForm.dob}
-                onChange={onChange}
+                onChange={onChangeDate}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -137,12 +157,14 @@ export default function ModalEditPatient(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

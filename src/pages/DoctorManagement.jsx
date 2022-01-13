@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import ModalEditDoctor from "../components/DoctorManagement/ModalEditDoctor";
 import ModalAddDoctor from "../components/DoctorManagement/ModalAddDoctor";
 import ModalDeleteDoctor from "../components/DoctorManagement/ModalDeleteDoctor";
+import GetDataDoctors from "../hooks/GetDataDoctors";
 
 export default function DoctorManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -15,11 +16,13 @@ export default function DoctorManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const { dataDoctors } = GetDataDoctors(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
-      name: "name",
+      name: "fullname",
       label: "Name Doctor",
       options: {
         filter: true,
@@ -68,7 +71,7 @@ export default function DoctorManagement() {
       },
     },
     {
-      name: "phone",
+      name: "phone_number",
       label: "Phone",
       options: {
         filter: false,
@@ -143,30 +146,30 @@ export default function DoctorManagement() {
     },
   };
 
-  const data = [
-    {
-      id: 1,
-      name: "Dr. A",
-      username: "drrrraa",
-      password: "secret",
-      specialist: "Cardiology",
-      gender: "male",
-      address: "Jakarta",
-      phone: "01234131312",
-      dob: "12-08-1978",
-    },
-    {
-      id: 2,
-      name: "Dr. B",
-      username: "drrrrbbb",
-      password: "secret",
-      specialist: "SPKK",
-      gender: "male",
-      address: "Jakarta",
-      phone: "01234131312",
-      dob: "12-08-1978",
-    },
-  ];
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  let newData = [];
+  newData = dataDoctors.data?.map((item) => {
+    return {
+      id: item.id,
+      fullname: item.fullname,
+      username: item.username,
+      specialist: item.specialist,
+      address: item.address,
+      phone_number: item.phone_number,
+      dob: dateFormat(item.dob),
+    };
+  });
 
   return (
     <div className="min-h-screen">
@@ -176,19 +179,28 @@ export default function DoctorManagement() {
       <div>
         <MUIDataTable
           title={"Doctor List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
       </div>
       <ModalEditDoctor
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
-      <ModalAddDoctor open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddDoctor
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalDeleteDoctor
         open={openModalDelete}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleDeleteClose}
         rowData={rowData}
       />

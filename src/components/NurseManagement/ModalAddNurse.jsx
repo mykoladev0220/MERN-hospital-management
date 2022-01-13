@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -10,21 +10,32 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import AddNurse from "../../hooks/AddNurse";
 
 export default function ModalAddNurse(props) {
-  const { open, onClose } = props;
+  const { open, onClose, refresh, setRefresh } = props;
+  const { resultAddNurse, sendDataToServer, submitted } = AddNurse();
 
   const initState = {
     fullname: "",
     username: "",
     password: "",
-    phone: "",
+    phone_number: "",
     address: "",
-    dob: new Date("2014-08-18T21:11:54"),
+    dob: "",
     gender: "",
   };
 
+  const initMessage = {
+    status: true,
+    message: "",
+  };
+
+  console.log(resultAddNurse, submitted, "add nurse");
+
   const [valueForm, setvalueForm] = useState(initState);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
+  const [message, setMessage] = useState(initMessage);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -36,9 +47,40 @@ export default function ModalAddNurse(props) {
     });
   };
 
+  const onChangeDate = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      dob: newValue,
+    });
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    // setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submitted === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+      setMessage({
+        status: true,
+        message: "",
+      });
+    } else {
+      setMessage({
+        status: false,
+        message: resultAddNurse.meta.messages,
+      });
+    }
+  }, [submitted, submittedForm, refresh, resultAddNurse]);
+
   return (
     <Modal title="Add Nurse" open={open} onClose={onClose}>
-      <div>
+      <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
             fullWidth
@@ -56,7 +98,7 @@ export default function ModalAddNurse(props) {
           <TextField
             fullWidth
             id="outlined-basic"
-            label="password"
+            label="Username"
             name="username"
             value={valueForm.username}
             onChange={onChange}
@@ -69,9 +111,22 @@ export default function ModalAddNurse(props) {
           <TextField
             fullWidth
             id="outlined-basic"
+            label="Password"
+            name="password"
+            value={valueForm.password}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
             label="Phone"
-            name="phone"
-            value={valueForm.phone}
+            name="phone_number"
+            value={valueForm.phone_number}
             onChange={onChange}
             color="primary"
             variant="outlined"
@@ -99,7 +154,7 @@ export default function ModalAddNurse(props) {
                 inputFormat="dd/MM/yyyy"
                 name="dob"
                 value={valueForm.dob}
-                onChange={onChange}
+                onChange={onChangeDate}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -126,13 +181,20 @@ export default function ModalAddNurse(props) {
             </RadioGroup>
           </FormControl>
         </div>
+        <div>
+          {message.status === false ? (
+            <div className="text-red-500 text-sm my-2">{message.message}</div>
+          ) : null}
+        </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

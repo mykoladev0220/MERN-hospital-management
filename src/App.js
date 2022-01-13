@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import Routes from "./routes/routes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/store";
 
 const theme = createTheme({
   palette: {
@@ -17,9 +20,13 @@ const theme = createTheme({
 function App() {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Routes />
-      </ThemeProvider>
+      <Provider store={store}>
+        <PersistGate Loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <Routes />
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
     </>
   );
 }

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN_NAME } from "../context/apiContext";
 import LoginAuthAdmin from "../hooks/LoginAuthAdmin";
+import { useDispatch } from "react-redux";
+import { login } from "../store/loginSlice";
+import { set } from "date-fns";
 
 export default function LoginAdmin() {
   const { resultLogin, sendDataToServer } = LoginAuthAdmin();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const initLogin = {
@@ -21,9 +23,7 @@ export default function LoginAdmin() {
   };
 
   const [messageLogin, setMessageLogin] = useState(initMessage);
-
   const [loginForm, setLoginForm] = useState(initLogin);
-  console.log(loginForm, "loginForm");
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -35,40 +35,57 @@ export default function LoginAdmin() {
     });
   };
 
-  const loginAuth = () => {
-    sendDataToServer(loginForm);
-    if (resultLogin.meta.rc === 200) {
-      setMessageLogin({
-        status: true,
-        message: "Login Success",
-      });
-      localStorage.setItem(ACCESS_TOKEN_NAME, resultLogin.data.token);
-      navigate("/dashboard-admin");
-    } else if (resultLogin.meta.rc === 500) {
-      setMessageLogin({
-        status: false,
-        message: "Login Failed",
-      });
-    } else {
-      setMessageLogin({
-        status: false,
-        message: "Login Failed",
-      });
+  useEffect(() => {
+    if (resultLogin) {
+      if (resultLogin.meta.rc === null) {
+        console.log("No User");
+        setMessageLogin({
+          status: true,
+          message: "",
+        });
+      } else {
+        if (resultLogin.meta.rc === 200) {
+          dispatch(
+            login({
+              isLoggedIn: true,
+              token: resultLogin.data.token,
+            })
+          );
+          setMessageLogin({
+            status: true,
+            message: resultLogin.data.message,
+          });
+          redirectToDashboard();
+        } else if (resultLogin.meta.rc === 500) {
+          dispatch(
+            login({
+              isLoggedIn: false,
+              token: null,
+            })
+          );
+          setMessageLogin({
+            status: false,
+            message: resultLogin.meta.messages,
+          });
+        } else {
+          dispatch(
+            login({
+              isLoggedIn: false,
+              token: null,
+            })
+          );
+          setMessageLogin({
+            status: false,
+            message: "Login Failed",
+          });
+        }
+      }
     }
-  }
-
-  // useEffect(() => {
-  //   if (messageLogin.status === true) {
-  //     navigate("/dashboard-admin");
-  //   }else{
-
-  //   }
-  // }, [messageLogin.status]);
+  }, [resultLogin, dispatch, navigate]);
 
   const onClick = (e) => {
     e.preventDefault();
-    loginAuth();
-    console.log(resultLogin, "dataLogin");
+    sendDataToServer(loginForm);
   };
 
   const redirectToDashboard = () => {
@@ -108,6 +125,7 @@ export default function LoginAdmin() {
                     id="outlined-basic"
                     label="Password"
                     name="password"
+                    type="password"
                     value={loginForm.password}
                     onChange={onChange}
                     color="primary"
@@ -123,8 +141,8 @@ export default function LoginAdmin() {
                     Login
                   </button>
                 </div>
-                {messageLogin.status === true ? (
-                  <div className="text-red-500 text-sm">
+                {messageLogin.status === false ? (
+                  <div className="text-red-500 text-sm my-2">
                     {messageLogin.message}
                   </div>
                 ) : null}

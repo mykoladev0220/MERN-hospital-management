@@ -1,13 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import LoginAuthDoctor from "../hooks/LoginAuthDoctor";
+import { useDispatch } from "react-redux";
+import { login } from "../store/loginSlice";
 
 export default function LoginDoctor() {
+  const { resultLogin, sendDataToServer } = LoginAuthDoctor();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onClick = () => {
-    console.log("clicked");
+  const initLogin = {
+    username: "",
+    password: "",
+  };
+
+  const initMessage = {
+    status: true,
+    message: "",
+  };
+
+  const [messageLogin, setMessageLogin] = useState(initMessage);
+  const [loginForm, setLoginForm] = useState(initLogin);
+
+  const onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setLoginForm({
+      ...loginForm,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    if (resultLogin) {
+      if (resultLogin.meta.rc === null) {
+        console.log("No User");
+        setMessageLogin({
+          status: true,
+          message: "",
+        });
+      } else {
+        if (resultLogin.meta.rc === 200) {
+          dispatch(
+            login({
+              isLoggedIn: true,
+              token: resultLogin.data.token,
+            })
+          );
+          setMessageLogin({
+            status: true,
+            message: resultLogin.data.message,
+          });
+          redirectToDashboard();
+        } else if (resultLogin.meta.rc === 500) {
+          dispatch(
+            login({
+              isLoggedIn: false,
+              token: null,
+            })
+          );
+          setMessageLogin({
+            status: false,
+            message: resultLogin.meta.messages,
+          });
+        } else {
+          dispatch(
+            login({
+              isLoggedIn: false,
+              token: null,
+            })
+          );
+          setMessageLogin({
+            status: false,
+            message: "Login Failed",
+          });
+        }
+      }
+    }
+  }, [resultLogin, dispatch, navigate]);
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(loginForm);
+  };
+
+  const redirectToDashboard = () => {
     navigate("/dashboard-doctor");
   };
 
@@ -30,6 +110,9 @@ export default function LoginDoctor() {
                     fullWidth
                     id="outlined-basic"
                     label="Username"
+                    name="username"
+                    value={loginForm.username}
+                    onChange={onChange}
                     color="primary"
                     variant="outlined"
                     size="small"
@@ -40,6 +123,10 @@ export default function LoginDoctor() {
                     fullWidth
                     id="outlined-basic"
                     label="Password"
+                    name="password"
+                    type="password"
+                    value={loginForm.password}
+                    onChange={onChange}
                     color="primary"
                     variant="outlined"
                     size="small"
@@ -53,6 +140,11 @@ export default function LoginDoctor() {
                     Login
                   </button>
                 </div>
+                {messageLogin.status === false ? (
+                  <div className="text-red-500 text-sm my-2">
+                    {messageLogin.message}
+                  </div>
+                ) : null}
               </form>
             </div>
           </div>

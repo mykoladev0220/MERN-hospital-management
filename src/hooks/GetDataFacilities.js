@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataPatients(refresh) {
+export default function GetDataFacilities(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -17,18 +17,18 @@ export default function GetDataPatients(refresh) {
     },
   });
 
-  const [dataPatients, setDataPatients] = useState({});
+  const [dataFacilities, setDataFacilities] = useState({});
 
-  const getDataPatients = () => {
-    api.get("/api/v1/admins/list/patient").then((res) => {
-      setDataPatients(res.data);
+  const getDataFacilities = () => {
+    api.get("/api/v1/admins/list/facilty").then((res) => {
+      setDataFacilities(res.data);
     });
     // .catch((err) => {
-    //   setDataPatients(err.response.data);
+    //   setDataFacility(err.response.data);
     // });
   };
 
-  useEffect(() => getDataPatients(), [refresh]);
+  useEffect(() => getDataFacilities(), [refresh]);
 
-  return { dataPatients, getDataPatients };
+  return { dataFacilities, getDataFacilities };
 }

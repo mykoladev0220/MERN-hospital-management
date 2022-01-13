@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient.jsx";
@@ -16,7 +16,8 @@ export default function PatientManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataPatients } = GetDataPatients();
+  const [refresh, setRefresh] = useState(true);
+  const { dataPatients } = GetDataPatients(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -128,57 +129,31 @@ export default function PatientManagement() {
     },
   };
 
+  // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
   let newData = [];
-  newData = dataPatients?.map((data) => {
+  newData = dataPatients.data?.map((data) => {
     return {
       id: data.id,
-      name: data.fullName,
-      nik: data.col1,
-      norm: data.D,
-      address: data.C,
-      gender: data.E,
-      dob: data.F,
+      name: data.fullname,
+      nik: data.nik,
+      norm: data.no_rm,
+      address: data.address,
+      gender: data.gender,
+      dob: dateFormat(data.dob),
     };
   });
-
-  const data = [
-    {
-      id: 1,
-      name: "Joe James",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 2,
-      name: "John Walsh",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jogja",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 3,
-      name: "Bob Herm",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jakarta",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 4,
-      name: "James Houston",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-  ];
 
   return (
     <div className="min-h-screen">
@@ -188,18 +163,27 @@ export default function PatientManagement() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalAddPatient open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddPatient
+        open={openModalAdd}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        onClose={handleAddClose}
+      />
       <ModalEditPatient
         open={openModalEdit}
+        refresh={refresh}
+        setRefresh={setRefresh}
         onClose={handleEditClose}
         rowData={rowData}
       />
       <ModalDeletePatient
+        setRefresh={setRefresh}
+        refresh={refresh}
         open={openModalDelete}
         onClose={handleDeleteClose}
         rowData={rowData}

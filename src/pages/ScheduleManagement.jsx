@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import ModalAddSchedule from "../components/ScheduleManagement/ModalAddSchedule";
 import ModalEditSchedule from "../components/ScheduleManagement/ModalEditSchedule";
 import ModalDeleteSchedule from "../components/ScheduleManagement/ModalDeleteSchedule";
+import GetDataSchedules from "../hooks/GetDataSchedules";
 
 export default function ScheduleManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -15,6 +16,8 @@ export default function ScheduleManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const { dataSchedules } = GetDataSchedules(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -102,20 +105,26 @@ export default function ScheduleManagement() {
     },
   };
 
-  const data = [
-    {
-      id: 1,
-      day: "Monday",
-      start: "08:00",
-      end: "16:00",
-    },
-    {
-      id: 2,
-      day: "Tuesday",
-      start: "08:00",
-      end: "16:00",
-    },
-  ];
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  let newData = [];
+  newData = dataSchedules.data?.map((data) => {
+    return {
+      id: data.id,
+      day: data.day,
+      start: timeFormat(data.start),
+      end: timeFormat(data.end),
+    };
+  });
 
   return (
     <div className="min-h-screen">
@@ -127,18 +136,27 @@ export default function ScheduleManagement() {
       <div>
         <MUIDataTable
           title={"Schedule List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalAddSchedule open={openModalAdd} onClose={handleAddClose} />
+      <ModalAddSchedule
+        refresh={refresh}
+        setRefresh={setRefresh}
+        open={openModalAdd}
+        onClose={handleAddClose}
+      />
       <ModalEditSchedule
+        refresh={refresh}
+        setRefresh={setRefresh}
         open={openModalEdit}
         onClose={handleEditClose}
         rowData={rowData}
       />
       <ModalDeleteSchedule
+        refresh={refresh}
+        setRefresh={setRefresh}
         open={openModalDelete}
         onClose={handleDeleteClose}
         rowData={rowData}

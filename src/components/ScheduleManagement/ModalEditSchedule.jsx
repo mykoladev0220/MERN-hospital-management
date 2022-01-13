@@ -6,10 +6,12 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopTimePicker from "@mui/lab/DesktopTimePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Stack from "@mui/material/Stack";
+import EditSchedule from "../../hooks/EditSchedule";
 
 export default function ModalEditSchedule(props) {
-  const { open, onClose, rowData } = props;
-    console.log(rowData);
+  const { open, onClose, rowData, refresh, setRefresh } = props;
+  const { submitted, resultEditSchedule, sendDataToServer } = EditSchedule();
+
   const initState = {
     id: rowData[0],
     day: rowData[1],
@@ -17,7 +19,7 @@ export default function ModalEditSchedule(props) {
     end: rowData[3],
   };
   const [valueForm, setvalueForm] = useState(initState);
-  console.log(valueForm);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   useEffect(() => {
     setvalueForm(initState);
@@ -32,9 +34,39 @@ export default function ModalEditSchedule(props) {
       [name]: value,
     });
   };
+
+  const onChangeStart = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      start: newValue,
+    });
+  };
+
+  const onChangeEnd = (newValue) => {
+    setvalueForm({
+      ...valueForm,
+      end: newValue,
+    });
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
+    setRefresh(false);
+    setSubmittedForm(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submitted, onClose, submittedForm, refresh]);
+
   return (
     <Modal title="Edit Schedule" open={open} onClose={onClose}>
-      <div>
+      <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
             fullWidth
@@ -54,10 +86,9 @@ export default function ModalEditSchedule(props) {
               <DesktopTimePicker
                 label="Start"
                 name="start"
+                type="time"
                 value={valueForm.start}
-                onChange={(newValue) => {
-                  setvalueForm({ start: newValue });
-                }}
+                onChange={onChangeStart}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -70,9 +101,7 @@ export default function ModalEditSchedule(props) {
                 label="End"
                 name="end"
                 value={valueForm.end}
-                onChange={(newValue) => {
-                  setvalueForm({ end: newValue });
-                }}
+                onChange={onChangeEnd}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -80,12 +109,14 @@ export default function ModalEditSchedule(props) {
         </div>
         <div className="my-4"></div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }
