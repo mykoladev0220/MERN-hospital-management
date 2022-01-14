@@ -2,23 +2,31 @@ import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Modal from "../Modal";
 import AddPrescription from "../../hooks/AddPrescription";
+import { useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 export default function ModalAddRecipe(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
   const { submitted, properties, resultAddPrescription, sendDataToServer } =
     AddPrescription();
 
-  // function integer to string
-  const intToString = (value) => {
-    return value.toString();
-  };
+  const [token, setToken] = useState({
+    id: "",
+  });
+
+  const bearerToken = useSelector((state) => state.login.token);
+
+  useEffect(() => {
+    let decoded = jwt_decode(bearerToken);
+    setToken(decoded);
+  }, [bearerToken]);
 
   var initState = {
     medicine_name: "",
     medication_rules: "",
     id_patient: "",
-    id_doctor: "12",
-    id_sessionbooking: "1",
+    id_doctor: "",
+    id_sessionbooking: "",
   };
 
   const [valueForm, setvalueForm] = useState(initState);
@@ -41,6 +49,7 @@ export default function ModalAddRecipe(props) {
     setvalueForm({
       ...valueForm,
       id_patient: rowData[0] + "",
+      id_doctor: token.id + "",
     });
   }, [rowData]);
 
@@ -63,7 +72,7 @@ export default function ModalAddRecipe(props) {
     <Modal title="Add Recipe" open={open} onClose={onClose}>
       <form onSubmit={onClick}>
         <div className="my-4">
-          <table class="table-auto">
+          <table className="table-auto">
             <tr>
               <td className="font-semibold">Name Patient </td>
               <td> : </td>

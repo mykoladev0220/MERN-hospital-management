@@ -26,7 +26,6 @@ export default function LoginAuthAdmin() {
 
   const [token, setToken] = useState(null);
 
-  console.log(token);
   const sendDataToServer = (payload) => {
     payload = {
       username: payload.username,

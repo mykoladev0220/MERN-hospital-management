@@ -1,14 +1,35 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import { Menu, Transition } from "@headlessui/react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import format from "date-fns/format";
 import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import GetDoctorByID from "../hooks/GetDoctorByID";
+import { useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
 
 export default function Appbar(props) {
   const { drawerWidth, handleDrawerToggle } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [token, setToken] = useState({
+    id: 0,
+  });
+  const { getDataDoctorByID, dataDoctorByID, properties } = GetDoctorByID();
+
+  const bearerToken = useSelector((state) => state.login.token);
+
+  // useEffect(() => {
+  //   let decoded = jwt_decode(bearerToken);
+  //   setToken(decoded);
+  // }, [bearerToken]);
+
+  // useEffect(() => {
+  //   getDataDoctorByID(token.id);
+  // }, [token]);
+
+  console.log(token.id, "token");
+  console.log(dataDoctorByID, "dataDoctorByID");
   return (
     <AppBar
       position="fixed"
