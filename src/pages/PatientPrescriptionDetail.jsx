@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,8 @@ import GetDataPrescription from "../hooks/GetDataPrescription";
 import ModalEditPrescription from "../components/PatientPrescriptionDetail/ModalEditPrescription";
 import ModalDeletePrescription from "../components/PatientPrescriptionDetail/ModalDeletePrescription";
 
-export default function PatientPrescriptionDetail() {
+export default function PatientPrescriptionDetail(props) {
+  const { id } = props;
   const params = useParams();
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(true);
@@ -31,7 +32,7 @@ export default function PatientPrescriptionDetail() {
     };
   });
   newData = newData?.filter((item) => item.id_patient === params.id);
-  
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -69,24 +70,28 @@ export default function PatientPrescriptionDetail() {
                 </table>
               </div>
               <div className="flex flex-col gap-1 md:flex-row items-center">
-                <button
-                  className="btn-main btn-primary"
-                  onClick={() => {
-                    handleEditOpen();
-                    setRowData(data);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn-main btn-secondary"
-                  onClick={() => {
-                    handleDeleteOpen();
-                    setRowData(data);
-                  }}
-                >
-                  Delete
-                </button>
+                {id === "doctor" ? (
+                  <>
+                    <button
+                      className="btn-main btn-primary"
+                      onClick={() => {
+                        handleEditOpen();
+                        setRowData(data);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn-main btn-secondary"
+                      onClick={() => {
+                        handleDeleteOpen();
+                        setRowData(data);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </>
+                ) : null}
               </div>
             </div>
           </div>

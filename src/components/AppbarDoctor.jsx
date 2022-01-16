@@ -8,6 +8,9 @@ import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import GetDoctorByID from "../hooks/GetDoctorByID";
 import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../store/loginSlice";
 
 export default function Appbar(props) {
   const { drawerWidth, handleDrawerToggle } = props;
@@ -19,17 +22,32 @@ export default function Appbar(props) {
 
   const bearerToken = useSelector((state) => state.login.token);
 
-  // useEffect(() => {
-  //   let decoded = jwt_decode(bearerToken);
-  //   setToken(decoded);
-  // }, [bearerToken]);
+  const [dataLogin, setDataLogin] = useState({
+    data: {
+      id: 0,
+      username: "Doctor",
+      fullname: "Doctor",
+    },
+  });
 
-  // useEffect(() => {
-  //   getDataDoctorByID(token.id);
-  // }, [token]);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
-  console.log(token.id, "token");
-  console.log(dataDoctorByID, "dataDoctorByID");
+  useEffect(() => {
+    setDataLogin(dataDoctorByID);
+  }, [dataDoctorByID]);
+
+  useEffect(() => {
+    let decoded = jwt_decode(bearerToken);
+    setToken(decoded);
+  }, [bearerToken]);
+
+  useEffect(() => {
+    getDataDoctorByID(token.id);
+  }, [token]);
+
   return (
     <AppBar
       position="fixed"
@@ -60,7 +78,7 @@ export default function Appbar(props) {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="inline-flex items-center justify-center text-black  px-4 m w-full  font-medium  text-lg  bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                 >
-                  Hi, Doctor
+                  Hi, {dataLogin ? dataLogin.data?.username : "Doctor"}
                   <ChevronDownIcon
                     className={`${
                       isDropdownOpen ? "rotate-180" : null
@@ -95,16 +113,17 @@ export default function Appbar(props) {
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
+                        <Link
                           className={`${
                             active
                               ? "bg-maingreen-200 text-white"
                               : "text-gray-900"
                           } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                          href="/"
+                          to="/login-doctor"
+                          onClick={handleLogout}
                         >
                           Logout
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   </div>

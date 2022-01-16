@@ -73,7 +73,7 @@ export default function Booking() {
       <div className="mb-8">
         <h1 className="text-2xl font-semibold">Booking Outpatient</h1>
       </div>
-      <div className="bg-white py-10 rounded-md">
+      <div className="bg-white py-5 rounded-md px-4">
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps = {};

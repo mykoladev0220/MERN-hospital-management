@@ -11,7 +11,6 @@ import LoginAdmin from "../pages/LoginAdmin.jsx";
 import LoginDoctor from "../pages/LoginDoctor.jsx";
 import LoginNurse from "../pages/LoginNurse.jsx";
 import PatientManagement from "../pages/PatientManagement.jsx";
-import Try from "../pages/TryDatables";
 import BookingManagement from "../pages/BookingManagement.jsx";
 import SessionScheduleManagement from "../pages/SessionScheduleManagement.jsx";
 import FacilityManagement from "../pages/FacilityManagement.jsx";
@@ -129,20 +128,38 @@ export default function routes() {
           }
         />
         <Route
-          path="/patient-prescription"
+          path="/patient-prescription-doctor"
           exact
           element={
             <Layout id="doctor">
-              <PatientPrescription />
+              <PatientPrescription id="doctor" />
             </Layout>
           }
         />
         <Route
-          path="/prescription-detail/:id"
+          path="/patient-prescription-nurse"
+          exact
+          element={
+            <Layout id="nurse">
+              <PatientPrescription id="nurse" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-detail-doctor/:id"
           exact
           element={
             <Layout id="doctor">
-              <PatientPrescriptionDetail />
+              <PatientPrescriptionDetail id="doctor" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-detail-nurse/:id"
+          exact
+          element={
+            <Layout id="nurse">
+              <PatientPrescriptionDetail id="nurse" />
             </Layout>
           }
         />

@@ -34,7 +34,7 @@ export default function ModalDeletePrescription(props) {
   }, [submitted, onClose, submittedForm, refresh]);
 
   return (
-    <Modal open={open} onClose={onClose} title="Delete Patient">
+    <Modal open={open} onClose={onClose} title="Edit Prescription">
       <form onSubmit={onClick}>
         <div>
           <h1>{`Are you sure to delete this data with id ${valueForm.id}  `}</h1>

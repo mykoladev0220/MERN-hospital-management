@@ -50,7 +50,7 @@ export default function ModalEditPrescription(props) {
   }, [submitted, onClose, submittedForm, refresh]);
 
   return (
-    <Modal title="Edit Recipe" open={open} onClose={onClose}>
+    <Modal title="Edit Prescription" open={open} onClose={onClose}>
       <form onSubmit={onClick}>
         <div className="my-4">
           <TextField

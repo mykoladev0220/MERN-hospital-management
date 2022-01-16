@@ -69,7 +69,7 @@ export default function ModalAddRecipe(props) {
   }, [submittedForm, refresh]);
 
   return (
-    <Modal title="Add Recipe" open={open} onClose={onClose}>
+    <Modal title="Add Prescription" open={open} onClose={onClose}>
       <form onSubmit={onClick}>
         <div className="my-4">
           <table className="table-auto">
@@ -77,7 +77,7 @@ export default function ModalAddRecipe(props) {
               <td className="font-semibold">Name Patient </td>
               <td> : </td>
               <td> {rowData[1]}</td>
-              <td>ID : {rowData[0]}</td>
+              {/* <td>ID : {rowData[0]}</td> */}
             </tr>
           </table>
         </div>

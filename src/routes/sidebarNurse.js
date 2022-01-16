@@ -9,7 +9,7 @@ const menuItems = [
   {
     text: "Patient Prescription",
     icon: <UserGroupIcon className="h-5 w-5 mr-2" />,
-    path: "/patient-prescription",
+    path: "/patient-prescription-nurse",
   },
 ];
 
