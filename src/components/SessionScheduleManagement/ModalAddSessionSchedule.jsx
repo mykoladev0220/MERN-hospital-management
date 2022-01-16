@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../Modal";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,13 +6,35 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function ModalAddSessionSchedule(props) {
-  const { open, onClose } = props;
+  const { open, onClose, rowDoctors, rowFacilities, rowSchedules } = props;
   const session_schedule = {
     facilty: "",
     doctor: "",
     schedule: "",
   };
+
   const [SessionSchedule, setSessionSchedule] = useState(session_schedule);
+
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  let newSchedules = [];
+  newSchedules = rowSchedules.data?.map((data) => {
+    return {
+      id: data.id,
+      day: data.day,
+      start: timeFormat(data.start),
+      end: timeFormat(data.end),
+    };
+  });
 
   const handleChange = (e) => {
     setSessionSchedule({
@@ -20,17 +42,6 @@ export default function ModalAddSessionSchedule(props) {
       [e.target.name]: e.target.value,
     });
   };
-
-  const schedules = [
-    {
-      id: 1,
-      schedule: "8:00 AM - 9:00 AM",
-    },
-    {
-      id: 2,
-      schedule: "9:00 AM - 10:00 AM",
-    },
-  ];
 
   return (
     <Modal title="Add Session Schedule" open={open} onClose={onClose}>
@@ -49,9 +60,11 @@ export default function ModalAddSessionSchedule(props) {
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
             >
-              <MenuItem value={10}>UGD</MenuItem>
-              <MenuItem value={20}>Klinik THT</MenuItem>
-              <MenuItem value={30}>Klinik Umum</MenuItem>
+              {rowFacilities.data?.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
@@ -67,9 +80,11 @@ export default function ModalAddSessionSchedule(props) {
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
             >
-              <MenuItem value={10}>Dr. Budi</MenuItem>
-              <MenuItem value={20}>Dr. Alma</MenuItem>
-              <MenuItem value={30}>Dr. David</MenuItem>
+              {rowDoctors.data?.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.fullname}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
@@ -87,9 +102,9 @@ export default function ModalAddSessionSchedule(props) {
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
             >
-              {schedules.map((schedule) => (
-                <MenuItem key={schedule.id} value={schedule.schedule}>
-                  {schedule.schedule}
+              {newSchedules?.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.day} {item.start} - {item.end}
                 </MenuItem>
               ))}
             </Select>

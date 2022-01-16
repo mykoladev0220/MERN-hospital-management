@@ -11,8 +11,7 @@ export default function ModalDeleteSessionSchedule(props) {
   };
 
   const [SessionSchedule, setSessionSchedule] = useState(session_schedule);
-  console.log(rowData, "rowData");
-  console.log(SessionSchedule, "SessionSchedule");
+ 
   useEffect(() => {
     setSessionSchedule(session_schedule);
   }, [rowData]);

@@ -7,7 +7,7 @@ export default function ModalDeleteSchedule(props) {
   const { submitted, resultDeleteSchedule, sendDataToServer } =
     DeleteSchedule();
 
-  console.log(rowData);
+  console.log(rowData, "rowData");
   const initState = {
     id: rowData[0],
     day: rowData[1],

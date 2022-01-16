@@ -18,7 +18,6 @@ export default function FaciltyManagement() {
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const { dataFacilities } = GetDataFacilities(refresh);
-
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {

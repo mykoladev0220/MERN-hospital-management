@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddSessionSchedule from "../components/SessionScheduleManagement/ModalAddSessionSchedule";
 import ModalEditSessionSchedule from "../components/SessionScheduleManagement/ModalEditSessionSchedule";
 import ModalDeleteSessionSchedule from "../components/SessionScheduleManagement/ModalDeleteSessionSchedule";
+import GetDataDoctors from "../hooks/GetDataDoctors";
+import GetDataFacilities from "../hooks/GetDataFacilities";
+import GetDataSchedules from "../hooks/GetDataSchedules";
 
 export default function SessionScheduleManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -15,6 +18,19 @@ export default function SessionScheduleManagement() {
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const { dataDoctors, getDataDoctors } = GetDataDoctors();
+  const { dataFacilities, getDataFacilities } = GetDataFacilities();
+  const { dataSchedules, getDataSchedules } = GetDataSchedules();
+
+  const [rowDoctors, setRowDoctors] = useState({});
+  const [rowFacilities, setRowFacilities] = useState({});
+  const [rowSchedules, setRowSchedules] = useState({});
+
+  // useEffect(() => {
+  //   setRowDoctors(dataDoctors?.data);
+  //   setRowFacilities(dataFacilities?.data);
+  // }, []);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -133,15 +149,24 @@ export default function SessionScheduleManagement() {
         />
       </div>
       <ModalAddSessionSchedule
+        setRefresh={setRefresh}
+        refresh={refresh}
         open={openModalAdd}
         onClose={handleAddClose}
+        rowDoctors={dataDoctors}
+        rowFacilities={dataFacilities}
+        rowSchedules={dataSchedules}
       />
       <ModalEditSessionSchedule
+        setRefresh={setRefresh}
+        refresh={refresh}
         open={openModalEdit}
         onClose={handleEditClose}
         rowData={rowData}
       />
       <ModalDeleteSessionSchedule
+        setRefresh={setRefresh}
+        refresh={refresh}
         open={openModalDelete}
         onClose={handleDeleteClose}
         rowData={rowData}

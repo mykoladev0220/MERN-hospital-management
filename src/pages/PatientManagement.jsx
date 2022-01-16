@@ -129,7 +129,6 @@ export default function PatientManagement() {
     },
   };
 
-  // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY
   const dateFormat = (date) => {
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),

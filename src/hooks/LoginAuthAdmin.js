@@ -39,8 +39,6 @@ export default function LoginAuthAdmin() {
         let decoded = jwt_decode(res.data.data.token);
         console.log(res.data.data.token, decoded, "decoded ");
         setToken(decoded);
-        localStorage.setItem("role", decoded.role);
-        localStorage.setItem("exp", decoded.exp);
       })
       .catch((err) => {
         setResultLogin(err.response.data);

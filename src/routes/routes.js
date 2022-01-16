@@ -16,7 +16,7 @@ import SessionScheduleManagement from "../pages/SessionScheduleManagement.jsx";
 import FacilityManagement from "../pages/FacilityManagement.jsx";
 import DoctorManagement from "../pages/DoctorManagement.jsx";
 import NurseManagemet from "../pages/NurseManagemet";
-import ScheduleManagement from "../pages/ScheduleManagement";
+import ScheduleManagement from "../pages/ScheduleManagement.jsx";
 import PatientPrescription from "../pages/PatientPrescription";
 import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 
