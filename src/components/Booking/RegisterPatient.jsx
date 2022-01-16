@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -12,13 +12,46 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 
-export default function RegisterPatient() {
-  const [value, setValue] = useState(new Date("2014-08-18T21:11:54"));
+export default function RegisterPatient(props) {
+  const { dataPatient, setDataPatient } = props;
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  console.log(dataPatient, "register");
+  const [rmValue, setrmValue] = useState(false);
+
+  const initState = {
+    fullname: "",
+    nik: "",
+    norm: "",
+    address: "",
+    dob: "",
+    gender: "",
   };
 
+  const [valueForm, setValueForm] = useState(dataPatient);
+
+  const onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setValueForm({
+      ...valueForm,
+      [name]: value,
+    });
+  };
+
+  const onChangeDate = (newValue) => {
+    setValueForm({
+      ...valueForm,
+      dob: newValue,
+    });
+  };
+
+  useEffect(() => {
+    setDataPatient(valueForm);
+  }, [valueForm, setDataPatient]);
+
+  console.log(valueForm.dob)
+  
   return (
     <div className="max-w-md mx-auto">
       <div className="py-4">
@@ -70,6 +103,9 @@ export default function RegisterPatient() {
               fullWidth
               id="outlined-basic"
               label="Fullname"
+              name="fullname"
+              value={valueForm.fullname}
+              onChange={onChange}
               color="primary"
               variant="outlined"
               size="small"
@@ -80,6 +116,10 @@ export default function RegisterPatient() {
               fullWidth
               id="outlined-basic"
               label="NIK"
+              type="number"
+              name="nik"
+              value={valueForm.nik}
+              onChange={onChange}
               color="primary"
               variant="outlined"
               size="small"
@@ -90,6 +130,9 @@ export default function RegisterPatient() {
               fullWidth
               id="outlined-basic"
               label="Address"
+              name="address"
+              value={valueForm.address}
+              onChange={onChange}
               color="primary"
               variant="outlined"
               size="small"
@@ -101,8 +144,9 @@ export default function RegisterPatient() {
                 <DesktopDatePicker
                   label="Date of Birth"
                   inputFormat="MM/dd/yyyy"
-                  value={value}
-                  onChange={handleChange}
+                  name="dob"
+                  value={valueForm.dob}
+                  onChange={onChangeDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </Stack>
@@ -117,12 +161,16 @@ export default function RegisterPatient() {
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
+                  onChange={onChange}
                   value="male"
+                  name="gender"
                   control={<Radio />}
                   label="Male"
                 />
                 <FormControlLabel
+                  onChange={onChange}
                   value="female"
+                  name="gender"
                   control={<Radio />}
                   label="Female"
                 />

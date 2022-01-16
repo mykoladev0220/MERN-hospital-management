@@ -13,6 +13,17 @@ export default function Booking() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
+  const initState = {
+    fullname: "",
+    nik: "",
+    norm: "",
+    address: "",
+    dob: "",
+    gender: "",
+  };
+
+  const [bookingPatient, setbookingPatient] = useState(initState);
+
   const isStepOptional = (step) => {
     return step === 3;
   };
@@ -58,15 +69,27 @@ export default function Booking() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <RegisterPatient />;
+        return (
+          <RegisterPatient
+            dataPatient={bookingPatient}
+            setDataPatient={setbookingPatient}
+          />
+        );
       case 1:
         return <SelectSchedule />;
       case 2:
-        return <ConfirmationForm />;
+        return (
+          <ConfirmationForm
+            dataPatient={bookingPatient}
+            setDataPatient={setbookingPatient}
+          />
+        );
       default:
         return "Unknown step";
     }
   }
+
+  console.log(bookingPatient, "bookingPatient main");
 
   return (
     <div className="min-h-screen">
@@ -100,7 +123,12 @@ export default function Booking() {
             </h1>
             <div className="flex">
               <div className="grow"></div>
-              <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md" onClick={handleReset}>Reset</button>
+              <button
+                className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
             </div>
           </Fragment>
         ) : (
@@ -119,7 +147,14 @@ export default function Booking() {
                 Back
               </button>
               <div className="flex">
-                {isStepOptional(activeStep) && <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 mr-2 rounded-md" onClick={handleSkip}>Skip</button>}
+                {isStepOptional(activeStep) && (
+                  <button
+                    className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 mr-2 rounded-md"
+                    onClick={handleSkip}
+                  >
+                    Skip
+                  </button>
+                )}
                 <button
                   className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md"
                   onClick={handleNext}

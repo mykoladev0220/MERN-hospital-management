@@ -1,6 +1,22 @@
 import React from "react";
 
-export default function ConfirmationForm() {
+export default function ConfirmationForm(props) {
+  const { dataPatient, setDataPatient } = props;
+
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  let newDOB = dateFormat(dataPatient.dob);
+
   return (
     <div>
       <div className="py-4">
@@ -12,12 +28,12 @@ export default function ConfirmationForm() {
             <tr className="py-5 ">
               <td className="w-48 py-2 font-semibold">Fullname</td>
               <td>:</td>
-              <td>Jhon Doe</td>
+              <td>{dataPatient ? dataPatient.fullname : "Name"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">NIK</td>
               <td>:</td>
-              <td>4523534256365645</td>
+              <td>{dataPatient ? dataPatient.nik : "NIK"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">No Medical Number</td>
@@ -27,17 +43,17 @@ export default function ConfirmationForm() {
             <tr>
               <td className="py-2 font-semibold">Address</td>
               <td>:</td>
-              <td>Manchaster, United Kingdom</td>
+              <td>{dataPatient ? dataPatient.address : "Address"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Date of Birth</td>
               <td>:</td>
-              <td>18 December 1967</td>
+              <td>{newDOB}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Gender</td>
               <td>:</td>
-              <td>Male</td>
+              <td>{dataPatient ? dataPatient.gender : "gender"}</td>
             </tr>
           </table>
         </div>
