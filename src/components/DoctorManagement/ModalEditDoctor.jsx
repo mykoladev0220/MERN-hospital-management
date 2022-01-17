@@ -185,6 +185,7 @@ export default function ModalEditDoctor(props) {
                 onChange={onChange}
                 name="gender"
                 value="male"
+                checked={valueForm.gender === "male"}
                 control={<Radio />}
                 label="Male"
               />
@@ -192,6 +193,7 @@ export default function ModalEditDoctor(props) {
                 onChange={onChange}
                 value="female"
                 name="gender"
+                checked={valueForm.gender === "female"}
                 control={<Radio />}
                 label="Female"
               />

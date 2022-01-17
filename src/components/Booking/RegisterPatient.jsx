@@ -46,12 +46,20 @@ export default function RegisterPatient(props) {
     });
   };
 
+  console.log(rmValue, "rmValue");
+
   useEffect(() => {
     setDataPatient(valueForm);
   }, [valueForm, setDataPatient]);
 
-  console.log(valueForm.dob)
-  
+  // console.log(valueForm.dob);
+
+  const handleClickRM = () => {};
+
+  const handleMouseDownRM = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="max-w-md mx-auto">
       <div className="py-4">
@@ -71,36 +79,50 @@ export default function RegisterPatient(props) {
               >
                 <FormControlLabel
                   value="true"
+                  checked={rmValue === true}
+                  onClick={() => setrmValue(true)}
                   control={<Radio />}
                   label="Yes"
                 />
                 <FormControlLabel
                   value="false"
+                  checked={rmValue === false}
+                  onClick={() => setrmValue(false)}
                   control={<Radio />}
                   label="No"
                 />
               </RadioGroup>
             </FormControl>
-            <TextField
-              fullWidth
-              id="outlined-basic"
-              label="No Medical Number"
-              color="primary"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon className="w-5 h-5" />
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
-              size="small"
-            />
+            {rmValue === true ? (
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="No Medical Number"
+                color="primary"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <button>
+                        <SearchIcon
+                          className="w-6 h-6 p-0.5 hover:bg-gray-100 rounded-full"
+                          onClick={handleClickRM}
+                          onMouseDown={handleMouseDownRM}
+                        />
+                      </button>
+                    </InputAdornment>
+                  ),
+                }}
+                variant="outlined"
+                size="small"
+              />
+            ) : null}
           </div>
           <div className="bg-maingreen-200 p-1 my-4 rounded-md" />
           <div className="mb-4">
             <TextField
               fullWidth
+              required
+              disabled={rmValue === true ? true : false}
               id="outlined-basic"
               label="Fullname"
               name="fullname"
@@ -114,6 +136,8 @@ export default function RegisterPatient(props) {
           <div className="mb-4">
             <TextField
               fullWidth
+              required
+              disabled={rmValue === true ? true : false}
               id="outlined-basic"
               label="NIK"
               type="number"
@@ -128,6 +152,8 @@ export default function RegisterPatient(props) {
           <div className="mb-4">
             <TextField
               fullWidth
+              required
+              disabled={rmValue === true ? true : false}
               id="outlined-basic"
               label="Address"
               name="address"
@@ -143,6 +169,8 @@ export default function RegisterPatient(props) {
               <Stack>
                 <DesktopDatePicker
                   label="Date of Birth"
+                  required
+                  disabled={rmValue === true ? true : false}
                   inputFormat="MM/dd/yyyy"
                   name="dob"
                   value={valueForm.dob}
@@ -159,9 +187,11 @@ export default function RegisterPatient(props) {
                 row
                 aria-label="gender"
                 name="row-radio-buttons-group"
+                required
               >
                 <FormControlLabel
                   onChange={onChange}
+                  disabled={rmValue === true ? true : false}
                   value="male"
                   name="gender"
                   control={<Radio />}
@@ -169,6 +199,7 @@ export default function RegisterPatient(props) {
                 />
                 <FormControlLabel
                   onChange={onChange}
+                  disabled={rmValue === true ? true : false}
                   value="female"
                   name="gender"
                   control={<Radio />}

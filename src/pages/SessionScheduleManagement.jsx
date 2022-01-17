@@ -6,6 +6,7 @@ import ModalDeleteSessionSchedule from "../components/SessionScheduleManagement/
 import GetDataDoctors from "../hooks/GetDataDoctors";
 import GetDataFacilities from "../hooks/GetDataFacilities";
 import GetDataSchedules from "../hooks/GetDataSchedules";
+import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
 
 export default function SessionScheduleManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -19,23 +20,16 @@ export default function SessionScheduleManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
+  const { dataSessionSchedules, properties } = GetDataSessionSchedule(refresh);
+
   const { dataDoctors, getDataDoctors } = GetDataDoctors();
   const { dataFacilities, getDataFacilities } = GetDataFacilities();
   const { dataSchedules, getDataSchedules } = GetDataSchedules();
 
-  const [rowDoctors, setRowDoctors] = useState({});
-  const [rowFacilities, setRowFacilities] = useState({});
-  const [rowSchedules, setRowSchedules] = useState({});
-
-  // useEffect(() => {
-  //   setRowDoctors(dataDoctors?.data);
-  //   setRowFacilities(dataFacilities?.data);
-  // }, []);
-
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
-      name: "facilty",
+      name: "id_facilty",
       label: "Facility",
       options: {
         filter: true,
@@ -43,7 +37,7 @@ export default function SessionScheduleManagement() {
       },
     },
     {
-      name: "doctor",
+      name: "id_doctor",
       label: "Doctor",
       options: {
         filter: true,
@@ -51,7 +45,7 @@ export default function SessionScheduleManagement() {
       },
     },
     {
-      name: "schedule",
+      name: "id_schedule",
       label: "Schedule",
       options: {
         filter: true,
@@ -95,6 +89,60 @@ export default function SessionScheduleManagement() {
     },
   ];
 
+  const transformFacility = (data) => {
+    let result = [];
+    dataFacilities.data?.map((item) => {
+      if (data === item.id) {
+        result.push(item.name);
+      }
+    });
+    return result;
+  };
+
+  const transformDoctor = (data) => {
+    let result = [];
+    dataDoctors.data?.map((item) => {
+      if (data === item.id) {
+        result.push(item.fullname);
+      }
+    });
+    return result;
+  };
+
+  //2022-01-16T18:05:00.781Z to 16/01/2022
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  const transformSchedule = (data) => {
+    let result = [];
+    dataSchedules.data?.map((item) => {
+      if (data === item.id) {
+        result.push(item.day, timeFormat(item.start), timeFormat(item.end));
+      }
+    });
+    return result;
+  };
+
+  let newData = [];
+  newData = dataSessionSchedules.data?.map((data) => {
+    return {
+      id: data.id,
+      id_facilty: transformFacility(data.id_facilty),
+      id_doctor: transformDoctor(data.id_doctor),
+      id_schedule: transformSchedule(data.id_schedule).join(" - "),
+    };
+  });
+
+  console.log(newData, "newData");
+
   const options = {
     filterType: "dropdown",
     selectableRowsHideCheckboxes: true,
@@ -118,21 +166,6 @@ export default function SessionScheduleManagement() {
     },
   };
 
-  const data = [
-    {
-      id: 1,
-      facilty: "Klinik Utama",
-      doctor: "Dr. A",
-      schedule: "08.00 - 09.00",
-    },
-    {
-      id: 2,
-      facilty: "Klinik Utama",
-      doctor: "Dr. B",
-      schedule: "09.00 - 10.00",
-    },
-  ];
-
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -143,7 +176,7 @@ export default function SessionScheduleManagement() {
       <div>
         <MUIDataTable
           title={"Session Schedule List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
@@ -163,6 +196,9 @@ export default function SessionScheduleManagement() {
         open={openModalEdit}
         onClose={handleEditClose}
         rowData={rowData}
+        rowDoctors={dataDoctors}
+        rowFacilities={dataFacilities}
+        rowSchedules={dataSchedules}
       />
       <ModalDeleteSessionSchedule
         setRefresh={setRefresh}

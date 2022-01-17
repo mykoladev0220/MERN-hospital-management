@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import LoginAuthNurse from "../hooks/LoginAuthNurse";
 import { useDispatch } from "react-redux";
 import { login } from "../store/loginSlice";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
 export default function LoginNurse() {
   const { resultLogin, sendDataToServer } = LoginAuthNurse();
@@ -14,6 +17,7 @@ export default function LoginNurse() {
   const initLogin = {
     username: "",
     password: "",
+    showPassword: false,
   };
 
   const initMessage = {
@@ -23,6 +27,17 @@ export default function LoginNurse() {
 
   const [messageLogin, setMessageLogin] = useState(initMessage);
   const [loginForm, setLoginForm] = useState(initLogin);
+
+  const handleClickShowPassword = () => {
+    setLoginForm({
+      ...loginForm,
+      showPassword: !loginForm.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   useEffect(() => {
     if (resultLogin) {
@@ -107,6 +122,7 @@ export default function LoginNurse() {
                 <div className="mb-4">
                   <TextField
                     fullWidth
+                    required
                     id="outlined-basic"
                     label="Username"
                     name="username"
@@ -120,15 +136,34 @@ export default function LoginNurse() {
                 <div className="mb-4">
                   <TextField
                     fullWidth
+                    required
                     id="outlined-basic"
                     label="Password"
                     name="password"
-                    type="password"
+                    type={loginForm.showPassword ? "text" : "password"}
                     value={loginForm.password}
                     onChange={onChange}
                     color="primary"
                     variant="outlined"
                     size="small"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {loginForm.showPassword ? (
+                              <EyeOffIcon className="h-5 w-5" />
+                            ) : (
+                              <EyeIcon className="h-5 w-5" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
                 <div>

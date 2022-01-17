@@ -4,16 +4,29 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import AddSessionSchedule from "../../hooks/AddSessionSchedule";
 
 export default function ModalAddSessionSchedule(props) {
-  const { open, onClose, rowDoctors, rowFacilities, rowSchedules } = props;
+  const {
+    open,
+    onClose,
+    rowDoctors,
+    rowFacilities,
+    rowSchedules,
+    refresh,
+    setRefresh,
+  } = props;
+  const { submitted, resultAddSessionSchedule, sendDataToServer } =
+    AddSessionSchedule();
+
   const session_schedule = {
-    facilty: "",
-    doctor: "",
-    schedule: "",
+    id_facilty: "",
+    id_doctor: "",
+    id_schedule: "",
   };
 
   const [SessionSchedule, setSessionSchedule] = useState(session_schedule);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const timeFormat = (time) => {
     var d = new Date(time),
@@ -36,6 +49,8 @@ export default function ModalAddSessionSchedule(props) {
     };
   });
 
+  console.log(SessionSchedule, "SessionSchedule");
+
   const handleChange = (e) => {
     setSessionSchedule({
       ...SessionSchedule,
@@ -43,9 +58,24 @@ export default function ModalAddSessionSchedule(props) {
     });
   };
 
+  const onClick = (e) => {
+    e.preventDefault();
+    sendDataToServer(SessionSchedule);
+    setRefresh(false);
+    setSessionSchedule(true);
+  };
+
+  useEffect(() => {
+    if (submittedForm === true) {
+      onClose();
+      setSubmittedForm(false);
+      setRefresh(true);
+    }
+  }, [submittedForm, refresh]);
+
   return (
     <Modal title="Add Session Schedule" open={open} onClose={onClose}>
-      <div>
+      <form onSubmit={onClick}>
         <div className="mb-5">
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
@@ -54,8 +84,8 @@ export default function ModalAddSessionSchedule(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              name="facilty"
-              value={SessionSchedule.facilty}
+              name="id_facilty"
+              value={SessionSchedule.id_facilty}
               label="Select Facilty"
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
@@ -74,8 +104,8 @@ export default function ModalAddSessionSchedule(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              name="doctor"
-              value={SessionSchedule.doctor}
+              name="id_doctor"
+              value={SessionSchedule.id_doctor}
               label="Select Doctor"
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
@@ -96,8 +126,8 @@ export default function ModalAddSessionSchedule(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              name="schedule"
-              value={SessionSchedule.schedule}
+              name="id_schedule"
+              value={SessionSchedule.id_schedule}
               label="Select Schedule"
               onChange={handleChange}
               className="shadow-md border-0 bg-white"
@@ -111,12 +141,14 @@ export default function ModalAddSessionSchedule(props) {
           </FormControl>
         </div>
         <div className="flex flex-col justify-center gap-2 mx-4  md:justify-end md:flex-row">
-          <button className="btn-main btn-primary">Submit</button>
+          <button onSubmit={onClick} className="btn-main btn-primary">
+            Submit
+          </button>
           <button className="btn-main btn-secondary" onClick={onClose}>
             Cancel
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

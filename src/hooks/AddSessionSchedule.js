@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function EditSchedule() {
+export default function AddSessionSchedule() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,7 +16,7 @@ export default function EditSchedule() {
     },
   });
 
-    const [resultEditSchedule, setResultEditSchedule] = useState({
+  const [resultAddSessionSchedule, setresultAddSessionSchedule] = useState({
     meta: {
       rc: 0,
       message: "",
@@ -28,24 +28,22 @@ export default function EditSchedule() {
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
-    let id = payload.id;
     payload = {
-      day: payload.day,
-      start: payload.start, 
-      end: payload.end,
+      id_doctor: payload.id_doctor,
+      id_facilty: payload.id_facilty,
+      id_schedule: payload.id_schedule,
     };
-    
     api
-      .put(`/api/v1/admins/update/schedule/${id}`, payload)
+      .post("/api/v1/admins/add/sessionschedule", payload)
       .then((res) => {
-        setResultEditSchedule(res.data);
+        setresultAddSessionSchedule(res.data);
         setSubmitted(true);
       })
       .catch((err) => {
-        setResultEditSchedule(err.response.data);
-        setSubmitted(true);
+        setresultAddSessionSchedule(err.response.data);
+        setSubmitted(false);
       });
   };
 
-  return { resultEditSchedule, sendDataToServer, submitted };
+  return { submitted, resultAddSessionSchedule, sendDataToServer };
 }

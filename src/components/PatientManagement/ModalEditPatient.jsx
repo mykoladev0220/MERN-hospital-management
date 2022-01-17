@@ -43,6 +43,7 @@ export default function ModalEditPatient(props) {
     });
   };
 
+
   const onChangeDate = (newValue) => {
     setvalueForm({
       ...valueForm,
@@ -64,6 +65,8 @@ export default function ModalEditPatient(props) {
       setRefresh(true);
     }
   }, [submitted, onClose, submittedForm, refresh]);
+
+  console.log(valueForm);
 
   return (
     <Modal open={open} onClose={onClose} title="Edit Patient">
@@ -143,6 +146,7 @@ export default function ModalEditPatient(props) {
                 onChange={onChange}
                 name="gender"
                 value="male"
+                checked={valueForm.gender === "male"}
                 control={<Radio />}
                 label="Male"
               />
@@ -150,6 +154,7 @@ export default function ModalEditPatient(props) {
                 onChange={onChange}
                 value="female"
                 name="gender"
+                checked={valueForm.gender === "female"}
                 control={<Radio />}
                 label="Female"
               />
