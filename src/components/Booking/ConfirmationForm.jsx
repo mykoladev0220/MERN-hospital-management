@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function ConfirmationForm(props) {
-  const { dataPatient, setDataPatient } = props;
+  const { dataPatient, setDataPatient, dataSchedules, setBookingFinish } =
+    props;
+
+  const initState = {
+    patient_id: 0,
+    session_schedule_id: 0,
+  };
+
+  const [valueForm, setvalueForm] = useState(initState);
+
+  useEffect(() => {
+    setvalueForm({
+      ...valueForm,
+      patient_id: dataPatient.id,
+      session_schedule_id: dataSchedules.id,
+    });
+  }, [dataPatient, dataSchedules]);
+
+  useEffect(() => {
+    setBookingFinish(valueForm);
+  }, [valueForm]);
+
+  console.log(valueForm, "valueForm");
 
   const dateFormat = (date) => {
     var d = new Date(date),
@@ -16,6 +38,8 @@ export default function ConfirmationForm(props) {
   };
 
   let newDOB = dateFormat(dataPatient.dob);
+
+  console.log(dataSchedules, "dataSchedules");
 
   return (
     <div>
@@ -62,17 +86,17 @@ export default function ConfirmationForm(props) {
             <tr>
               <td className="w-48 py-2 font-semibold">Facility</td>
               <td>:</td>
-              <td>Klinik Penyakit Dalam</td>
+              <td>{dataSchedules ? dataSchedules.id_facilty : "Facilty"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Doctor</td>
               <td>:</td>
-              <td>Dr. Dree</td>
+              <td>{dataSchedules ? dataSchedules.id_doctor : "Doctor"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Schedule</td>
               <td>:</td>
-              <td>Senin, 27 Desember 2021</td>
+              <td>{dataSchedules ? dataSchedules.id_schedule : "Schedule"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Time</td>

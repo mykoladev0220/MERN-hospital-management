@@ -6,14 +6,26 @@ import Typography from "@mui/material/Typography";
 import RegisterPatient from "../components/Booking/RegisterPatient";
 import SelectSchedule from "../components/Booking/SelectSchedule";
 import ConfirmationForm from "../components/Booking/ConfirmationForm";
+import GetDataDoctors from "../hooks/GetDataDoctors";
+import GetDataFacilities from "../hooks/GetDataFacilities";
+import GetDataSchedules from "../hooks/GetDataSchedules";
+import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
+import AddBooking from "../hooks/AddBooking";
 
 const steps = ["Patient Registration", "Select Schedule", "Confirmation Form"];
 
 export default function Booking() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
+  const [refresh, setRefresh] = useState(true);
+  const { dataSessionSchedules, properties } = GetDataSessionSchedule(refresh);
+  const { dataDoctors } = GetDataDoctors();
+  const { dataFacilities } = GetDataFacilities();
+  const { dataSchedules } = GetDataSchedules();
+  const { resultAddBooking, sendDataToServer, submitted } = AddBooking();
 
-  const initState = {
+  const initStatePatient = {
+    id: "",
     fullname: "",
     nik: "",
     norm: "",
@@ -22,7 +34,21 @@ export default function Booking() {
     gender: "",
   };
 
-  const [bookingPatient, setbookingPatient] = useState(initState);
+  const initStateSchedule = {
+    id: "",
+    id_facilty: "",
+    id_doctor: "",
+    id_schedule: "",
+  };
+
+  const initBookingFinish = {
+    patient_id: 0,
+    session_schedule_id: 0,
+  };
+
+  const [bookingPatient, setbookingPatient] = useState(initStatePatient);
+  const [bookingSchedule, setbookingSchedule] = useState(initStateSchedule);
+  const [bookingFinish, setBookingFinish] = useState(initBookingFinish);
 
   const isStepOptional = (step) => {
     return step === 3;
@@ -37,6 +63,11 @@ export default function Booking() {
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
+    }
+    console.log(activeStep, "activeStep");
+    if (activeStep === 2) {
+      console.log("step 3");
+      sendDataToServer(bookingFinish);
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -76,12 +107,24 @@ export default function Booking() {
           />
         );
       case 1:
-        return <SelectSchedule />;
+        return (
+          <SelectSchedule
+            rowSessionSchedule={dataSessionSchedules}
+            rowDoctors={dataDoctors}
+            rowFacilities={dataFacilities}
+            rowSchedules={dataSchedules}
+            dataSchedules={bookingSchedule}
+            setDataSchedule={setbookingSchedule}
+          />
+        );
       case 2:
         return (
           <ConfirmationForm
             dataPatient={bookingPatient}
             setDataPatient={setbookingPatient}
+            dataSchedules={bookingSchedule}
+            setDataSchedule={setbookingSchedule}
+            setBookingFinish={setBookingFinish}
           />
         );
       default:
@@ -90,6 +133,8 @@ export default function Booking() {
   }
 
   console.log(bookingPatient, "bookingPatient main");
+  console.log(bookingSchedule, "bookingSchedule main");
+  console.log(bookingFinish, "bookingFinish main");
 
   return (
     <div className="min-h-screen">

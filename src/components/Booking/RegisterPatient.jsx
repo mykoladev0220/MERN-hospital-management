@@ -11,14 +11,18 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
+import GetDataPatientByNoRM from "../../hooks/GetDataPatientByNoRM";
 
 export default function RegisterPatient(props) {
   const { dataPatient, setDataPatient } = props;
+  const { dataPatientsByNoRM, getDataPatientsByNoRM, properties } =
+    GetDataPatientByNoRM();
 
   console.log(dataPatient, "register");
-  const [rmValue, setrmValue] = useState(false);
+  const [rmValue, setrmValue] = useState(true);
 
   const initState = {
+    id: 0,
     fullname: "",
     nik: "",
     norm: "",
@@ -26,6 +30,8 @@ export default function RegisterPatient(props) {
     dob: "",
     gender: "",
   };
+
+  console.log(dataPatientsByNoRM, "dataPatientsByNoRM");
 
   const [valueForm, setValueForm] = useState(dataPatient);
 
@@ -52,9 +58,21 @@ export default function RegisterPatient(props) {
     setDataPatient(valueForm);
   }, [valueForm, setDataPatient]);
 
-  // console.log(valueForm.dob);
-
-  const handleClickRM = () => {};
+  useEffect(() => {
+    setValueForm({
+      ...valueForm,
+      id: dataPatientsByNoRM.data?.id,
+      fullname: dataPatientsByNoRM.data?.fullname,
+      nik: dataPatientsByNoRM.data?.nik,
+      norm: dataPatientsByNoRM.data?.no_rm,
+      address: dataPatientsByNoRM.data?.address,
+      gender: dataPatientsByNoRM.data?.gender,
+      dob: dataPatientsByNoRM.data?.dob,
+    });
+  }, [dataPatientsByNoRM]);
+  const handleClickRM = () => {
+    getDataPatientsByNoRM(valueForm.norm);
+  };
 
   const handleMouseDownRM = (event) => {
     event.preventDefault();
@@ -98,6 +116,9 @@ export default function RegisterPatient(props) {
                 fullWidth
                 id="outlined-basic"
                 label="No Medical Number"
+                name="norm"
+                value={valueForm.norm}
+                onChange={onChange}
                 color="primary"
                 InputProps={{
                   endAdornment: (
@@ -194,6 +215,7 @@ export default function RegisterPatient(props) {
                   disabled={rmValue === true ? true : false}
                   value="male"
                   name="gender"
+                  checked={valueForm.gender === "male"}
                   control={<Radio />}
                   label="Male"
                 />
@@ -202,6 +224,7 @@ export default function RegisterPatient(props) {
                   disabled={rmValue === true ? true : false}
                   value="female"
                   name="gender"
+                  checked={valueForm.gender === "female"}
                   control={<Radio />}
                   label="Female"
                 />
