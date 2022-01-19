@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataPatientByNoRM(refresh) {
+export default function DeleteBooking() {
   const bearerToken = useSelector((state) => state.login.token);
-
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -17,33 +16,32 @@ export default function GetDataPatientByNoRM(refresh) {
     },
   });
 
-  const [dataPatientsByNoRM, setDataPatientsByNoRM] = useState({});
+  const [resultDeleteBooking, setResultDeleteBooking] = useState({});
+  const [submitted, setSubmitted] = useState(false);
   const [properties, setProperties] = useState({
     loading: true,
     error: false,
   });
 
-  const getDataPatientsByNoRM = (no_rm) => {
-    console.log(no_rm + "", "payload norm");
+  const sendDataToServer = (payload) => {
+    let id = payload.id;
 
     api
-      .get(`/api/v1/admins/patient/?no_rm=${no_rm + ""}`)
+      .delete(`/api/v1/admins/delete/sessionbook/${id}`)
       .then((res) => {
-        setDataPatientsByNoRM(res.data);
+        setResultDeleteBooking(res.data);
+        setSubmitted(true);
         setProperties({
           loading: false,
           error: false,
         });
       })
       .catch((err) => {
-        setDataPatientsByNoRM(err.response.data);
+        setResultDeleteBooking(err.response.data);
+        setSubmitted(false);
         setProperties({ loading: false, error: true });
       });
   };
 
-  useEffect(() => {
-    getDataPatientsByNoRM();
-  }, [refresh]);
-
-  return { dataPatientsByNoRM, getDataPatientsByNoRM, properties };
+  return { resultDeleteBooking, sendDataToServer, submitted, properties };
 }

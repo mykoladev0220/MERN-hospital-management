@@ -15,23 +15,22 @@ import GetDataPatientByNoRM from "../../hooks/GetDataPatientByNoRM";
 
 export default function RegisterPatient(props) {
   const { dataPatient, setDataPatient } = props;
+  const [refresh, setRefresh] = useState(true);
   const { dataPatientsByNoRM, getDataPatientsByNoRM, properties } =
-    GetDataPatientByNoRM();
+    GetDataPatientByNoRM(refresh);
 
-  console.log(dataPatient, "register");
   const [rmValue, setrmValue] = useState(true);
+  const [noRM, setnoRM] = useState();
 
-  const initState = {
-    id: 0,
+  const initStatePatient = {
+    id: "",
     fullname: "",
     nik: "",
-    norm: "",
+    no_rm: "",
     address: "",
-    dob: "",
+    dob: "2022-01-08T07:01:38.000Z",
     gender: "",
   };
-
-  console.log(dataPatientsByNoRM, "dataPatientsByNoRM");
 
   const [valueForm, setValueForm] = useState(dataPatient);
 
@@ -52,31 +51,37 @@ export default function RegisterPatient(props) {
     });
   };
 
-  console.log(rmValue, "rmValue");
-
   useEffect(() => {
     setDataPatient(valueForm);
+    setnoRM(valueForm.no_rm);
   }, [valueForm, setDataPatient]);
 
-  useEffect(() => {
-    setValueForm({
-      ...valueForm,
-      id: dataPatientsByNoRM.data?.id,
-      fullname: dataPatientsByNoRM.data?.fullname,
-      nik: dataPatientsByNoRM.data?.nik,
-      norm: dataPatientsByNoRM.data?.no_rm,
-      address: dataPatientsByNoRM.data?.address,
-      gender: dataPatientsByNoRM.data?.gender,
-      dob: dataPatientsByNoRM.data?.dob,
-    });
-  }, [dataPatientsByNoRM]);
-  const handleClickRM = () => {
-    getDataPatientsByNoRM(valueForm.norm);
+  const handleClickRM = (e) => {
+    e.preventDefault();
+    getDataPatientsByNoRM(valueForm.no_rm);
+    setRefresh(false);
   };
+
+  useEffect(() => {
+    if (dataPatientsByNoRM.data?.id !== undefined) {
+      setValueForm({
+        ...valueForm,
+        id: dataPatientsByNoRM.data?.id,
+        fullname: dataPatientsByNoRM.data?.fullname,
+        nik: dataPatientsByNoRM.data?.nik,
+        no_rm: dataPatientsByNoRM.data?.no_rm,
+        address: dataPatientsByNoRM.data?.address,
+        gender: dataPatientsByNoRM.data?.gender,
+        dob: dataPatientsByNoRM.data?.dob,
+      });
+    }
+  }, [refresh, dataPatientsByNoRM]);
 
   const handleMouseDownRM = (event) => {
     event.preventDefault();
   };
+
+  console.log(noRM, rmValue, valueForm, "rmValue");
 
   return (
     <div className="max-w-md mx-auto">
@@ -116,17 +121,16 @@ export default function RegisterPatient(props) {
                 fullWidth
                 id="outlined-basic"
                 label="No Medical Number"
-                name="norm"
-                value={valueForm.norm}
+                name="no_rm"
+                value={valueForm.no_rm}
                 onChange={onChange}
                 color="primary"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start">
-                      <button>
+                      <button onClick={handleClickRM}>
                         <SearchIcon
                           className="w-6 h-6 p-0.5 hover:bg-gray-100 rounded-full"
-                          onClick={handleClickRM}
                           onMouseDown={handleMouseDownRM}
                         />
                       </button>

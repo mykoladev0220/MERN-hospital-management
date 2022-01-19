@@ -109,7 +109,6 @@ export default function SessionScheduleManagement() {
     return result;
   };
 
-  //2022-01-16T18:05:00.781Z to 16/01/2022
   const timeFormat = (time) => {
     var d = new Date(time),
       hour = "" + d.getHours(),

@@ -28,9 +28,9 @@ export default function Booking() {
     id: "",
     fullname: "",
     nik: "",
-    norm: "",
+    no_rm: "",
     address: "",
-    dob: "",
+    dob: "2022-01-08T07:01:38.000Z",
     gender: "",
   };
 

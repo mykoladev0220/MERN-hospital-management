@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataPatientByNoRM(refresh) {
+export default function GetDataBooking(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -17,33 +17,29 @@ export default function GetDataPatientByNoRM(refresh) {
     },
   });
 
-  const [dataPatientsByNoRM, setDataPatientsByNoRM] = useState({});
+  const [dataBooking, setDataBooking] = useState({});
   const [properties, setProperties] = useState({
     loading: true,
     error: false,
   });
 
-  const getDataPatientsByNoRM = (no_rm) => {
-    console.log(no_rm + "", "payload norm");
-
+  const getDataBooking = () => {
     api
-      .get(`/api/v1/admins/patient/?no_rm=${no_rm + ""}`)
+      .get("/api/v1/admins/list/sessionbook")
       .then((res) => {
-        setDataPatientsByNoRM(res.data);
+        setDataBooking(res.data);
         setProperties({
           loading: false,
           error: false,
         });
       })
       .catch((err) => {
-        setDataPatientsByNoRM(err.response.data);
+        // setDataPrescription(err.response.data);
         setProperties({ loading: false, error: true });
       });
   };
 
-  useEffect(() => {
-    getDataPatientsByNoRM();
-  }, [refresh]);
+  useEffect(() => getDataBooking(), [refresh]);
 
-  return { dataPatientsByNoRM, getDataPatientsByNoRM, properties };
+  return { dataBooking, getDataBooking, properties };
 }

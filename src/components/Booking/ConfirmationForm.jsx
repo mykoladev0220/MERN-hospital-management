@@ -62,7 +62,7 @@ export default function ConfirmationForm(props) {
             <tr>
               <td className="py-2 font-semibold">No Medical Number</td>
               <td>:</td>
-              <td>RM00001</td>
+              <td>{dataPatient ? dataPatient.no_rm : "norm"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Address</td>

@@ -24,9 +24,9 @@ export default function ModalAddRecipe(props) {
   var initState = {
     medicine_name: "",
     medication_rules: "",
-    id_patient: "",
-    id_doctor: "",
-    id_sessionbooking: "",
+    id_patient: 0,
+    id_doctor: 0,
+    id_sessionbooking: 1,
   };
 
   const [valueForm, setvalueForm] = useState(initState);
@@ -48,8 +48,8 @@ export default function ModalAddRecipe(props) {
   useEffect(() => {
     setvalueForm({
       ...valueForm,
-      id_patient: rowData[0] + "",
-      id_doctor: token.id + "",
+      id_patient: rowData[0],
+      id_doctor: token.id,
     });
   }, [rowData]);
 

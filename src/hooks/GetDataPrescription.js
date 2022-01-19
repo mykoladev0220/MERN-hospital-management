@@ -25,7 +25,7 @@ export default function GetDataPrescription(refresh) {
 
   const getDataPrescription = () => {
     api
-      .get("api/v1/doctors/list/prescription")
+      .get("/api/v1/doctors/list/prescription")
       .then((res) => {
         setDataPrescription(res.data);
         setProperties({

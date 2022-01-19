@@ -31,7 +31,10 @@ export default function PatientPrescriptionDetail(props) {
       id_sessionbooking: item.id_sessionbooking,
     };
   });
-  newData = newData?.filter((item) => item.id_patient === params.id);
+
+  if (newData) {
+    newData = newData.filter((item) => item.id_patient === parseInt(params.id));
+  }
 
   return (
     <div className="min-h-screen">
