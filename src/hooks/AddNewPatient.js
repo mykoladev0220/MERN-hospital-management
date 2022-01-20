@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddNewPatient() {
+export default function AddNewPatient(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,14 +16,22 @@ export default function AddNewPatient() {
     },
   });
 
-  const [resultAddNewPatien, setResultAddNewPatien] = useState({});
+  const [resultAddNewPatien, setResultAddNewPatien] = useState({
+    meta: {
+      rc: 0,
+      message: "",
+    },
+    data: {},
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
+
+
     payload = {
       fullname: payload.fullname,
       NIK: parseInt(payload.nik),
-      no_rm: payload.norm,
+      no_rm: payload.no_rm,
       address: payload.address,
       dob: payload.dob,
       gender: payload.gender,
@@ -41,7 +49,9 @@ export default function AddNewPatient() {
       });
   };
 
-  // useEffect(() => sendDataToServer(), []);
+  useEffect(() => resultAddNewPatien, [refresh]);
+
+  console.log(resultAddNewPatien, "hooks");
 
   return { submitted, resultAddNewPatien, sendDataToServer };
 }

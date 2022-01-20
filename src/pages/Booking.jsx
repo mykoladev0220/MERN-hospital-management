@@ -44,6 +44,7 @@ export default function Booking() {
   const initBookingFinish = {
     patient_id: 0,
     session_schedule_id: 0,
+    status: "Not Checked",
   };
 
   const [bookingPatient, setbookingPatient] = useState(initStatePatient);
@@ -64,9 +65,9 @@ export default function Booking() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    console.log(activeStep, "activeStep");
+    // console.log(activeStep, "activeStep");
     if (activeStep === 2) {
-      console.log("step 3");
+      // console.log("step 3");
       sendDataToServer(bookingFinish);
     }
 
@@ -122,6 +123,9 @@ export default function Booking() {
           <ConfirmationForm
             dataPatient={bookingPatient}
             setDataPatient={setbookingPatient}
+            rowDoctors={dataDoctors}
+            rowFacilities={dataFacilities}
+            rowSchedules={dataSchedules}
             dataSchedules={bookingSchedule}
             setDataSchedule={setbookingSchedule}
             setBookingFinish={setBookingFinish}

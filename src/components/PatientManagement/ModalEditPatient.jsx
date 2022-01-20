@@ -20,7 +20,7 @@ export default function ModalEditPatient(props) {
     id: rowData[0],
     fullname: rowData[1],
     nik: rowData[2],
-    norm: rowData[3],
+    no_rm: rowData[3],
     address: rowData[4],
     dob: rowData[6],
     gender: rowData[5],
@@ -103,8 +103,8 @@ export default function ModalEditPatient(props) {
             fullWidth
             id="outlined-basic"
             label="No RM"
-            name="norm"
-            value={valueForm.norm}
+            name="no_rm"
+            value={valueForm.no_rm}
             onChange={onChange}
             color="primary"
             variant="outlined"

@@ -1,12 +1,72 @@
 import React, { useState, useEffect } from "react";
 
 export default function ConfirmationForm(props) {
-  const { dataPatient, setDataPatient, dataSchedules, setBookingFinish } =
-    props;
+  const {
+    dataPatient,
+    setDataPatient,
+    dataSchedules,
+    setBookingFinish,
+    rowDoctors,
+    rowFacilities,
+    rowSchedules,
+  } = props;
+
+  const transformFacility = (data) => {
+    let result = "";
+    rowFacilities.data?.map((item) => {
+      if (data === item.id) {
+        result = item.name;
+      }
+    });
+    return result;
+  };
+
+  const transformDoctor = (data) => {
+    let result = "";
+    rowDoctors.data?.map((item) => {
+      if (data === item.id) {
+        result = item.fullname;
+      }
+    });
+    return result;
+  };
+
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  const transformScheduleDay = (data) => {
+    let result = " ";
+    rowSchedules.data?.map((item) => {
+      if (data === item.id) {
+        result = item.day;
+        console.log(result, "res");
+      }
+    });
+    return result;
+  };
+
+  const transformScheduleTime = (data) => {
+    let result = " ";
+    rowSchedules.data?.map((item) => {
+      if (data === item.id) {
+        result = timeFormat(item.start) + " - " + timeFormat(item.end);
+      }
+    });
+    return result;
+  };
 
   const initState = {
     patient_id: 0,
     session_schedule_id: 0,
+    status: "Not Checked",
   };
 
   const [valueForm, setvalueForm] = useState(initState);
@@ -86,22 +146,38 @@ export default function ConfirmationForm(props) {
             <tr>
               <td className="w-48 py-2 font-semibold">Facility</td>
               <td>:</td>
-              <td>{dataSchedules ? dataSchedules.id_facilty : "Facilty"}</td>
+              <td>
+                {dataSchedules
+                  ? transformFacility(dataSchedules.id_facilty)
+                  : "Facilty"}
+              </td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Doctor</td>
               <td>:</td>
-              <td>{dataSchedules ? dataSchedules.id_doctor : "Doctor"}</td>
+              <td>
+                {dataSchedules
+                  ? transformDoctor(dataSchedules.id_doctor)
+                  : "Doctor"}
+              </td>
             </tr>
             <tr>
-              <td className="py-2 font-semibold">Schedule</td>
+              <td className="py-2 font-semibold">Day</td>
               <td>:</td>
-              <td>{dataSchedules ? dataSchedules.id_schedule : "Schedule"}</td>
+              <td>
+                {dataSchedules
+                  ? transformScheduleDay(dataSchedules.id_schedule)
+                  : "Day"}
+              </td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Time</td>
               <td>:</td>
-              <td>07.00</td>
+              <td>
+                {dataSchedules
+                  ? transformScheduleTime(dataSchedules.id_schedule)
+                  : "Time"}
+              </td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Queue</td>

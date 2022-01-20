@@ -19,7 +19,7 @@ export default function ModalAddPatient(props) {
   const initState = {
     fullname: "",
     nik: "",
-    norm: "",
+    no_rm: "",
     address: "",
     dob: "",
     gender: "",
@@ -95,8 +95,8 @@ export default function ModalAddPatient(props) {
             fullWidth
             id="outlined-basic"
             label="No RM"
-            name="norm"
-            value={valueForm.norm}
+            name="no_rm"
+            value={valueForm.no_rm}
             onChange={onChange}
             color="primary"
             variant="outlined"

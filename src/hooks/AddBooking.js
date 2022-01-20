@@ -31,7 +31,9 @@ export default function AddBooking() {
     payload = {
       id_patient: payload.patient_id,
       id_session_schedule: payload.session_schedule_id,
+      status: payload.status,
     };
+
     api
       .post("/api/v1/admins/add/sessionbook", payload)
       .then((res) => {

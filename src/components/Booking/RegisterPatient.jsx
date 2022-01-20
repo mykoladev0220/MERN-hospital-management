@@ -12,15 +12,25 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import GetDataPatientByNoRM from "../../hooks/GetDataPatientByNoRM";
+import AddNewPatient from "../../hooks/AddNewPatient";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function RegisterPatient(props) {
   const { dataPatient, setDataPatient } = props;
   const [refresh, setRefresh] = useState(true);
   const { dataPatientsByNoRM, getDataPatientsByNoRM, properties } =
     GetDataPatientByNoRM(refresh);
+  const { resultAddNewPatien, sendDataToServer, submitted } = AddNewPatient();
 
   const [rmValue, setrmValue] = useState(true);
   const [noRM, setnoRM] = useState();
+  const [successSnackbar, setSuccessSnackbar] = useState(false);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const initStatePatient = {
     id: "",
@@ -51,14 +61,45 @@ export default function RegisterPatient(props) {
     });
   };
 
+  const createRandomNumber = () => {
+    let result = "";
+    for (let i = 0; i < 6; i++) {
+      result += Math.floor(Math.random() * 10);
+    }
+    return result;
+  };
+
   useEffect(() => {
     setDataPatient(valueForm);
     setnoRM(valueForm.no_rm);
   }, [valueForm, setDataPatient]);
 
+  useEffect(() => {
+    if (rmValue === false) {
+      setValueForm({ ...valueForm, no_rm: "RM" + createRandomNumber() });
+    }
+  }, [rmValue]);
+
+  useEffect(() => {
+    if (resultAddNewPatien.meta?.rc === 200) {
+      setValueForm({ ...valueForm, id: resultAddNewPatien.data?.id });
+      setSuccessSnackbar(true);
+      setSubmittedForm(false);
+    }
+  }, [resultAddNewPatien, setDataPatient]);
+
+  console.log(rmValue, "rmValue");
+
   const handleClickRM = (e) => {
     e.preventDefault();
     getDataPatientsByNoRM(valueForm.no_rm);
+    setRefresh(false);
+    setSubmittedForm(true);
+  };
+
+  const handleRegisterPatient = (e) => {
+    e.preventDefault();
+    sendDataToServer(valueForm);
     setRefresh(false);
   };
 
@@ -81,10 +122,30 @@ export default function RegisterPatient(props) {
     event.preventDefault();
   };
 
+  const handleClick = () => {
+    setSuccessSnackbar(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccessSnackbar(false);
+  };
+
   console.log(noRM, rmValue, valueForm, "rmValue");
 
   return (
     <div className="max-w-md mx-auto">
+      <Snackbar
+        open={successSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Patient Berhasil Terdaftar!
+        </Alert>
+      </Snackbar>
       <div className="py-4">
         <h1 className="text-center font-semibold text-xl">Register Patient</h1>
       </div>
@@ -236,7 +297,10 @@ export default function RegisterPatient(props) {
             </FormControl>
           </div>
           <div>
-            <button className="bg-maingreen-200 text-white font-medium w-full py-2 rounded-md">
+            <button
+              onClick={handleRegisterPatient}
+              className="bg-maingreen-200 text-white font-medium w-full py-2 rounded-md"
+            >
               Submit
             </button>
           </div>
