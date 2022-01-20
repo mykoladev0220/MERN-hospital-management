@@ -19,6 +19,8 @@ import NurseManagemet from "../pages/NurseManagemet";
 import ScheduleManagement from "../pages/ScheduleManagement.jsx";
 import PatientPrescription from "../pages/PatientPrescription";
 import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
+import SessionPrescription from "../pages/SessionPrescription";
+import SessionPrescriptionDetail from "../pages/SessionPrescriptionDetail";
 
 export default function routes() {
   return (
@@ -160,6 +162,24 @@ export default function routes() {
           element={
             <Layout id="nurse">
               <PatientPrescriptionDetail id="nurse" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/session-prescription-doctor"
+          exact
+          element={
+            <Layout id="doctor">
+              <SessionPrescription id="doctor" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-session-detail-doctor/:id"
+          exact
+          element={
+            <Layout id="doctor">
+              <SessionPrescriptionDetail id="doctor" />
             </Layout>
           }
         />

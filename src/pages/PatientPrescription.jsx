@@ -13,8 +13,6 @@ export default function PatientPrescription(props) {
   const [refresh, setRefresh] = useState(true);
   const { dataPatients } = GetDataPatients(refresh);
 
-  console.log(id, "id");
-
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {
@@ -78,7 +76,7 @@ export default function PatientPrescription(props) {
               <div className="flex gap-1">
                 {id === "doctor" ? (
                   <>
-                    <button
+                    {/* <button
                       className="btn-main btn-primary"
                       onClick={() => {
                         handleAddOpen();
@@ -86,7 +84,7 @@ export default function PatientPrescription(props) {
                       }}
                     >
                       Add Recipe
-                    </button>
+                    </button> */}
                     <Link
                       to={`/prescription-detail-doctor/${tableMeta.rowData[0]}`}
                       className="btn-main btn-green"

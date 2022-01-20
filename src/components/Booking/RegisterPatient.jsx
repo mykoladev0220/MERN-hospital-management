@@ -30,6 +30,7 @@ export default function RegisterPatient(props) {
   const [rmValue, setrmValue] = useState(true);
   const [noRM, setnoRM] = useState();
   const [successSnackbar, setSuccessSnackbar] = useState(false);
+  const [errorSnackbar, setErrorSnackbar] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const initStatePatient = {
@@ -85,6 +86,9 @@ export default function RegisterPatient(props) {
       setValueForm({ ...valueForm, id: resultAddNewPatien.data?.id });
       setSuccessSnackbar(true);
       setSubmittedForm(false);
+    } else if (resultAddNewPatien.meta?.rc === 400) {
+      setErrorSnackbar(true);
+      setSubmittedForm(false);
     }
   }, [resultAddNewPatien, setDataPatient]);
 
@@ -122,15 +126,18 @@ export default function RegisterPatient(props) {
     event.preventDefault();
   };
 
-  const handleClick = () => {
-    setSuccessSnackbar(true);
-  };
-
-  const handleClose = (event, reason) => {
+  const handleCloseSucces = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setSuccessSnackbar(false);
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorSnackbar(false);
   };
 
   console.log(noRM, rmValue, valueForm, "rmValue");
@@ -138,12 +145,28 @@ export default function RegisterPatient(props) {
   return (
     <div className="max-w-md mx-auto">
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={successSnackbar}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={handleCloseSucces}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleCloseSucces}
+          severity="success"
+          className="bg-maingreen-100"
+          sx={{ width: "100%" }}
+        >
           Patient Berhasil Terdaftar!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={errorSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+      >
+        <Alert onClose={handleCloseError} severity="error">
+          This is an error message!
         </Alert>
       </Snackbar>
       <div className="py-4">

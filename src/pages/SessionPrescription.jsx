@@ -7,11 +7,14 @@ import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
 import GetDataDoctors from "../hooks/GetDataDoctors";
 import GetDataFacilities from "../hooks/GetDataFacilities";
 import GetDataSchedules from "../hooks/GetDataSchedules";
+import { Link } from "react-router-dom";
+import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
 
-export default function BookingManagement() {
-  const [openModalDelete, setOpenModalDelete] = useState(false);
-  const handleDeleteOpen = () => setOpenModalDelete(true);
-  const handleDeleteClose = () => setOpenModalDelete(false);
+export default function SessionPrescription(props) {
+  const { id } = props;
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const handleAddOpen = () => setOpenModalAdd(true);
+  const handleAddClose = () => setOpenModalAdd(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const { dataBooking, getDataBooking, properties } = GetDataBooking(refresh);
@@ -109,7 +112,8 @@ export default function BookingManagement() {
   newData = dataBooking.data?.map((item) => {
     return {
       id: item.id,
-      id_patient: transformPatient(item.id_patient),
+      id_patient: item.id_patient,
+      name_patient: transformPatient(item.id_patient),
       id_session_schedule: transformSessionSchedule(item.id_session_schedule),
       date: dateFormat(item.date),
       status: item.status,
@@ -120,7 +124,8 @@ export default function BookingManagement() {
   newData2 = newData?.map((item) => {
     return {
       id: item.id,
-      patient: item.id_patient,
+      patient: item.name_patient,
+      patient_id: item.id_patient,
       facility: item.id_session_schedule[0],
       doctor: item.id_session_schedule[1],
       schedule: item.id_session_schedule[2],
@@ -131,6 +136,15 @@ export default function BookingManagement() {
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
+    {
+      name: "patient_id",
+      label: "ID Patient",
+      options: {
+        filter: true,
+        sort: true,
+        display: false,
+      },
+    },
     {
       name: "patient",
       label: "Name Patient",
@@ -195,17 +209,38 @@ export default function BookingManagement() {
         sort: false,
         empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
+          console.log(tableMeta.rowData);
+
           return (
             <>
-              <button
-                className="btn-main btn-secondary"
-                onClick={() => {
-                  handleDeleteOpen();
-                  setRowData(tableMeta.rowData);
-                }}
-              >
-                Delete
-              </button>
+              <div className="flex gap-1">
+                {id === "doctor" ? (
+                  <>
+                    <button
+                      className="btn-main btn-primary"
+                      onClick={() => {
+                        handleAddOpen();
+                        setRowData(tableMeta.rowData);
+                      }}
+                    >
+                      Add Recipe
+                    </button>
+                    <Link
+                      to={`/prescription-session-detail-doctor/${tableMeta.rowData[0]}`}
+                      className="btn-main btn-green"
+                    >
+                      View Recipe
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    to={`/prescription-detail-nurse/${tableMeta.rowData[0]}`}
+                    className="btn-main btn-green"
+                  >
+                    View Recipe
+                  </Link>
+                )}
+              </div>
             </>
           );
         },
@@ -220,42 +255,24 @@ export default function BookingManagement() {
     print: false,
     viewColumns: false,
   };
-
-  const data = [
-    {
-      id: "1",
-      name: "John Doe",
-      facility: "Klinik Utama",
-      doctor: "Dr. A",
-      queue: "1",
-      date: "2020-01-01",
-    },
-    {
-      id: "2",
-      name: "John Doe",
-      facility: "Klinik Utama",
-      doctor: "Dr. A",
-      queue: "2",
-      date: "2020-01-01",
-    },
-  ];
-
   return (
     <div className="min-h-screen">
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-left">Booking Management</h1>
+        <h1 className="text-2xl font-semibold text-left">
+          Session Prescription
+        </h1>
       </div>
       <div>
         <MUIDataTable
-          title={"Booking List"}
+          title={"Session List"}
           data={newData2}
           columns={columns}
           options={options}
         />
       </div>
-      <ModalDeleteBooking
-        open={openModalDelete}
-        onClose={handleDeleteClose}
+      <ModalAddRecipe
+        open={openModalAdd}
+        onClose={handleAddClose}
         rowData={rowData}
         refresh={refresh}
         setRefresh={setRefresh}

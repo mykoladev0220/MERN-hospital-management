@@ -45,10 +45,14 @@ export default function ModalAddRecipe(props) {
     });
   };
 
+
+  console.log("valueForm", valueForm);
+  
   useEffect(() => {
     setvalueForm({
       ...valueForm,
-      id_patient: rowData[0],
+      id_patient: rowData[1],
+      id_sessionbooking: rowData[0],
       id_doctor: token.id,
     });
   }, [rowData]);
@@ -76,7 +80,7 @@ export default function ModalAddRecipe(props) {
             <tr>
               <td className="font-semibold">Name Patient </td>
               <td> : </td>
-              <td> {rowData[1]}</td>
+              <td> {rowData[2]}</td>
               {/* <td>ID : {rowData[0]}</td> */}
             </tr>
           </table>
