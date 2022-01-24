@@ -6,29 +6,34 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import idLocale from "date-fns/locale/id";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 import EditPatient from "../../hooks/EditPatient";
+import { format } from "date-fns";
 
 export default function ModalEditPatient(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
+
+  // function format date 21/01/2022 to 2022-01-24T15:15:03.555+07:00
 
   let initState = {
     id: rowData[0],
     fullname: rowData[1],
     nik: rowData[2],
     no_rm: rowData[3],
+    age: rowData[5],
     address: rowData[4],
-    dob: rowData[6],
-    gender: rowData[5],
+    dob: rowData[7],
+    gender: rowData[6],
   };
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-
+  console.log(valueForm, "dov");
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);
@@ -42,7 +47,6 @@ export default function ModalEditPatient(props) {
       [name]: value,
     });
   };
-
 
   const onChangeDate = (newValue) => {
     setvalueForm({
@@ -115,6 +119,20 @@ export default function ModalEditPatient(props) {
           <TextField
             fullWidth
             id="outlined-basic"
+            label="Agee"
+            name="age"
+            type="number"
+            value={valueForm.age}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
             label="Address"
             name="address"
             value={valueForm.address}
@@ -125,11 +143,10 @@ export default function ModalEditPatient(props) {
           />
         </div>
         <div className="my-4">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={AdapterDateFns} locale={idLocale}>
             <Stack>
               <DesktopDatePicker
                 label="Date of Birth"
-                inputFormat="dd/MM/yyyy"
                 name="dob"
                 value={valueForm.dob}
                 onChange={onChangeDate}

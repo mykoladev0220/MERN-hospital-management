@@ -185,6 +185,21 @@ export default function BookingManagement() {
       options: {
         filter: false,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <div>
+              {value === "Not Checked" ? (
+                <div className="border-solid border-2 text-center border-yellow-400 text-yellow-500 rounded-md">
+                  <span>{value}</span>
+                </div>
+              ) : value === "Checked" ? (
+                <div className="border-solid border-2 text-center border-green-400 text-green-500 rounded-md">
+                  <span>{value}</span>
+                </div>
+              ) : null}
+            </div>
+          );
+        },
       },
     },
     {
@@ -219,26 +234,11 @@ export default function BookingManagement() {
     download: false,
     print: false,
     viewColumns: false,
+    sortOrder:{
+      name: "id",
+      direction: "desc"
+    }
   };
-
-  const data = [
-    {
-      id: "1",
-      name: "John Doe",
-      facility: "Klinik Utama",
-      doctor: "Dr. A",
-      queue: "1",
-      date: "2020-01-01",
-    },
-    {
-      id: "2",
-      name: "John Doe",
-      facility: "Klinik Utama",
-      doctor: "Dr. A",
-      queue: "2",
-      date: "2020-01-01",
-    },
-  ];
 
   return (
     <div className="min-h-screen">

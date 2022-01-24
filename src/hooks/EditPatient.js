@@ -33,6 +33,7 @@ export default function EditPatient() {
       NIK: parseInt(payload.nik),
       no_rm: payload.norm,
       address: payload.address,
+      age: parseInt(payload.age),
       dob: payload.dob,
       gender: payload.gender,
     };

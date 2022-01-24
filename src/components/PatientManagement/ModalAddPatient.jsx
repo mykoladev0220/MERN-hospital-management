@@ -20,6 +20,7 @@ export default function ModalAddPatient(props) {
     fullname: "",
     nik: "",
     no_rm: "",
+    age: "",
     address: "",
     dob: "",
     gender: "",
@@ -97,6 +98,20 @@ export default function ModalAddPatient(props) {
             label="No RM"
             name="no_rm"
             value={valueForm.no_rm}
+            onChange={onChange}
+            color="primary"
+            variant="outlined"
+            size="small"
+          />
+        </div>
+        <div className="my-4">
+          <TextField
+            fullWidth
+            id="outlined-basic"
+            label="Age"
+            name="age"
+            type="number"
+            value={valueForm.age}
             onChange={onChange}
             color="primary"
             variant="outlined"

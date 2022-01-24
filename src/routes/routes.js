@@ -130,7 +130,7 @@ export default function routes() {
           }
         />
         <Route
-          path="/patient-prescription-doctor"
+          path="/patient-prescription/doctor"
           exact
           element={
             <Layout id="doctor">
@@ -139,7 +139,7 @@ export default function routes() {
           }
         />
         <Route
-          path="/patient-prescription-nurse"
+          path="/patient-prescription/nurse"
           exact
           element={
             <Layout id="nurse">
@@ -148,7 +148,7 @@ export default function routes() {
           }
         />
         <Route
-          path="/prescription-detail-doctor/:id"
+          path="/patient-prescription/doctor/:id/detail"
           exact
           element={
             <Layout id="doctor">
@@ -157,7 +157,7 @@ export default function routes() {
           }
         />
         <Route
-          path="/prescription-detail-nurse/:id"
+          path="/patient-prescription/nurse/:id/detail"
           exact
           element={
             <Layout id="nurse">
@@ -166,7 +166,7 @@ export default function routes() {
           }
         />
         <Route
-          path="/session-prescription-doctor"
+          path="/session-prescription/doctor"
           exact
           element={
             <Layout id="doctor">
@@ -175,11 +175,29 @@ export default function routes() {
           }
         />
         <Route
-          path="/prescription-session-detail-doctor/:id"
+          path="/session-prescription/nurse"
+          exact
+          element={
+            <Layout id="nurse">
+              <SessionPrescription id="nurse" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-session/doctor/:id/detail"
           exact
           element={
             <Layout id="doctor">
               <SessionPrescriptionDetail id="doctor" />
+            </Layout>
+          }
+        />
+        <Route
+          path="/prescription-session/nurse/:id/detail"
+          exact
+          element={
+            <Layout id="nurse">
+              <SessionPrescriptionDetail id="nurse" />
             </Layout>
           }
         />

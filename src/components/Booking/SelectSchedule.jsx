@@ -23,16 +23,16 @@ export default function SelectSchedule(props) {
     id_schedule: 0,
   };
 
-  const schedules = [
-    {
-      id: 1,
-      schedule: "8:00 AM - 9:00 AM",
-    },
-    {
-      id: 2,
-      schedule: "9:00 AM - 10:00 AM",
-    },
-  ];
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
 
   let newSSchedule = [];
   newSSchedule = rowSessionSchedule.data?.map((data) => {
@@ -65,8 +65,8 @@ export default function SelectSchedule(props) {
     return {
       id: data.id,
       day: data.day,
-      start: data.start,
-      end: data.end,
+      start: timeFormat(data.start),
+      end: timeFormat(data.end),
     };
   });
 
@@ -107,8 +107,13 @@ export default function SelectSchedule(props) {
         setSessionSchedule(data);
       }
     });
-    setrowDoctor(listDoctor);
-    setrowSchedule(listSchedule);
+    // remove duplicate listDoctor
+    const uniqueListDoctor = [...new Set(listDoctor)];
+    const uniqueListSchedule = [...new Set(listSchedule)];
+    setrowDoctor(uniqueListDoctor);
+    setrowSchedule(uniqueListSchedule);
+    // setrowDoctor(listDoctor);
+    // setrowSchedule(listSchedule);
   }, [selectSession]);
 
   useEffect(() => {
@@ -127,16 +132,25 @@ export default function SelectSchedule(props) {
     return { id, facilty, doctor, schedule };
   }
 
-  const rows = [
-    createData(1, "Facilty 1", "Doctor 1", "8:00 AM - 9:00 AM"),
-    createData(2, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(3, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(4, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(5, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(6, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(7, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(8, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-  ];
+  let rows = [];
+  rows = rowSSchedule?.map((data) => {
+    return createData(
+      data.id,
+      rowFacility?.filter((facility) => facility?.id === data.id_facilty)[0]
+        ?.name,
+      rowDoctor?.filter((doctor) => doctor?.id === data.id_doctor)[0]?.fullname,
+      rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+        ?.day +
+        " " +
+        rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+          ?.start +
+        " - " +
+        rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+          ?.end
+    );
+  });
+
+  console.log(rows, "rows");
 
   const columns = [
     {
@@ -219,11 +233,16 @@ export default function SelectSchedule(props) {
                     onChange={handleChange}
                     className="shadow-md border-0 bg-white"
                   >
-                    {rowDoctor.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.fullname}
-                      </MenuItem>
-                    ))}
+                    {/* if rowDoctor empty show menuItem not found */}
+                    {rowDoctor.length === 0 ? (
+                      <MenuItem>Doctor Not Found</MenuItem>
+                    ) : (
+                      rowDoctor.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.fullname}
+                        </MenuItem>
+                      ))
+                    )}
                   </Select>
                 </FormControl>
               </div>
@@ -241,11 +260,15 @@ export default function SelectSchedule(props) {
                     onChange={handleChange}
                     className="shadow-md border-0 bg-white"
                   >
-                    {rowSchedule.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.day} {item.start} - {item.end}
-                      </MenuItem>
-                    ))}
+                    {rowSchedule.length === 0 ? (
+                      <MenuItem>Schedule Not Found</MenuItem>
+                    ) : (
+                      rowSchedule.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.day} {item.start} - {item.end}
+                        </MenuItem>
+                      ))
+                    )}
                   </Select>
                 </FormControl>
               </div>

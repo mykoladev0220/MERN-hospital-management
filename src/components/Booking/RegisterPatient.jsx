@@ -115,6 +115,7 @@ export default function RegisterPatient(props) {
         fullname: dataPatientsByNoRM.data?.fullname,
         nik: dataPatientsByNoRM.data?.nik,
         no_rm: dataPatientsByNoRM.data?.no_rm,
+        age: dataPatientsByNoRM.data?.age,
         address: dataPatientsByNoRM.data?.address,
         gender: dataPatientsByNoRM.data?.gender,
         dob: dataPatientsByNoRM.data?.dob,
@@ -274,6 +275,22 @@ export default function RegisterPatient(props) {
             />
           </div>
           <div className="mb-4">
+            <TextField
+              fullWidth
+              required
+              disabled={rmValue === true ? true : false}
+              id="outlined-basic"
+              label="Age"
+              name="age"
+              type="number"
+              value={valueForm.age}
+              onChange={onChange}
+              color="primary"
+              variant="outlined"
+              size="small"
+            />
+          </div>
+          <div className="mb-4">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <Stack>
                 <DesktopDatePicker
@@ -321,8 +338,13 @@ export default function RegisterPatient(props) {
           </div>
           <div>
             <button
+              disabled={rmValue === true ? true : false}
               onClick={handleRegisterPatient}
-              className="bg-maingreen-200 text-white font-medium w-full py-2 rounded-md"
+              className={
+                rmValue === true
+                  ? `btn-main  bg-slate-300 text-white font-medium w-full`
+                  : `btn-main btn-green w-full`
+              }
             >
               Submit
             </button>

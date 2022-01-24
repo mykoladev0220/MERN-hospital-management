@@ -30,6 +30,7 @@ export default function Booking() {
     nik: "",
     no_rm: "",
     address: "",
+    age: "",
     dob: "2022-01-08T07:01:38.000Z",
     gender: "",
   };

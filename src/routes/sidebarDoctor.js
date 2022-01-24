@@ -13,12 +13,12 @@ const menuItems = [
   {
     text: "Session Prescription",
     icon: <DocumentDuplicateIcon className="h-5 w-5 mr-2" />,
-    path: "/session-prescription-doctor",
+    path: "/session-prescription/doctor",
   },
   {
     text: "Patient Prescription",
     icon: <UserGroupIcon className="h-5 w-5 mr-2" />,
-    path: "/patient-prescription-doctor",
+    path: "/patient-prescription/doctor",
   },
 ];
 

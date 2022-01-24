@@ -199,6 +199,21 @@ export default function SessionPrescription(props) {
       options: {
         filter: false,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <div>
+              {value === "Not Checked" ? (
+                <div className="border-solid border-2 text-center border-yellow-400 text-yellow-500 rounded-md">
+                  <span>{value}</span>
+                </div>
+              ) : value === "Checked" ? (
+                <div className="border-solid border-2 text-center border-green-400 text-green-500 rounded-md">
+                  <span>{value}</span>
+                </div>
+              ) : null}
+            </div>
+          );
+        },
       },
     },
     {
@@ -226,7 +241,7 @@ export default function SessionPrescription(props) {
                       Add Recipe
                     </button>
                     <Link
-                      to={`/prescription-session-detail-doctor/${tableMeta.rowData[0]}`}
+                      to={`/prescription-session/doctor/${tableMeta.rowData[0]}/detail`}
                       className="btn-main btn-green"
                     >
                       View Recipe
@@ -234,7 +249,7 @@ export default function SessionPrescription(props) {
                   </>
                 ) : (
                   <Link
-                    to={`/prescription-detail-nurse/${tableMeta.rowData[0]}`}
+                    to={`/prescription-session/nurse/${tableMeta.rowData[0]}/detail`}
                     className="btn-main btn-green"
                   >
                     View Recipe
@@ -254,6 +269,10 @@ export default function SessionPrescription(props) {
     download: false,
     print: false,
     viewColumns: false,
+    sortOrder:{
+      name: "id",
+      direction: "desc"
+    }
   };
   return (
     <div className="min-h-screen">

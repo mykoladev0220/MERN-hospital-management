@@ -4,6 +4,8 @@ import ModalAddPatient from "../components/PatientManagement/ModalAddPatient";
 import ModalEditPatient from "../components/PatientManagement/ModalEditPatient.jsx";
 import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatient";
 import GetDataPatients from "../hooks/GetDataPatients";
+import idLocale from "date-fns/locale/id";
+import { format } from "date-fns";
 
 export default function PatientManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -54,6 +56,14 @@ export default function PatientManagement() {
       },
     },
     {
+      name: "age",
+      label: "Age",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
       name: "gender",
       label: "Gender",
       options: {
@@ -67,6 +77,11 @@ export default function PatientManagement() {
       options: {
         filter: false,
         sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return format(new Date(value), "dd/MM/yyyy", {
+            locale: idLocale,
+          });
+        },
       },
     },
     {
@@ -129,18 +144,6 @@ export default function PatientManagement() {
     },
   };
 
-  const dateFormat = (date) => {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [day, month, year].join("/");
-  };
-
   let newData = [];
   newData = dataPatients.data?.map((data) => {
     return {
@@ -148,9 +151,10 @@ export default function PatientManagement() {
       name: data.fullname,
       nik: data.nik,
       norm: data.no_rm,
+      age: data.age,
       address: data.address,
       gender: data.gender,
-      dob: dateFormat(data.dob),
+      dob: data.dob,
     };
   });
 

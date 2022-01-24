@@ -36,7 +36,7 @@ export default function AddDoctor() {
       address: payload.address,
       phone_number: payload.phone_number,
       dob: payload.dob,
-      //   gender: payload.gender,
+      gender: payload.gender,
     };
     api
       .post("/api/v1/admins/add/doctor", payload)
@@ -49,6 +49,6 @@ export default function AddDoctor() {
         setSubmitted(false);
       });
   };
-  
+
   return { submitted, resultAddDoctor, sendDataToServer };
 }

@@ -26,12 +26,11 @@ export default function AddNewPatient(refresh) {
   const [submitted, setSubmitted] = useState(false);
 
   const sendDataToServer = (payload) => {
-
-
     payload = {
       fullname: payload.fullname,
       NIK: parseInt(payload.nik),
       no_rm: payload.no_rm,
+      age: parseInt(payload.age),
       address: payload.address,
       dob: payload.dob,
       gender: payload.gender,

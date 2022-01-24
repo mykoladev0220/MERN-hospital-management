@@ -48,6 +48,14 @@ export default function PatientPrescription(props) {
       },
     },
     {
+      name: "age",
+      label: "Age",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
       name: "gender",
       label: "Gender",
       options: {
@@ -86,7 +94,7 @@ export default function PatientPrescription(props) {
                       Add Recipe
                     </button> */}
                     <Link
-                      to={`/prescription-detail-doctor/${tableMeta.rowData[0]}`}
+                      to={`/patient-prescription/doctor/${tableMeta.rowData[0]}/detail`}
                       className="btn-main btn-green"
                     >
                       View Recipe
@@ -94,7 +102,7 @@ export default function PatientPrescription(props) {
                   </>
                 ) : (
                   <Link
-                    to={`/prescription-detail-nurse/${tableMeta.rowData[0]}`}
+                    to={`/patient-prescription/nurse/${tableMeta.rowData[0]}/detail`}
                     className="btn-main btn-green"
                   >
                     View Recipe
@@ -136,6 +144,7 @@ export default function PatientPrescription(props) {
       name: data.fullname,
       nik: data.nik,
       norm: data.no_rm,
+      age: data.age,
       address: data.address,
       gender: data.gender,
       dob: dateFormat(data.dob),

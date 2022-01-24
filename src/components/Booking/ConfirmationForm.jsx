@@ -135,6 +135,11 @@ export default function ConfirmationForm(props) {
               <td>{newDOB}</td>
             </tr>
             <tr>
+              <td className="py-2 font-semibold">Age</td>
+              <td>:</td>
+              <td>{dataPatient ? dataPatient.age : "age"}</td>
+            </tr>
+            <tr>
               <td className="py-2 font-semibold">Gender</td>
               <td>:</td>
               <td>{dataPatient ? dataPatient.gender : "gender"}</td>

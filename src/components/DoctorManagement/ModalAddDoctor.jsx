@@ -24,7 +24,7 @@ export default function ModalAddDoctor(props) {
     phone_number: "",
     address: "",
     dob: "",
-    // gender: "",
+    gender: "",
   };
 
   const initMessage = {
@@ -184,6 +184,7 @@ export default function ModalAddDoctor(props) {
               />
               <FormControlLabel
                 onChange={onChange}
+                
                 value="female"
                 name="gender"
                 control={<Radio />}

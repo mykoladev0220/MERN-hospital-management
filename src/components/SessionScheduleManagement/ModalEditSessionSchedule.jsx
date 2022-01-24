@@ -75,7 +75,7 @@ export default function ModalEditSessionSchedule(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submittedForm, refresh]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
     <Modal title="Edit Session Schedule" open={open} onClose={onClose}>

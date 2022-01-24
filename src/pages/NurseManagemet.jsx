@@ -4,6 +4,8 @@ import ModalEditNurse from "../components/NurseManagement/ModalEditNurse";
 import ModalAddNurse from "../components/NurseManagement/ModalAddNurse";
 import ModalDeleteNurse from "../components/NurseManagement/ModalDeleteNurse";
 import GetDataNurses from "../hooks/GetDataNurses";
+import idLocale from "date-fns/locale/id";
+import { format } from "date-fns";
 
 export default function NurseManagemet() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -76,6 +78,11 @@ export default function NurseManagemet() {
       options: {
         filter: true,
         sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return format(new Date(value), "dd/MM/yyyy", {
+            locale: idLocale,
+          });
+        },
       },
     },
     {
@@ -138,18 +145,6 @@ export default function NurseManagemet() {
     },
   };
 
-  const dateFormat = (date) => {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [day, month, year].join("/");
-  };
-
   let newData = [];
   newData = dataNurses.data?.map((item) => {
     return {
@@ -158,8 +153,8 @@ export default function NurseManagemet() {
       username: item.username,
       address: item.address,
       phone_number: item.phone_number,
-      dob: dateFormat(item.dob),
       gender: item.gender,
+      dob: item.dob,
     };
   });
 

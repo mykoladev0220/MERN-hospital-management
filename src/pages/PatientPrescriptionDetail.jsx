@@ -20,6 +20,18 @@ export default function PatientPrescriptionDetail(props) {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState({});
 
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
   let newData = [];
   newData = dataPrescription.data?.map((item) => {
     return {
@@ -29,8 +41,10 @@ export default function PatientPrescriptionDetail(props) {
       id_patient: item.id_patient,
       id_doctor: item.id_doctor,
       id_sessionbooking: item.id_sessionbooking,
+      date: dateFormat(item.created_at),
     };
   });
+
 
   if (newData) {
     newData = newData.filter((item) => item.id_patient === parseInt(params.id));
@@ -66,9 +80,14 @@ export default function PatientPrescriptionDetail(props) {
                     <td>{data.name}</td>
                   </tr>
                   <tr>
-                    <td>Medicine Rules</td>
+                    <td className="py-2">Medicine Rules</td>
                     <td> : </td>
                     <td>{data.rules}</td>
+                  </tr>
+                  <tr>
+                    <td>Date</td>
+                    <td> : </td>
+                    <td> {data.date}</td>
                   </tr>
                 </table>
               </div>

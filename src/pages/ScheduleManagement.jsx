@@ -35,6 +35,9 @@ export default function ScheduleManagement() {
       options: {
         filter: true,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return timeFormat(value);
+        },
       },
     },
     {
@@ -43,6 +46,9 @@ export default function ScheduleManagement() {
       options: {
         filter: true,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return timeFormat(value);
+        },
       },
     },
     {
@@ -121,8 +127,8 @@ export default function ScheduleManagement() {
     return {
       id: data.id,
       day: data.day,
-      start: timeFormat(data.start),
-      end: timeFormat(data.end),
+      start: data.start,
+      end: data.end,
     };
   });
 
