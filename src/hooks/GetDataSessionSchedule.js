@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataSchedules(refresh) {
+export default function GetDataSessionSchedule(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -17,17 +17,17 @@ export default function GetDataSchedules(refresh) {
     },
   });
 
-  const [dataSchedules, setDataSchedules] = useState({});
+  const [dataSessionSchedules, setDataSessionSchedules] = useState({});
   const [properties, setProperties] = useState({
     loading: true,
     error: false,
   });
 
-  const getDataSchedules = () => {
+  const getDataSessionSchedules = () => {
     api
-      .get("/api/v1/admins/list/schedule")
+      .get("/api/v1/admins/list/sessionschedule")
       .then((res) => {
-        setDataSchedules(res.data);
+        setDataSessionSchedules(res.data);
         setProperties({
           loading: false,
           error: false,
@@ -38,7 +38,7 @@ export default function GetDataSchedules(refresh) {
       });
   };
 
-  useEffect(() => getDataSchedules(), [refresh]);
+  useEffect(() => getDataSessionSchedules(), [refresh]);
 
-  return { dataSchedules, getDataSchedules, properties };
+  return { dataSessionSchedules, getDataSessionSchedules, properties };
 }

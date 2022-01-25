@@ -1,14 +1,54 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import { Menu, Transition } from "@headlessui/react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import format from "date-fns/format";
 import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import GetDoctorByID from "../hooks/GetDoctorByID";
+import { useSelector } from "react-redux";
+import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../store/loginSlice";
+import idLocale from "date-fns/locale/id";
 
 export default function Appbar(props) {
   const { drawerWidth, handleDrawerToggle } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [token, setToken] = useState({
+    id: 0,
+  });
+  const { getDataDoctorByID, dataDoctorByID, properties } = GetDoctorByID();
+
+  const bearerToken = useSelector((state) => state.login.token);
+
+  const [dataLogin, setDataLogin] = useState({
+    data: {
+      id: 0,
+      username: "Doctor",
+      fullname: "Doctor",
+    },
+  });
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  useEffect(() => {
+    setDataLogin(dataDoctorByID);
+  }, [dataDoctorByID]);
+
+  useEffect(() => {
+    let decoded = jwt_decode(bearerToken);
+    setToken(decoded);
+  }, [bearerToken]);
+
+  useEffect(() => {
+    getDataDoctorByID(token.id);
+  }, [token]);
+
   return (
     <AppBar
       position="fixed"
@@ -30,7 +70,7 @@ export default function Appbar(props) {
         </IconButton>
         <div className="flex w-full">
           <div className="grow py-2 invisible sm:visible">
-            <h2 className="text-black">{format(new Date(), "d MMMM Y")}</h2>
+          {format(new Date(), "EEEE, dd MMMM yyyy", { locale: idLocale })}
           </div>
           <div className="flex-none">
             <Menu as="div" className="relative inline-block text-left">
@@ -39,7 +79,7 @@ export default function Appbar(props) {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="inline-flex items-center justify-center text-black  px-4 m w-full  font-medium  text-lg  bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                 >
-                  Hi, Doctor
+                  Hi, {dataLogin ? dataLogin.data?.username : "Doctor"}
                   <ChevronDownIcon
                     className={`${
                       isDropdownOpen ? "rotate-180" : null
@@ -74,16 +114,17 @@ export default function Appbar(props) {
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
+                        <Link
                           className={`${
                             active
                               ? "bg-maingreen-200 text-white"
                               : "text-gray-900"
                           } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                          href="/"
+                          to="/login-doctor"
+                          onClick={handleLogout}
                         >
                           Logout
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   </div>

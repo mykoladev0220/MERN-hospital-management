@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataSchedules(refresh) {
+export default function GetDataPatientByNoRM(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -17,28 +17,33 @@ export default function GetDataSchedules(refresh) {
     },
   });
 
-  const [dataSchedules, setDataSchedules] = useState({});
+  const [dataPatientsByNoRM, setDataPatientsByNoRM] = useState({});
   const [properties, setProperties] = useState({
     loading: true,
     error: false,
   });
 
-  const getDataSchedules = () => {
+  const getDataPatientsByNoRM = (no_rm) => {
+    console.log(no_rm + "", "payload norm");
+
     api
-      .get("/api/v1/admins/list/schedule")
+      .get(`/api/v1/admins/patient/?no_rm=${no_rm + ""}`)
       .then((res) => {
-        setDataSchedules(res.data);
+        setDataPatientsByNoRM(res.data);
         setProperties({
           loading: false,
           error: false,
         });
       })
       .catch((err) => {
+        setDataPatientsByNoRM(err.response.data);
         setProperties({ loading: false, error: true });
       });
   };
 
-  useEffect(() => getDataSchedules(), [refresh]);
+  useEffect(() => {
+    getDataPatientsByNoRM();
+  }, [refresh]);
 
-  return { dataSchedules, getDataSchedules, properties };
+  return { dataPatientsByNoRM, getDataPatientsByNoRM, properties };
 }

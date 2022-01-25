@@ -4,6 +4,8 @@ import ModalEditDoctor from "../components/DoctorManagement/ModalEditDoctor";
 import ModalAddDoctor from "../components/DoctorManagement/ModalAddDoctor";
 import ModalDeleteDoctor from "../components/DoctorManagement/ModalDeleteDoctor";
 import GetDataDoctors from "../hooks/GetDataDoctors";
+import idLocale from "date-fns/locale/id";
+import { format } from "date-fns";
 
 export default function DoctorManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -56,7 +58,7 @@ export default function DoctorManagement() {
     },
     {
       name: "gender",
-      label: "gender",
+      label: "Gender",
       options: {
         filter: true,
         sort: true,
@@ -84,6 +86,11 @@ export default function DoctorManagement() {
       options: {
         filter: true,
         sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return format(new Date(value), "dd/MM/yyyy", {
+            locale: idLocale,
+          });
+        },
       },
     },
     {
@@ -146,18 +153,6 @@ export default function DoctorManagement() {
     },
   };
 
-  const dateFormat = (date) => {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [day, month, year].join("/");
-  };
-
   let newData = [];
   newData = dataDoctors.data?.map((item) => {
     return {
@@ -166,8 +161,9 @@ export default function DoctorManagement() {
       username: item.username,
       specialist: item.specialist,
       address: item.address,
+      gender: item.gender,
       phone_number: item.phone_number,
-      dob: dateFormat(item.dob),
+      dob: item.dob,
     };
   });
 

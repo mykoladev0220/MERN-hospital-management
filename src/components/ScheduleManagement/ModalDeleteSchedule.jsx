@@ -7,7 +7,7 @@ export default function ModalDeleteSchedule(props) {
   const { submitted, resultDeleteSchedule, sendDataToServer } =
     DeleteSchedule();
 
-  console.log(rowData);
+  // console.log(rowData, "rowData");
   const initState = {
     id: rowData[0],
     day: rowData[1],
@@ -17,7 +17,7 @@ export default function ModalDeleteSchedule(props) {
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-  console.log(valueForm);
+  // console.log(valueForm);
 
   useEffect(() => {
     setvalueForm(initState);

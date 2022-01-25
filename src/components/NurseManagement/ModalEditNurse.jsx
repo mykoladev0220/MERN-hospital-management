@@ -24,7 +24,7 @@ export default function ModalEditNurse(props) {
     phone_number: rowData[6],
     address: rowData[5],
     dob: rowData[7],
-    gender: rowData[8],
+    gender: rowData[4],
   };
 
   const [valueForm, setvalueForm] = useState(initState);
@@ -67,7 +67,7 @@ export default function ModalEditNurse(props) {
   }, [submitted, onClose, submittedForm, refresh]);
 
   return (
-    <Modal title="Add Nurse" open={open} onClose={onClose}>
+    <Modal title="Edit Nurse" open={open} onClose={onClose}>
       <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
@@ -156,6 +156,7 @@ export default function ModalEditNurse(props) {
                 onChange={onChange}
                 name="gender"
                 value="male"
+                checked={valueForm.gender === "male"}
                 control={<Radio />}
                 label="Male"
               />
@@ -163,6 +164,7 @@ export default function ModalEditNurse(props) {
                 onChange={onChange}
                 value="female"
                 name="gender"
+                checked={valueForm.gender === "female"}
                 control={<Radio />}
                 label="Female"
               />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddSchedule from "../components/ScheduleManagement/ModalAddSchedule";
 import ModalEditSchedule from "../components/ScheduleManagement/ModalEditSchedule";
@@ -15,7 +15,7 @@ export default function ScheduleManagement() {
   const handleAddClose = () => setOpenModalAdd(false);
   const handleDeleteOpen = () => setOpenModalDelete(true);
   const handleDeleteClose = () => setOpenModalDelete(false);
-  const [rowData, setRowData] = useState([]);
+  const [rowData, setrowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const { dataSchedules } = GetDataSchedules(refresh);
 
@@ -35,6 +35,9 @@ export default function ScheduleManagement() {
       options: {
         filter: true,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return timeFormat(value);
+        },
       },
     },
     {
@@ -43,6 +46,9 @@ export default function ScheduleManagement() {
       options: {
         filter: true,
         sort: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return timeFormat(value);
+        },
       },
     },
     {
@@ -60,7 +66,7 @@ export default function ScheduleManagement() {
                   className="btn-main btn-primary"
                   onClick={() => {
                     handleEditOpen();
-                    setRowData(tableMeta.rowData);
+                    setrowData(tableMeta.rowData);
                   }}
                 >
                   Edit
@@ -69,7 +75,7 @@ export default function ScheduleManagement() {
                   className="btn-main btn-secondary"
                   onClick={() => {
                     handleDeleteOpen();
-                    setRowData(tableMeta.rowData);
+                    setrowData(tableMeta.rowData);
                   }}
                 >
                   Delete
@@ -121,8 +127,8 @@ export default function ScheduleManagement() {
     return {
       id: data.id,
       day: data.day,
-      start: timeFormat(data.start),
-      end: timeFormat(data.end),
+      start: data.start,
+      end: data.end,
     };
   });
 

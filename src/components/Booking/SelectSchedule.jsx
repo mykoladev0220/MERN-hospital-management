@@ -1,32 +1,129 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { DataGrid } from "@mui/x-data-grid";
+import { id } from "date-fns/locale";
 
-export default function SelectSchedule() {
+export default function SelectSchedule(props) {
+  const {
+    rowDoctors,
+    rowFacilities,
+    rowSchedules,
+    rowSessionSchedule,
+    dataSchedules,
+    setDataSchedule,
+  } = props;
+
   const session_schedule = {
-    facilty: "",
-    doctor: "",
-    schedule: "",
+    id: 0,
+    id_facilty: 0,
+    id_doctor: 0,
+    id_schedule: 0,
   };
-  const schedules = [
-    {
-      id: 1,
-      schedule: "8:00 AM - 9:00 AM",
-    },
-    {
-      id: 2,
-      schedule: "9:00 AM - 10:00 AM",
-    },
-  ];
 
-  const [SessionSchedule, setSessionSchedule] = useState(session_schedule);
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
 
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  let newSSchedule = [];
+  newSSchedule = rowSessionSchedule.data?.map((data) => {
+    return {
+      id: data.id,
+      id_facilty: data.id_facilty,
+      id_doctor: data.id_doctor,
+      id_schedule: data.id_schedule,
+    };
+  });
+
+  let newFacility = [];
+  newFacility = rowFacilities.data?.map((data) => {
+    return {
+      id: data.id,
+      name: data.name,
+    };
+  });
+
+  let newDoctor = [];
+  newDoctor = rowDoctors.data?.map((data) => {
+    return {
+      id: data.id,
+      fullname: data.fullname,
+    };
+  });
+
+  let newSchedule = [];
+  newSchedule = rowSchedules.data?.map((data) => {
+    return {
+      id: data.id,
+      day: data.day,
+      start: timeFormat(data.start),
+      end: timeFormat(data.end),
+    };
+  });
+
+  const [rowSSchedule, setrowSSchedule] = useState(newSSchedule);
+  const [rowFacility, setrowFacility] = useState(newFacility);
+  const [rowDoctor, setrowDoctor] = useState(newDoctor);
+  const [rowSchedule, setrowSchedule] = useState(newSchedule);
+
+  const [selectSession, setSessionSchedule] = useState(session_schedule);
+  // console.log(newDoctor, "newDoctor");
+  // console.log(rowSSchedule, rowFacility, rowDoctor, rowSchedule, "Row");
+  console.log(selectSession, "selectSession");
+
+  useEffect(() => {
+    let listDoctor = [];
+    let listSchedule = [];
+    rowSSchedule.forEach((data) => {
+      if (data.id_facilty === selectSession.id_facilty) {
+        const selectDoctor = newDoctor.filter(
+          (doctor) => doctor.id === data.id_doctor
+        );
+        listDoctor = [...listDoctor, ...selectDoctor];
+      }
+      if (
+        data.id_facilty === selectSession.id_facilty &&
+        data.id_doctor === selectSession.id_doctor
+      ) {
+        const selectSchedule = newSchedule.filter(
+          (schedule) => schedule.id === data.id_schedule
+        );
+        listSchedule = [...listSchedule, ...selectSchedule];
+      }
+      if (
+        data.id_facilty === selectSession.id_facilty &&
+        data.id_doctor === selectSession.id_doctor &&
+        data.id_schedule === selectSession.id_schedule
+      ) {
+        setSessionSchedule(data);
+      }
+    });
+    // remove duplicate listDoctor
+    const uniqueListDoctor = [...new Set(listDoctor)];
+    const uniqueListSchedule = [...new Set(listSchedule)];
+    setrowDoctor(uniqueListDoctor);
+    setrowSchedule(uniqueListSchedule);
+    // setrowDoctor(listDoctor);
+    // setrowSchedule(listSchedule);
+  }, [selectSession]);
+
+  useEffect(() => {
+    setDataSchedule(selectSession);
+  }, [selectSession]);
+
+  // console.log(rowDoctor, "rowDoctor");
   const handleChange = (e) => {
     setSessionSchedule({
-      ...SessionSchedule,
+      ...selectSession,
       [e.target.name]: e.target.value,
     });
   };
@@ -35,16 +132,25 @@ export default function SelectSchedule() {
     return { id, facilty, doctor, schedule };
   }
 
-  const rows = [
-    createData(1, "Facilty 1", "Doctor 1", "8:00 AM - 9:00 AM"),
-    createData(2, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(3, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(4, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(5, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(6, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(7, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-    createData(8, "Facilty 2", "Doctor 2", "9:00 AM - 10:00 AM"),
-  ];
+  let rows = [];
+  rows = rowSSchedule?.map((data) => {
+    return createData(
+      data.id,
+      rowFacility?.filter((facility) => facility?.id === data.id_facilty)[0]
+        ?.name,
+      rowDoctor?.filter((doctor) => doctor?.id === data.id_doctor)[0]?.fullname,
+      rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+        ?.day +
+        " " +
+        rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+          ?.start +
+        " - " +
+        rowSchedule?.filter((schedule) => schedule.id === data.id_schedule)[0]
+          ?.end
+    );
+  });
+
+  console.log(rows, "rows");
 
   const columns = [
     {
@@ -99,35 +205,44 @@ export default function SelectSchedule() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    name="facilty"
-                    value={SessionSchedule.facilty}
+                    name="id_facilty"
+                    value={newSSchedule.id_facilty}
                     label="Select Facilty"
                     onChange={handleChange}
                     className="shadow-md border-0 bg-white"
                   >
-                    <MenuItem value={10}>UGD</MenuItem>
-                    <MenuItem value={20}>Klinik THT</MenuItem>
-                    <MenuItem value={30}>Klinik Umum</MenuItem>
+                    {rowFacility.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
               <div className="mb-5">
-                <FormControl  fullWidth>
+                <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Select Doctor
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    name="doctor"
-                    value={SessionSchedule.doctor}
+                    name="id_doctor"
+                    value={selectSession.id_doctor}
                     label="Select Doctor"
                     onChange={handleChange}
                     className="shadow-md border-0 bg-white"
                   >
-                    <MenuItem value={10}>Dr. Budi</MenuItem>
-                    <MenuItem value={20}>Dr. Alma</MenuItem>
-                    <MenuItem value={30}>Dr. David</MenuItem>
+                    {/* if rowDoctor empty show menuItem not found */}
+                    {rowDoctor.length === 0 ? (
+                      <MenuItem>Doctor Not Found</MenuItem>
+                    ) : (
+                      rowDoctor.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.fullname}
+                        </MenuItem>
+                      ))
+                    )}
                   </Select>
                 </FormControl>
               </div>
@@ -139,17 +254,21 @@ export default function SelectSchedule() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    name="schedule"
-                    value={SessionSchedule.schedule}
+                    name="id_schedule"
+                    value={selectSession.id_schedule}
                     label="Select Schedule"
                     onChange={handleChange}
                     className="shadow-md border-0 bg-white"
                   >
-                    {schedules.map((schedule) => (
-                      <MenuItem key={schedule.id} value={schedule.schedule}>
-                        {schedule.schedule}
-                      </MenuItem>
-                    ))}
+                    {rowSchedule.length === 0 ? (
+                      <MenuItem>Schedule Not Found</MenuItem>
+                    ) : (
+                      rowSchedule.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.day} {item.start} - {item.end}
+                        </MenuItem>
+                      ))
+                    )}
                   </Select>
                 </FormControl>
               </div>

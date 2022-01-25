@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../Modal";
-import DeleteBooking from "../../hooks/DeleteBooking";
+import DeletePrescription from "../../hooks/DeletePrescription";
 
-export default function ModalDeleteBooking(props) {
+export default function ModalDeletePrescription(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultDeleteBooking, sendDataToServer } = DeleteBooking();
+  const { submitted, resultDeletePrescription, sendDataToServer } =
+    DeletePrescription();
 
-  let initState = {
-    id: rowData[0],
-    fullname: rowData[1],
-    facility: rowData[2],
-    doctor: rowData[3],
-    date: rowData[4],
+  const initState = {
+    id: parseInt(rowData.id),
   };
-
-  const [valueForm, setvalueForm] = useState(initState);
-  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);
+
+  const [valueForm, setvalueForm] = useState(initState);
+  const [submittedForm, setSubmittedForm] = useState(submitted);
 
   const onClick = (e) => {
     e.preventDefault();
@@ -34,13 +31,13 @@ export default function ModalDeleteBooking(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submittedForm, refresh]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
-    <Modal open={open} onClose={onClose} title="Delete Booking">
+    <Modal open={open} onClose={onClose} title="Edit Prescription">
       <form onSubmit={onClick}>
         <div>
-          <h1>{`Are you sure to delete this data with id ${valueForm.id} and name ${valueForm.fullname} `}</h1>
+          <h1>{`Are you sure to delete this data with id ${valueForm.id}  `}</h1>
         </div>
         <div className="flex justify-end gap-2 mt-5">
           <button onSubmit={onClick} className="btn-main btn-primary">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddDoctor() {
+export default function AddPrescription() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,39 +16,39 @@ export default function AddDoctor() {
     },
   });
 
-  const [resultAddDoctor, setResultAddDoctor] = useState({
-    meta: {
-      rc: 0,
-      message: "",
-      messages: [],
-    },
-    data: {},
-  });
-
+  const [resultAddPrescription, setResultAddPrescription] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const sendDataToServer = (payload) => {
     payload = {
-      username: payload.username,
-      password: payload.password,
-      fullname: payload.fullname,
-      specialist: payload.specialist,
-      address: payload.address,
-      phone_number: payload.phone_number,
-      dob: payload.dob,
-      gender: payload.gender,
+      medicine_name: payload.medicine_name,
+      medication_rules: payload.medication_rules,
+      id_patient: payload.id_patient,
+      id_doctor: payload.id_doctor,
+      id_sessionbooking: payload.id_sessionbooking,
     };
+    console.log(payload, "payload");
+
     api
-      .post("/api/v1/admins/add/doctor", payload)
+      .post("/api/v1/doctors/add/prescription", payload)
       .then((res) => {
-        setResultAddDoctor(res.data);
+        setResultAddPrescription(res.data);
         setSubmitted(true);
+        setProperties({
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
-        setResultAddDoctor(err.response.data);
+        setResultAddPrescription(err.response.data);
         setSubmitted(false);
+        setProperties({ loading: false, error: true });
       });
   };
 
-  return { submitted, resultAddDoctor, sendDataToServer };
+  return { resultAddPrescription, sendDataToServer, submitted, properties };
 }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function AddDoctor() {
+export default function DeleteBooking() {
   const bearerToken = useSelector((state) => state.login.token);
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -16,39 +16,32 @@ export default function AddDoctor() {
     },
   });
 
-  const [resultAddDoctor, setResultAddDoctor] = useState({
-    meta: {
-      rc: 0,
-      message: "",
-      messages: [],
-    },
-    data: {},
+  const [resultDeleteBooking, setResultDeleteBooking] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
   });
 
-  const [submitted, setSubmitted] = useState(false);
-
   const sendDataToServer = (payload) => {
-    payload = {
-      username: payload.username,
-      password: payload.password,
-      fullname: payload.fullname,
-      specialist: payload.specialist,
-      address: payload.address,
-      phone_number: payload.phone_number,
-      dob: payload.dob,
-      gender: payload.gender,
-    };
+    let id = payload.id;
+
     api
-      .post("/api/v1/admins/add/doctor", payload)
+      .delete(`/api/v1/admins/delete/sessionbook/${id}`)
       .then((res) => {
-        setResultAddDoctor(res.data);
+        setResultDeleteBooking(res.data);
         setSubmitted(true);
+        setProperties({
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
-        setResultAddDoctor(err.response.data);
+        setResultDeleteBooking(err.response.data);
         setSubmitted(false);
+        setProperties({ loading: false, error: true });
       });
   };
 
-  return { submitted, resultAddDoctor, sendDataToServer };
+  return { resultDeleteBooking, sendDataToServer, submitted, properties };
 }

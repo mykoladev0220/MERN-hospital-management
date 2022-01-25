@@ -1,30 +1,17 @@
 import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import GetDataPatients from "../hooks/GetDataPatients";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
 
-export default function PatientPrescription() {
-  const [openModalEdit, setOpenModalEdit] = useState(false);
+export default function PatientPrescription(props) {
+  const { id } = props;
   const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [openModalDelete, setOpenModalDelete] = useState(false);
-  const handleEditOpen = () => setOpenModalEdit(true);
-  const handleEditClose = () => setOpenModalEdit(false);
   const handleAddOpen = () => setOpenModalAdd(true);
   const handleAddClose = () => setOpenModalAdd(false);
-  const handleDeleteOpen = () => setOpenModalDelete(true);
-  const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
-  const { dataPatients } = GetDataPatients();
-  const navigate = useNavigate();
-
-  const redirectToPrescriptionDetail2 = () => {
-    navigate(`/prescription-detail`);
-  };
-
-  const redirectToPrescriptionDetail = (id) => {
-    navigate(`/prescription-detail/${id}`);
-  };
+  const [refresh, setRefresh] = useState(true);
+  const { dataPatients } = GetDataPatients(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -61,6 +48,14 @@ export default function PatientPrescription() {
       },
     },
     {
+      name: "age",
+      label: "Age",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
       name: "gender",
       label: "Gender",
       options: {
@@ -87,22 +82,32 @@ export default function PatientPrescription() {
           return (
             <>
               <div className="flex gap-1">
-                <button
-                  className="btn-main btn-primary"
-                  onClick={() => {
-                    handleAddOpen();
-                    setRowData(tableMeta.rowData);
-                  }}
-                >
-                  Add Recipe
-                </button>
-
-                <Link
-                  to={`/prescription-detail/${tableMeta.rowData[0]}`}
-                  className="btn-main btn-green"
-                >
-                  View Recipe
-                </Link>
+                {id === "doctor" ? (
+                  <>
+                    {/* <button
+                      className="btn-main btn-primary"
+                      onClick={() => {
+                        handleAddOpen();
+                        setRowData(tableMeta.rowData);
+                      }}
+                    >
+                      Add Recipe
+                    </button> */}
+                    <Link
+                      to={`/patient-prescription/doctor/${tableMeta.rowData[0]}/detail`}
+                      className="btn-main btn-green"
+                    >
+                      View Recipe
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    to={`/patient-prescription/nurse/${tableMeta.rowData[0]}/detail`}
+                    className="btn-main btn-green"
+                  >
+                    View Recipe
+                  </Link>
+                )}
               </div>
             </>
           );
@@ -119,57 +124,32 @@ export default function PatientPrescription() {
     viewColumns: false,
   };
 
-  // let newData = [];
-  // newData = dataPatients?.map((data) => {
-  //   return {
-  //     id: data.id,
-  //     name: data.fullName,
-  //     nik: data.col1,
-  //     norm: data.D,
-  //     address: data.C,
-  //     gender: data.E,
-  //     dob: data.F,
-  //   };
-  // });
+  // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-  const data = [
-    {
-      id: 1,
-      name: "Joe James",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 2,
-      name: "John Walsh",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jogja",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 3,
-      name: "Bob Herm",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Jakarta",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-    {
-      id: 4,
-      name: "James Houston",
-      nik: 1231243432452345,
-      norm: "RM000001",
-      address: "Malang",
-      gender: "male",
-      dob: "27-08-1997",
-    },
-  ];
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  let newData = [];
+  newData = dataPatients.data?.map((data) => {
+    return {
+      id: data.id,
+      name: data.fullname,
+      nik: data.nik,
+      norm: data.no_rm,
+      age: data.age,
+      address: data.address,
+      gender: data.gender,
+      dob: dateFormat(data.dob),
+    };
+  });
 
   return (
     <div className="min-h-screen">
@@ -181,7 +161,7 @@ export default function PatientPrescription() {
       <div>
         <MUIDataTable
           title={"Patient List"}
-          data={data}
+          data={newData}
           columns={columns}
           options={options}
         />
@@ -190,6 +170,8 @@ export default function PatientPrescription() {
         open={openModalAdd}
         onClose={handleAddClose}
         rowData={rowData}
+        refresh={refresh}
+        setRefresh={setRefresh}
       />
     </div>
   );

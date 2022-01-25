@@ -1,6 +1,106 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function ConfirmationForm() {
+export default function ConfirmationForm(props) {
+  const {
+    dataPatient,
+    setDataPatient,
+    dataSchedules,
+    setBookingFinish,
+    rowDoctors,
+    rowFacilities,
+    rowSchedules,
+  } = props;
+
+  const transformFacility = (data) => {
+    let result = "";
+    rowFacilities.data?.map((item) => {
+      if (data === item.id) {
+        result = item.name;
+      }
+    });
+    return result;
+  };
+
+  const transformDoctor = (data) => {
+    let result = "";
+    rowDoctors.data?.map((item) => {
+      if (data === item.id) {
+        result = item.fullname;
+      }
+    });
+    return result;
+  };
+
+  const timeFormat = (time) => {
+    var d = new Date(time),
+      hour = "" + d.getHours(),
+      minute = "" + d.getMinutes();
+
+    if (hour.length < 2) hour = "0" + hour;
+    if (minute.length < 2) minute = "0" + minute;
+
+    return [hour, minute].join(":");
+  };
+
+  const transformScheduleDay = (data) => {
+    let result = " ";
+    rowSchedules.data?.map((item) => {
+      if (data === item.id) {
+        result = item.day;
+        console.log(result, "res");
+      }
+    });
+    return result;
+  };
+
+  const transformScheduleTime = (data) => {
+    let result = " ";
+    rowSchedules.data?.map((item) => {
+      if (data === item.id) {
+        result = timeFormat(item.start) + " - " + timeFormat(item.end);
+      }
+    });
+    return result;
+  };
+
+  const initState = {
+    patient_id: 0,
+    session_schedule_id: 0,
+    status: "Not Checked",
+  };
+
+  const [valueForm, setvalueForm] = useState(initState);
+
+  useEffect(() => {
+    setvalueForm({
+      ...valueForm,
+      patient_id: dataPatient.id,
+      session_schedule_id: dataSchedules.id,
+    });
+  }, [dataPatient, dataSchedules]);
+
+  useEffect(() => {
+    setBookingFinish(valueForm);
+  }, [valueForm]);
+
+  console.log(valueForm, "valueForm");
+
+  const dateFormat = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  let newDOB = dateFormat(dataPatient.dob);
+
+  console.log(dataSchedules, "dataSchedules");
+
   return (
     <div>
       <div className="py-4">
@@ -12,32 +112,37 @@ export default function ConfirmationForm() {
             <tr className="py-5 ">
               <td className="w-48 py-2 font-semibold">Fullname</td>
               <td>:</td>
-              <td>Jhon Doe</td>
+              <td>{dataPatient ? dataPatient.fullname : "Name"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">NIK</td>
               <td>:</td>
-              <td>4523534256365645</td>
+              <td>{dataPatient ? dataPatient.nik : "NIK"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">No Medical Number</td>
               <td>:</td>
-              <td>RM00001</td>
+              <td>{dataPatient ? dataPatient.no_rm : "norm"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Address</td>
               <td>:</td>
-              <td>Manchaster, United Kingdom</td>
+              <td>{dataPatient ? dataPatient.address : "Address"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Date of Birth</td>
               <td>:</td>
-              <td>18 December 1967</td>
+              <td>{newDOB}</td>
+            </tr>
+            <tr>
+              <td className="py-2 font-semibold">Age</td>
+              <td>:</td>
+              <td>{dataPatient ? dataPatient.age : "age"}</td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Gender</td>
               <td>:</td>
-              <td>Male</td>
+              <td>{dataPatient ? dataPatient.gender : "gender"}</td>
             </tr>
           </table>
         </div>
@@ -46,27 +151,38 @@ export default function ConfirmationForm() {
             <tr>
               <td className="w-48 py-2 font-semibold">Facility</td>
               <td>:</td>
-              <td>Klinik Penyakit Dalam</td>
+              <td>
+                {dataSchedules
+                  ? transformFacility(dataSchedules.id_facilty)
+                  : "Facilty"}
+              </td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Doctor</td>
               <td>:</td>
-              <td>Dr. Dree</td>
+              <td>
+                {dataSchedules
+                  ? transformDoctor(dataSchedules.id_doctor)
+                  : "Doctor"}
+              </td>
             </tr>
             <tr>
-              <td className="py-2 font-semibold">Schedule</td>
+              <td className="py-2 font-semibold">Day</td>
               <td>:</td>
-              <td>Senin, 27 Desember 2021</td>
+              <td>
+                {dataSchedules
+                  ? transformScheduleDay(dataSchedules.id_schedule)
+                  : "Day"}
+              </td>
             </tr>
             <tr>
               <td className="py-2 font-semibold">Time</td>
               <td>:</td>
-              <td>07.00</td>
-            </tr>
-            <tr>
-              <td className="py-2 font-semibold">Queue</td>
-              <td>:</td>
-              <td>03</td>
+              <td>
+                {dataSchedules
+                  ? transformScheduleTime(dataSchedules.id_schedule)
+                  : "Time"}
+              </td>
             </tr>
           </table>
         </div>

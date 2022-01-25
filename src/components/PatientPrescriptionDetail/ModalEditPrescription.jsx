@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
 import Modal from "../Modal";
-import AddPrescription from "../../hooks/AddPrescription";
-import { useSelector } from "react-redux";
-import jwt_decode from "jwt-decode";
+import EditPrescription from "../../hooks/EditPrescription";
+import { TextField } from "@mui/material";
 
-export default function ModalAddRecipe(props) {
+export default function ModalEditPrescription(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, properties, resultAddPrescription, sendDataToServer } =
-    AddPrescription();
+  const { submitted, resultEditPrescription, sendDataToServer, properties } =
+    EditPrescription();
 
-  const [token, setToken] = useState({
-    id: "",
-  });
-
-  const bearerToken = useSelector((state) => state.login.token);
-
-  useEffect(() => {
-    let decoded = jwt_decode(bearerToken);
-    setToken(decoded);
-  }, [bearerToken]);
-
-  var initState = {
-    medicine_name: "",
-    medication_rules: "",
-    id_patient: 0,
-    id_doctor: 0,
-    id_sessionbooking: 1,
+  const initState = {
+    id: parseInt(rowData.id),
+    medicine_name: rowData.name,
+    medication_rules: rowData.rules,
+    id_patient: rowData.id_patient,
+    id_doctor: rowData.id_doctor,
+    id_sessionbooking: rowData.id_sessionbooking,
   };
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-
-  console.log("rowData", rowData);
-  console.log("valueForm", valueForm);
+  console.log(rowData, valueForm, "vaalueForm");
+  useEffect(() => {
+    setvalueForm(initState);
+  }, [rowData]);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -44,18 +33,6 @@ export default function ModalAddRecipe(props) {
       [name]: value,
     });
   };
-
-
-  console.log("valueForm", valueForm);
-  
-  useEffect(() => {
-    setvalueForm({
-      ...valueForm,
-      id_patient: rowData[1],
-      id_sessionbooking: rowData[0],
-      id_doctor: token.id,
-    });
-  }, [rowData]);
 
   const onClick = (e) => {
     e.preventDefault();
@@ -70,21 +47,11 @@ export default function ModalAddRecipe(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submittedForm, refresh]);
+  }, [submitted, onClose, submittedForm, refresh]);
 
   return (
-    <Modal title="Add Prescription" open={open} onClose={onClose}>
+    <Modal title="Edit Prescription" open={open} onClose={onClose}>
       <form onSubmit={onClick}>
-        <div className="my-4">
-          <table className="table-auto">
-            <tr>
-              <td className="font-semibold">Name Patient </td>
-              <td> : </td>
-              <td> {rowData[2]}</td>
-              {/* <td>ID : {rowData[0]}</td> */}
-            </tr>
-          </table>
-        </div>
         <div className="my-4">
           <TextField
             fullWidth

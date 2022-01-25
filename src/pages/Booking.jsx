@@ -6,12 +6,51 @@ import Typography from "@mui/material/Typography";
 import RegisterPatient from "../components/Booking/RegisterPatient";
 import SelectSchedule from "../components/Booking/SelectSchedule";
 import ConfirmationForm from "../components/Booking/ConfirmationForm";
+import GetDataDoctors from "../hooks/GetDataDoctors";
+import GetDataFacilities from "../hooks/GetDataFacilities";
+import GetDataSchedules from "../hooks/GetDataSchedules";
+import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
+import AddBooking from "../hooks/AddBooking";
 
 const steps = ["Patient Registration", "Select Schedule", "Confirmation Form"];
 
 export default function Booking() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
+  const [refresh, setRefresh] = useState(true);
+  const { dataSessionSchedules, properties } = GetDataSessionSchedule(refresh);
+  const { dataDoctors } = GetDataDoctors();
+  const { dataFacilities } = GetDataFacilities();
+  const { dataSchedules } = GetDataSchedules();
+  const { resultAddBooking, sendDataToServer, submitted } = AddBooking();
+
+  const initStatePatient = {
+    id: "",
+    fullname: "",
+    nik: "",
+    no_rm: "",
+    address: "",
+    age: "",
+    dob: "2022-01-08T07:01:38.000Z",
+    gender: "",
+  };
+
+  const initStateSchedule = {
+    id: "",
+    id_facilty: "",
+    id_doctor: "",
+    id_schedule: "",
+  };
+
+  const initBookingFinish = {
+    patient_id: 0,
+    session_schedule_id: 0,
+    status: "Not Checked",
+  };
+
+  const [bookingPatient, setbookingPatient] = useState(initStatePatient);
+  const [bookingSchedule, setbookingSchedule] = useState(initStateSchedule);
+  const [bookingFinish, setBookingFinish] = useState(initBookingFinish);
 
   const isStepOptional = (step) => {
     return step === 3;
@@ -26,6 +65,9 @@ export default function Booking() {
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
+    }
+    if (activeStep === 2) {
+      sendDataToServer(bookingFinish);
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,22 +100,51 @@ export default function Booking() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <RegisterPatient />;
+        return (
+          <RegisterPatient
+            dataPatient={bookingPatient}
+            setDataPatient={setbookingPatient}
+          />
+        );
       case 1:
-        return <SelectSchedule />;
+        return (
+          <SelectSchedule
+            rowSessionSchedule={dataSessionSchedules}
+            rowDoctors={dataDoctors}
+            rowFacilities={dataFacilities}
+            rowSchedules={dataSchedules}
+            dataSchedules={bookingSchedule}
+            setDataSchedule={setbookingSchedule}
+          />
+        );
       case 2:
-        return <ConfirmationForm />;
+        return (
+          <ConfirmationForm
+            dataPatient={bookingPatient}
+            setDataPatient={setbookingPatient}
+            rowDoctors={dataDoctors}
+            rowFacilities={dataFacilities}
+            rowSchedules={dataSchedules}
+            dataSchedules={bookingSchedule}
+            setDataSchedule={setbookingSchedule}
+            setBookingFinish={setBookingFinish}
+          />
+        );
       default:
         return "Unknown step";
     }
   }
+
+  console.log(bookingPatient, "bookingPatient main");
+  console.log(bookingSchedule, "bookingSchedule main");
+  console.log(bookingFinish, "bookingFinish main");
 
   return (
     <div className="min-h-screen">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold">Booking Outpatient</h1>
       </div>
-      <div className="bg-white py-10 rounded-md">
+      <div className="bg-white py-5 rounded-md px-4">
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps = {};
@@ -100,7 +171,12 @@ export default function Booking() {
             </h1>
             <div className="flex">
               <div className="grow"></div>
-              <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md" onClick={handleReset}>Reset</button>
+              <button
+                className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
             </div>
           </Fragment>
         ) : (
@@ -119,7 +195,14 @@ export default function Booking() {
                 Back
               </button>
               <div className="flex">
-                {isStepOptional(activeStep) && <button className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 mr-2 rounded-md" onClick={handleSkip}>Skip</button>}
+                {isStepOptional(activeStep) && (
+                  <button
+                    className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 mr-2 rounded-md"
+                    onClick={handleSkip}
+                  >
+                    Skip
+                  </button>
+                )}
                 <button
                   className="bg-maingreen-200 hover:bg-maingreen-100 text-white px-5 rounded-md"
                   onClick={handleNext}

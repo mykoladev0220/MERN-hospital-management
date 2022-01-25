@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-export default function GetDataSchedules(refresh) {
+export default function GetDoctorByID(refresh) {
   const bearerToken = useSelector((state) => state.login.token);
 
   const api = axios.create({
@@ -17,28 +17,31 @@ export default function GetDataSchedules(refresh) {
     },
   });
 
-  const [dataSchedules, setDataSchedules] = useState({});
+  const [dataDoctorByID, setDataDoctorByID] = useState({});
   const [properties, setProperties] = useState({
     loading: true,
     error: false,
   });
 
-  const getDataSchedules = () => {
+  const getDataDoctorByID = (id) => {
     api
-      .get("/api/v1/admins/list/schedule")
+      .get(`/api/v1/admins/doctor/${id}`)
       .then((res) => {
-        setDataSchedules(res.data);
+        setDataDoctorByID(res.data);
         setProperties({
           loading: false,
           error: false,
         });
       })
       .catch((err) => {
+        setDataDoctorByID(err.response.data);
         setProperties({ loading: false, error: true });
       });
   };
 
-  useEffect(() => getDataSchedules(), [refresh]);
+  useEffect(() => {
+    getDataDoctorByID();
+  }, [refresh]);
 
-  return { dataSchedules, getDataSchedules, properties };
+  return { dataDoctorByID, getDataDoctorByID, properties };
 }

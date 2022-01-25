@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import LoginAuthDoctor from "../hooks/LoginAuthDoctor";
 import { useDispatch } from "react-redux";
 import { login } from "../store/loginSlice";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
 export default function LoginDoctor() {
   const { resultLogin, sendDataToServer } = LoginAuthDoctor();
@@ -14,6 +17,7 @@ export default function LoginDoctor() {
   const initLogin = {
     username: "",
     password: "",
+    showPassword: false,
   };
 
   const initMessage = {
@@ -32,6 +36,17 @@ export default function LoginDoctor() {
       ...loginForm,
       [name]: value,
     });
+  };
+
+  const handleClickShowPassword = () => {
+    setLoginForm({
+      ...loginForm,
+      showPassword: !loginForm.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   useEffect(() => {
@@ -108,6 +123,7 @@ export default function LoginDoctor() {
                 <div className="mb-4">
                   <TextField
                     fullWidth
+                    required
                     id="outlined-basic"
                     label="Username"
                     name="username"
@@ -121,15 +137,34 @@ export default function LoginDoctor() {
                 <div className="mb-4">
                   <TextField
                     fullWidth
+                    required
                     id="outlined-basic"
                     label="Password"
                     name="password"
-                    type="password"
+                    type={loginForm.showPassword ? "text" : "password"}
                     value={loginForm.password}
                     onChange={onChange}
                     color="primary"
                     variant="outlined"
                     size="small"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {loginForm.showPassword ? (
+                              <EyeOffIcon className="h-5 w-5" />
+                            ) : (
+                              <EyeIcon className="h-5 w-5" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
                 <div>

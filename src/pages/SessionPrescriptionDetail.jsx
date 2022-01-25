@@ -6,7 +6,7 @@ import GetDataPrescription from "../hooks/GetDataPrescription";
 import ModalEditPrescription from "../components/PatientPrescriptionDetail/ModalEditPrescription";
 import ModalDeletePrescription from "../components/PatientPrescriptionDetail/ModalDeletePrescription";
 
-export default function PatientPrescriptionDetail(props) {
+export default function SessionPrescriptionDetail(props) {
   const { id } = props;
   const params = useParams();
   const navigate = useNavigate();
@@ -45,11 +45,11 @@ export default function PatientPrescriptionDetail(props) {
     };
   });
 
-
   if (newData) {
-    newData = newData.filter((item) => item.id_patient === parseInt(params.id));
+    newData = newData.filter(
+      (item) => item.id_sessionbooking === parseInt(params.id)
+    );
   }
-
   return (
     <div className="min-h-screen">
       <div className="mb-8">
@@ -87,7 +87,7 @@ export default function PatientPrescriptionDetail(props) {
                   <tr>
                     <td>Date</td>
                     <td> : </td>
-                    <td> {data.date}</td>
+                    <td>{data.date}</td>
                   </tr>
                 </table>
               </div>

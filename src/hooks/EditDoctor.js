@@ -36,7 +36,7 @@ export default function EditDoctor() {
       address: payload.address,
       phone_number: payload.phone_number,
       dob: payload.dob,
-      //   gender: payload.gender,
+      gender: payload.gender,
     };
     api
       .put(`/api/v1/admins/update/doctor/${id}`, payload)

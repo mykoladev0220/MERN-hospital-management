@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../Modal";
 import DeletePatient from "../../hooks/DeletePatient";
-import GetDataPatients from "../../hooks/GetDataPatients";
 
 export default function ModalDeletePatient(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
