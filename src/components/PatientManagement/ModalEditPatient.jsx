@@ -18,8 +18,6 @@ export default function ModalEditPatient(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
   const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
 
-  // function format date 21/01/2022 to 2022-01-24T15:15:03.555+07:00
-
   let initState = {
     id: rowData[0],
     fullname: rowData[1],
@@ -33,7 +31,7 @@ export default function ModalEditPatient(props) {
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-  console.log(valueForm, "dov");
+
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);

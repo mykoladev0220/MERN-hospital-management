@@ -66,9 +66,7 @@ export default function Booking() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    // console.log(activeStep, "activeStep");
     if (activeStep === 2) {
-      // console.log("step 3");
       sendDataToServer(bookingFinish);
     }
 

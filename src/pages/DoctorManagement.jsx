@@ -21,7 +21,6 @@ export default function DoctorManagement() {
   const [refresh, setRefresh] = useState(true);
   const { dataDoctors } = GetDataDoctors(refresh);
 
-  console.log(dataDoctors, "ini data doctors");
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
     {

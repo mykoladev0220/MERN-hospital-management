@@ -112,6 +112,7 @@ export default function BookingManagement() {
       id_patient: transformPatient(item.id_patient),
       id_session_schedule: transformSessionSchedule(item.id_session_schedule),
       date: dateFormat(item.date),
+      queue: item.patient_queue,
       status: item.status,
     };
   });
@@ -125,6 +126,7 @@ export default function BookingManagement() {
       doctor: item.id_session_schedule[1],
       schedule: item.id_session_schedule[2],
       date: item.date,
+      queue: item.queue,
       status: item.status,
     };
   });

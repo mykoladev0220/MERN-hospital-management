@@ -21,6 +21,7 @@ import PatientPrescription from "../pages/PatientPrescription";
 import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 import SessionPrescription from "../pages/SessionPrescription";
 import SessionPrescriptionDetail from "../pages/SessionPrescriptionDetail";
+import AdminRoutes from "../middleware/AdminRoutes";
 
 export default function routes() {
   return (
@@ -34,9 +35,11 @@ export default function routes() {
           path="/dashboard-admin"
           exact
           element={
-            <Layout id="admin">
-              <DashboardAdmin />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <DashboardAdmin />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
@@ -61,72 +64,88 @@ export default function routes() {
           path="/booking"
           exact
           element={
-            <Layout id="admin">
-              <Booking />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <Booking />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/patient-management"
           exact
           element={
-            <Layout id="admin">
-              <PatientManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <PatientManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/booking-management"
           exact
           element={
-            <Layout id="admin">
-              <BookingManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <BookingManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/session-schedule-management"
           exact
           element={
-            <Layout id="admin">
-              <SessionScheduleManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <SessionScheduleManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/facilty-management"
           exact
           element={
-            <Layout id="admin">
-              <FacilityManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <FacilityManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/doctor-management"
           exact
           element={
-            <Layout id="admin">
-              <DoctorManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <DoctorManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/nurse-management"
           exact
           element={
-            <Layout id="admin">
-              <NurseManagemet />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <NurseManagemet />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route
           path="/schedule-management"
           exact
           element={
-            <Layout id="admin">
-              <ScheduleManagement />
-            </Layout>
+            <AdminRoutes>
+              <Layout id="admin">
+                <ScheduleManagement />
+              </Layout>
+            </AdminRoutes>
           }
         />
         <Route

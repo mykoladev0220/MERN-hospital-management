@@ -184,11 +184,6 @@ export default function ConfirmationForm(props) {
                   : "Time"}
               </td>
             </tr>
-            <tr>
-              <td className="py-2 font-semibold">Queue</td>
-              <td>:</td>
-              <td>03</td>
-            </tr>
           </table>
         </div>
       </div>

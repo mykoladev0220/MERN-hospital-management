@@ -41,13 +41,69 @@ export default function RegisterPatient(props) {
     address: "",
     dob: "2022-01-08T07:01:38.000Z",
     gender: "",
+    age: "",
+  };
+
+  const initFormErr = {
+    fullname: "",
+    nik: "",
+    address: "",
+    age: "",
+    dob: "",
+    gender: "",
   };
 
   const [valueForm, setValueForm] = useState(dataPatient);
+  const [formErr, setformErr] = useState(initFormErr);
+
+  const regexName = /^[A-Za-z ]*$/;
+  const regexNIK = /^[0-9]{16}$/;
+  const regexAddress = /^[A-Za-z0-9 ]*$/;
+  const regexAge = /^[0-9]{2}$/;
 
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    if (name === "fullname") {
+      if (regexName.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung huruf" });
+      }
+    }
+
+    if (name === "nik") {
+      if (regexNIK.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "NIK harus 16 Digit" });
+      }
+    }
+
+    if (name === "address") {
+      if (regexAddress.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Invalid Address" });
+      }
+    }
+
+    if (name === "age") {
+      if (regexAge.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Invalid Age" });
+      }
+    }
+
+    if (name === "dob") {
+      if (value !== "") {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Invalid Date" });
+      }
+    }
 
     setValueForm({
       ...valueForm,
@@ -92,8 +148,6 @@ export default function RegisterPatient(props) {
     }
   }, [resultAddNewPatien, setDataPatient]);
 
-  console.log(rmValue, "rmValue");
-
   const handleClickRM = (e) => {
     e.preventDefault();
     getDataPatientsByNoRM(valueForm.no_rm);
@@ -103,8 +157,17 @@ export default function RegisterPatient(props) {
 
   const handleRegisterPatient = (e) => {
     e.preventDefault();
-    sendDataToServer(valueForm);
-    setRefresh(false);
+    if (
+      formErr.fullname === "" &&
+      formErr.nik === "" &&
+      formErr.address === "" &&
+      formErr.age === "" &&
+      formErr.dob === ""
+    ) {
+      sendDataToServer(valueForm);
+      setRefresh(false);
+      // setValueForm(initStatePatient);
+    }
   };
 
   useEffect(() => {
@@ -230,6 +293,9 @@ export default function RegisterPatient(props) {
           <div className="bg-maingreen-200 p-1 my-4 rounded-md" />
           <div className="mb-4">
             <TextField
+              {...(formErr.fullname !== ""
+                ? { error: true, helperText: formErr.fullname }
+                : null)}
               fullWidth
               required
               disabled={rmValue === true ? true : false}
@@ -245,6 +311,9 @@ export default function RegisterPatient(props) {
           </div>
           <div className="mb-4">
             <TextField
+              {...(formErr.nik !== ""
+                ? { error: true, helperText: formErr.nik }
+                : null)}
               fullWidth
               required
               disabled={rmValue === true ? true : false}
@@ -261,6 +330,9 @@ export default function RegisterPatient(props) {
           </div>
           <div className="mb-4">
             <TextField
+              {...(formErr.address !== ""
+                ? { error: true, helperText: formErr.address }
+                : null)}
               fullWidth
               required
               disabled={rmValue === true ? true : false}
@@ -276,6 +348,9 @@ export default function RegisterPatient(props) {
           </div>
           <div className="mb-4">
             <TextField
+              {...(formErr.age !== ""
+                ? { error: true, helperText: formErr.age }
+                : null)}
               fullWidth
               required
               disabled={rmValue === true ? true : false}
@@ -294,6 +369,9 @@ export default function RegisterPatient(props) {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <Stack>
                 <DesktopDatePicker
+                  {...(formErr.dob !== ""
+                    ? { error: true, helperText: formErr.dob }
+                    : null)}
                   label="Date of Birth"
                   required
                   disabled={rmValue === true ? true : false}

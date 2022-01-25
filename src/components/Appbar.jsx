@@ -8,6 +8,7 @@ import { MenuIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store/loginSlice";
+import idLocale from "date-fns/locale/id";
 
 export default function Appbar(props) {
   const { drawerWidth, handleDrawerToggle } = props;
@@ -38,7 +39,9 @@ export default function Appbar(props) {
         </IconButton>
         <div className="flex w-full">
           <div className="grow py-2 invisible sm:visible">
-            <h2 className="text-black">{format(new Date(), "d MMMM Y")}</h2>
+            <h2 className="text-black">
+              {format(new Date(), "EEEE, dd MMMM yyyy", { locale: idLocale })}
+            </h2>
           </div>
           <div className="flex-none">
             <Menu as="div" className="relative inline-block text-left">
