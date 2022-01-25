@@ -1,7 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import HeroImg from "../assets/img/hero-home.svg";
-import { PlusCircleIcon } from "@heroicons/react/outline";
-import { Menu, Transition } from "@headlessui/react";
 import Navbar from "../components/Navbar";
 
 export default function Home() {

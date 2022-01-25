@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
 import Modal from "../Modal";
 import DeleteFacility from "../../hooks/DeleteFacility";
 
 export default function ModalDeleteFacility(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { resultDeleteFacility, sendDataToServer, submitted } =
-    DeleteFacility();
+  const { sendDataToServer, submitted } = DeleteFacility();
 
   const initState = {
     id: rowData[0],
@@ -29,7 +27,6 @@ export default function ModalDeleteFacility(props) {
     sendDataToServer(valueForm);
     setRefresh(false);
     setSubmittedForm(true);
-    console.log("click", valueForm);
   };
 
   useEffect(() => {

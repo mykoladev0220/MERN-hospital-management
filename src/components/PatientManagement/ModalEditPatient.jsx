@@ -12,11 +12,10 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 import EditPatient from "../../hooks/EditPatient";
-import { format } from "date-fns";
 
 export default function ModalEditPatient(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { resultEditPatien, sendDataToServer, submitted } = EditPatient();
+  const { sendDataToServer, submitted } = EditPatient();
 
   let initState = {
     id: rowData[0],

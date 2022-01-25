@@ -19,7 +19,7 @@ export default function NurseManagemet() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataNurses, getDataNurses } = GetDataNurses(refresh);
+  const { dataNurses } = GetDataNurses(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },

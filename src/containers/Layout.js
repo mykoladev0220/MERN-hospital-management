@@ -16,7 +16,7 @@ export default function Layout(props) {
   };
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  console.log(id, "id");
+    
   return (
     <Box sx={{ display: "flex" }}>
       {/* App Bar */}

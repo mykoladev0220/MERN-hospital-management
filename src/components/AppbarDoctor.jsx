@@ -19,7 +19,7 @@ export default function Appbar(props) {
   const [token, setToken] = useState({
     id: 0,
   });
-  const { getDataDoctorByID, dataDoctorByID, properties } = GetDoctorByID();
+  const { getDataDoctorByID, dataDoctorByID } = GetDoctorByID();
 
   const bearerToken = useSelector((state) => state.login.token);
 
@@ -60,7 +60,6 @@ export default function Appbar(props) {
     >
       <Toolbar>
         <IconButton
-          // color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
@@ -70,7 +69,7 @@ export default function Appbar(props) {
         </IconButton>
         <div className="flex w-full">
           <div className="grow py-2 invisible sm:visible">
-          {format(new Date(), "EEEE, dd MMMM yyyy", { locale: idLocale })}
+            {format(new Date(), "EEEE, dd MMMM yyyy", { locale: idLocale })}
           </div>
           <div className="flex-none">
             <Menu as="div" className="relative inline-block text-left">

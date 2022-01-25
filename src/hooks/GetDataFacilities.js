@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -23,9 +23,6 @@ export default function GetDataFacilities(refresh) {
     api.get("/api/v1/admins/list/facilty").then((res) => {
       setDataFacilities(res.data);
     });
-    // .catch((err) => {
-    //   setDataFacility(err.response.data);
-    // });
   };
 
   useEffect(() => getDataFacilities(), [refresh]);

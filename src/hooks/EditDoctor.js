@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -49,5 +49,6 @@ export default function EditDoctor() {
         setSubmitted(false);
       });
   };
+  
   return { submitted, resultEditDoctor, sendDataToServer };
 }

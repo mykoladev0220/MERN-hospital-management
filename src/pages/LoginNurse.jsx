@@ -42,7 +42,6 @@ export default function LoginNurse() {
   useEffect(() => {
     if (resultLogin) {
       if (resultLogin.meta.rc === null) {
-        console.log("No User");
         setMessageLogin({
           status: true,
           message: "",

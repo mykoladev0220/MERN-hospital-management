@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 
 export default function ModalAddRecipe(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, properties, resultAddPrescription, sendDataToServer } =
+  const { submitted, sendDataToServer } =
     AddPrescription();
 
   const [token, setToken] = useState({
@@ -70,7 +70,7 @@ export default function ModalAddRecipe(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submittedForm, refresh]);
+  }, [submittedForm, refresh, onClose, setRefresh]);
 
   return (
     <Modal title="Add Prescription" open={open} onClose={onClose}>
@@ -81,7 +81,6 @@ export default function ModalAddRecipe(props) {
               <td className="font-semibold">Name Patient </td>
               <td> : </td>
               <td> {rowData[2]}</td>
-              {/* <td>ID : {rowData[0]}</td> */}
             </tr>
           </table>
         </div>

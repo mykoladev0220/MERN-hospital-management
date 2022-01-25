@@ -1,12 +1,11 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import DashboardAdmin from "../pages/DashboardAdmin";
 import DashboardDoctor from "../pages/DashboardDoctor";
 import DashboardNurse from "../pages/DashboardNurse";
 import Booking from "../pages/Booking.jsx";
 import Layout from "../containers/Layout";
-import Main from "../containers/Main";
 import LoginAdmin from "../pages/LoginAdmin.jsx";
 import LoginDoctor from "../pages/LoginDoctor.jsx";
 import LoginNurse from "../pages/LoginNurse.jsx";

@@ -14,7 +14,7 @@ import AddNewPatient from "../../hooks/AddNewPatient";
 
 export default function ModalAddPatient(props) {
   const { open, onClose, refresh, setRefresh } = props;
-  const { submitted, resultAddPatient, sendDataToServer } = AddNewPatient();
+  const { submitted, sendDataToServer } = AddNewPatient();
 
   const initState = {
     fullname: "",
@@ -42,7 +42,6 @@ export default function ModalAddPatient(props) {
   const regexNIK = /^[0-9]{16}$/;
   const regexAddress = /^[A-Za-z0-9 ]*$/;
   const regexAge = /^[0-9]{2}$/;
-  // const regex no rm = "RM" + 6 digit
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -122,7 +121,6 @@ export default function ModalAddPatient(props) {
       sendDataToServer(valueForm);
       setRefresh(false);
       setSubmittedForm(true);
-      // setValueForm(initStatePatient);
     }
   };
 

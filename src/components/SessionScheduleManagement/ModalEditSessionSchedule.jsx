@@ -24,7 +24,7 @@ export default function ModalEditSessionSchedule(props) {
     id_doctor: rowData[2],
     id_schedule: rowData[3],
   };
-  const { submitted, resultEditSessionSchedule, sendDataToServer } =
+  const { submitted, sendDataToServer } =
     EditSessionSchedule();
 
   const [SessionSchedule, setSessionSchedule] = useState(session_schedule);

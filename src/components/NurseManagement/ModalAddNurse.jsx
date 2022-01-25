@@ -58,7 +58,7 @@ export default function ModalAddNurse(props) {
     e.preventDefault();
     sendDataToServer(valueForm);
     setRefresh(false);
-    // setSubmittedForm(true);
+    setSubmittedForm(true);
   };
 
   useEffect(() => {

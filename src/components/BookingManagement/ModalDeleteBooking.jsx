@@ -4,7 +4,7 @@ import DeleteBooking from "../../hooks/DeleteBooking";
 
 export default function ModalDeleteBooking(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultDeleteBooking, sendDataToServer } = DeleteBooking();
+  const { submitted, sendDataToServer } = DeleteBooking();
 
   let initState = {
     id: rowData[0],

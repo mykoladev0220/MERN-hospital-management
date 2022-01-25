@@ -10,7 +10,7 @@ import AddSchedule from "../../hooks/AddSchedule";
 
 export default function ModalAddSchedule(props) {
   const { open, onClose, refresh, setRefresh } = props;
-  const { submitted, resultAddSchedule, sendDataToServer } = AddSchedule();
+  const { submitted, sendDataToServer } = AddSchedule();
 
   const initState = {
     day: "",

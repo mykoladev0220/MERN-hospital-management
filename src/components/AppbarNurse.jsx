@@ -16,7 +16,7 @@ import idLocale from "date-fns/locale/id";
 export default function AppbarNurse(props) {
   const { drawerWidth, handleDrawerToggle } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { getDataNurseByID, dataNurseByID, properties } = GetNurseByID();
+  const { getDataNurseByID, dataNurseByID } = GetNurseByID();
   const [token, setToken] = useState({
     id: 0,
   });
@@ -57,7 +57,6 @@ export default function AppbarNurse(props) {
     >
       <Toolbar>
         <IconButton
-          // color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}

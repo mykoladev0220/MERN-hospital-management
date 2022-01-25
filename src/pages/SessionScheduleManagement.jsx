@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
 import ModalAddSessionSchedule from "../components/SessionScheduleManagement/ModalAddSessionSchedule";
 import ModalEditSessionSchedule from "../components/SessionScheduleManagement/ModalEditSessionSchedule";
@@ -20,11 +20,10 @@ export default function SessionScheduleManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataSessionSchedules, properties } = GetDataSessionSchedule(refresh);
-
-  const { dataDoctors, getDataDoctors } = GetDataDoctors();
-  const { dataFacilities, getDataFacilities } = GetDataFacilities();
-  const { dataSchedules, getDataSchedules } = GetDataSchedules();
+  const { dataSessionSchedules } = GetDataSessionSchedule(refresh);
+  const { dataDoctors } = GetDataDoctors();
+  const { dataFacilities } = GetDataFacilities();
+  const { dataSchedules } = GetDataSchedules();
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -91,7 +90,7 @@ export default function SessionScheduleManagement() {
 
   const transformFacility = (data) => {
     let result = [];
-    dataFacilities.data?.map((item) => {
+    dataFacilities.data?.forEach((item) => {
       if (data === item.id) {
         result.push(item.name);
       }
@@ -101,7 +100,7 @@ export default function SessionScheduleManagement() {
 
   const transformDoctor = (data) => {
     let result = [];
-    dataDoctors.data?.map((item) => {
+    dataDoctors.data?.forEach((item) => {
       if (data === item.id) {
         result.push(item.fullname);
       }
@@ -122,7 +121,7 @@ export default function SessionScheduleManagement() {
 
   const transformSchedule = (data) => {
     let result = [];
-    dataSchedules.data?.map((item) => {
+    dataSchedules.data?.forEach((item) => {
       if (data === item.id) {
         result.push(item.day, timeFormat(item.start), timeFormat(item.end));
       }
@@ -139,8 +138,6 @@ export default function SessionScheduleManagement() {
       id_schedule: transformSchedule(data.id_schedule).join(" - "),
     };
   });
-
-  console.log(newData, "newData");
 
   const options = {
     filterType: "dropdown",

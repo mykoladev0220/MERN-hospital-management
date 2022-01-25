@@ -16,7 +16,7 @@ export default function ModalAddSessionSchedule(props) {
     refresh,
     setRefresh,
   } = props;
-  const { submitted, resultAddSessionSchedule, sendDataToServer } =
+  const { submitted, sendDataToServer } =
     AddSessionSchedule();
 
   const session_schedule = {
@@ -48,8 +48,6 @@ export default function ModalAddSessionSchedule(props) {
       end: timeFormat(data.end),
     };
   });
-
-  console.log(SessionSchedule, "SessionSchedule");
 
   const handleChange = (e) => {
     setSessionSchedule({

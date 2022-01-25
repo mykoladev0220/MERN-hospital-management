@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -49,8 +49,6 @@ export default function AddNewPatient(refresh) {
   };
 
   useEffect(() => resultAddNewPatien, [refresh]);
-
-  console.log(resultAddNewPatien, "hooks");
 
   return { submitted, resultAddNewPatien, sendDataToServer };
 }

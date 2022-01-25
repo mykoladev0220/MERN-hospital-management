@@ -5,7 +5,7 @@ import EditFacility from "../../hooks/EditFacility";
 
 export default function ModalEditFacility(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { resultEditFacility, sendDataToServer, submitted } = EditFacility();
+  const { sendDataToServer, submitted } = EditFacility();
 
   const initState = {
     id: rowData[0],

@@ -10,7 +10,7 @@ import EditSchedule from "../../hooks/EditSchedule";
 
 export default function ModalEditSchedule(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultEditSchedule, sendDataToServer } = EditSchedule();
+  const { submitted, sendDataToServer } = EditSchedule();
 
   const initState = {
     id: rowData[0],

@@ -7,9 +7,8 @@ import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddReci
 export default function PatientPrescription(props) {
   const { id } = props;
   const [openModalAdd, setOpenModalAdd] = useState(false);
-  const handleAddOpen = () => setOpenModalAdd(true);
+  // const handleAddOpen = () => setOpenModalAdd(true);
   const handleAddClose = () => setOpenModalAdd(false);
-  const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const { dataPatients } = GetDataPatients(refresh);
 
@@ -84,15 +83,6 @@ export default function PatientPrescription(props) {
               <div className="flex gap-1">
                 {id === "doctor" ? (
                   <>
-                    {/* <button
-                      className="btn-main btn-primary"
-                      onClick={() => {
-                        handleAddOpen();
-                        setRowData(tableMeta.rowData);
-                      }}
-                    >
-                      Add Recipe
-                    </button> */}
                     <Link
                       to={`/patient-prescription/doctor/${tableMeta.rowData[0]}/detail`}
                       className="btn-main btn-green"
@@ -124,7 +114,6 @@ export default function PatientPrescription(props) {
     viewColumns: false,
   };
 
-  // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY
   const dateFormat = (date) => {
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),
@@ -169,7 +158,6 @@ export default function PatientPrescription(props) {
       <ModalAddRecipe
         open={openModalAdd}
         onClose={handleAddClose}
-        rowData={rowData}
         refresh={refresh}
         setRefresh={setRefresh}
       />

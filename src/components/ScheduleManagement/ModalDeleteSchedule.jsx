@@ -4,10 +4,9 @@ import DeleteSchedule from "../../hooks/DeleteSchedule";
 
 export default function ModalDeleteSchedule(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultDeleteSchedule, sendDataToServer } =
+  const { submitted, sendDataToServer } =
     DeleteSchedule();
 
-  // console.log(rowData, "rowData");
   const initState = {
     id: rowData[0],
     day: rowData[1],
@@ -17,7 +16,6 @@ export default function ModalDeleteSchedule(props) {
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-  // console.log(valueForm);
 
   useEffect(() => {
     setvalueForm(initState);

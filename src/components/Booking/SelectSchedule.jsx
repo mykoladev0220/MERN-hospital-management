@@ -11,7 +11,6 @@ export default function SelectSchedule(props) {
     rowFacilities,
     rowSchedules,
     rowSessionSchedule,
-    dataSchedules,
     setDataSchedule,
   } = props;
 
@@ -148,8 +147,6 @@ export default function SelectSchedule(props) {
           ?.end
     );
   });
-
-  console.log(rows, "rows");
 
   const columns = [
     {

@@ -4,8 +4,7 @@ import DeletePrescription from "../../hooks/DeletePrescription";
 
 export default function ModalDeletePrescription(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultDeletePrescription, sendDataToServer } =
-    DeletePrescription();
+  const { submitted, sendDataToServer } = DeletePrescription();
 
   const initState = {
     id: parseInt(rowData.id),

@@ -23,7 +23,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function RegisterPatient(props) {
   const { dataPatient, setDataPatient } = props;
   const [refresh, setRefresh] = useState(true);
-  const { dataPatientsByNoRM, getDataPatientsByNoRM, properties } =
+  const { dataPatientsByNoRM, getDataPatientsByNoRM } =
     GetDataPatientByNoRM(refresh);
   const { resultAddNewPatien, sendDataToServer, submitted } = AddNewPatient();
 

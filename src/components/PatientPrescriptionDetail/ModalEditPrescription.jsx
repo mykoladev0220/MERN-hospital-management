@@ -5,8 +5,7 @@ import { TextField } from "@mui/material";
 
 export default function ModalEditPrescription(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, resultEditPrescription, sendDataToServer, properties } =
-    EditPrescription();
+  const { submitted, sendDataToServer } = EditPrescription();
 
   const initState = {
     id: parseInt(rowData.id),
@@ -19,7 +18,7 @@ export default function ModalEditPrescription(props) {
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
-  console.log(rowData, valueForm, "vaalueForm");
+
   useEffect(() => {
     setvalueForm(initState);
   }, [rowData]);

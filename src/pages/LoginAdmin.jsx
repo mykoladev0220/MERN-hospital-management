@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import LoginAuthAdmin from "../hooks/LoginAuthAdmin";
 import { useDispatch } from "react-redux";
 import { login } from "../store/loginSlice";
-import { set } from "date-fns";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
@@ -53,7 +52,6 @@ export default function LoginAdmin() {
   useEffect(() => {
     if (resultLogin) {
       if (resultLogin.meta.rc === null) {
-        console.log("No User");
         setMessageLogin({
           status: true,
           message: "",

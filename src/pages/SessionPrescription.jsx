@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
-import ModalDeleteBooking from "../components/BookingManagement/ModalDeleteBooking";
 import GetDataBooking from "../hooks/GetDataBooking";
 import GetDataPatients from "../hooks/GetDataPatients";
 import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
@@ -17,10 +16,9 @@ export default function SessionPrescription(props) {
   const handleAddClose = () => setOpenModalAdd(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataBooking, getDataBooking, properties } = GetDataBooking(refresh);
-  const { dataPatients, getDataPatients } = GetDataPatients();
-  const { dataSessionSchedules, getDataSessionSchedules } =
-    GetDataSessionSchedule();
+  const { dataBooking } = GetDataBooking(refresh);
+  const { dataPatients } = GetDataPatients();
+  const { dataSessionSchedules } = GetDataSessionSchedule();
 
   const { dataDoctors } = GetDataDoctors();
   const { dataFacilities } = GetDataFacilities();
@@ -28,7 +26,7 @@ export default function SessionPrescription(props) {
 
   const transformPatient = (data) => {
     let result = "";
-    dataPatients.data?.map((item) => {
+    dataPatients.data?.forEach((item) => {
       if (item.id === data) {
         result = item.fullname;
       }
@@ -38,7 +36,7 @@ export default function SessionPrescription(props) {
 
   const transformFacility = (data) => {
     let result = "";
-    dataFacilities.data?.map((item) => {
+    dataFacilities.data?.forEach((item) => {
       if (data === item.id) {
         result = item.name;
       }
@@ -48,7 +46,7 @@ export default function SessionPrescription(props) {
 
   const transformDoctor = (data) => {
     let result = "";
-    dataDoctors.data?.map((item) => {
+    dataDoctors.data?.forEach((item) => {
       if (data === item.id) {
         result = item.fullname;
       }
@@ -69,7 +67,7 @@ export default function SessionPrescription(props) {
 
   const transformSchedule = (data) => {
     let result = " ";
-    dataSchedules.data?.map((item) => {
+    dataSchedules.data?.forEach((item) => {
       if (data === item.id) {
         result =
           item.day +
@@ -84,7 +82,7 @@ export default function SessionPrescription(props) {
 
   const transformSessionSchedule = (data) => {
     let result = [];
-    dataSessionSchedules.data?.map((item) => {
+    dataSessionSchedules.data?.forEach((item) => {
       if (item.id === data) {
         result.push(
           transformFacility(item.id_facilty),
@@ -109,7 +107,7 @@ export default function SessionPrescription(props) {
   };
 
   let newData = [];
-  newData = dataBooking.data?.map((item) => {
+  newData = dataBooking.data?.forEach((item) => {
     return {
       id: item.id,
       id_patient: item.id_patient,
@@ -121,7 +119,7 @@ export default function SessionPrescription(props) {
   });
 
   let newData2 = [];
-  newData2 = newData?.map((item) => {
+  newData2 = newData?.forEach((item) => {
     return {
       id: item.id,
       patient: item.name_patient,
@@ -224,8 +222,6 @@ export default function SessionPrescription(props) {
         sort: false,
         empty: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log(tableMeta.rowData);
-
           return (
             <>
               <div className="flex gap-1">
@@ -269,10 +265,10 @@ export default function SessionPrescription(props) {
     download: false,
     print: false,
     viewColumns: false,
-    sortOrder:{
+    sortOrder: {
       name: "id",
-      direction: "desc"
-    }
+      direction: "desc",
+    },
   };
   return (
     <div className="min-h-screen">

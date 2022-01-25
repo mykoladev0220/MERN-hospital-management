@@ -10,7 +10,7 @@ export default function ModalDeleteSessionSchedule(props) {
     refresh,
     setRefresh,
   } = props;
-  const { submitted, resultDeleteSessionSchedule, sendDataToServer } =
+  const { submitted, sendDataToServer } =
     DeleteSessionSchedule();
 
   const session_schedule = {

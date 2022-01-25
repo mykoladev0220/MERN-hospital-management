@@ -5,7 +5,7 @@ import AddFacility from "../../hooks/AddFacility";
 
 export default function ModalAddFacility(props) {
   const { open, onClose, refresh, setRefresh } = props;
-  const { resultAddFacility, sendDataToServer, submitted } = AddFacility();
+  const { sendDataToServer, submitted } = AddFacility();
 
   const initState = {
     name: "",

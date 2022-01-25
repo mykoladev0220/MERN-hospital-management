@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -31,7 +31,7 @@ export default function DeleteFacility() {
         setResultDeleteFacility(err.response.data);
         setSubmitted(true);
       });
-    console.log(resultDeleteFacility);
   };
+
   return { resultDeleteFacility, sendDataToServer, submitted };
 }

@@ -54,7 +54,6 @@ export default function Navbar() {
                     />
                   </button>
                 </Menu.Button>
-                {console.log(isDropdownOpen)}
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-100"

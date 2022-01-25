@@ -4,6 +4,7 @@ import NursesIcon from "../assets/img/icons8-nurse-48.png";
 import PatientsIcon from "../assets/img/icons8-protection-mask-48.png";
 
 export default function Dashboard() {
+  
   const CardStatistics = [
     {
       icon: <img src={DoctorIcon} alt="doctor" className="h-8 w-8" />,

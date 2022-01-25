@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 export default function LoginAuthAdmin() {
   const api = axios.create({
@@ -24,7 +23,6 @@ export default function LoginAuthAdmin() {
     },
   });
 
-  const [token, setToken] = useState(null);
 
   const sendDataToServer = (payload) => {
     payload = {
@@ -36,9 +34,6 @@ export default function LoginAuthAdmin() {
       .post("/api/v1/admins/login", payload)
       .then((res) => {
         setResultLogin(res.data);
-        let decoded = jwt_decode(res.data.data.token);
-        console.log(res.data.data.token, decoded, "decoded ");
-        setToken(decoded);
       })
       .catch((err) => {
         setResultLogin(err.response.data);

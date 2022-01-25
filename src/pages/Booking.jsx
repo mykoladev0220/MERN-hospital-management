@@ -18,11 +18,11 @@ export default function Booking() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const [refresh, setRefresh] = useState(true);
-  const { dataSessionSchedules, properties } = GetDataSessionSchedule(refresh);
+  const { dataSessionSchedules } = GetDataSessionSchedule(refresh);
   const { dataDoctors } = GetDataDoctors();
   const { dataFacilities } = GetDataFacilities();
   const { dataSchedules } = GetDataSchedules();
-  const { resultAddBooking, sendDataToServer, submitted } = AddBooking();
+  const { sendDataToServer } = AddBooking();
 
   const initStatePatient = {
     id: "",
@@ -134,10 +134,6 @@ export default function Booking() {
         return "Unknown step";
     }
   }
-
-  console.log(bookingPatient, "bookingPatient main");
-  console.log(bookingSchedule, "bookingSchedule main");
-  console.log(bookingFinish, "bookingFinish main");
 
   return (
     <div className="min-h-screen">

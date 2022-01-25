@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -23,9 +23,6 @@ export default function GetDataPatients(refresh) {
     api.get("/api/v1/admins/list/patient").then((res) => {
       setDataPatients(res.data);
     });
-    // .catch((err) => {
-    //   setDataPatients(err.response.data);
-    // });
   };
 
   useEffect(() => getDataPatients(), [refresh]);

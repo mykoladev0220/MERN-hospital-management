@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 export default function ConfirmationForm(props) {
   const {
     dataPatient,
-    setDataPatient,
     dataSchedules,
     setBookingFinish,
     rowDoctors,
@@ -13,7 +12,7 @@ export default function ConfirmationForm(props) {
 
   const transformFacility = (data) => {
     let result = "";
-    rowFacilities.data?.map((item) => {
+    rowFacilities.data?.forEach((item) => {
       if (data === item.id) {
         result = item.name;
       }
@@ -23,7 +22,7 @@ export default function ConfirmationForm(props) {
 
   const transformDoctor = (data) => {
     let result = "";
-    rowDoctors.data?.map((item) => {
+    rowDoctors.data?.forEach((item) => {
       if (data === item.id) {
         result = item.fullname;
       }
@@ -44,10 +43,9 @@ export default function ConfirmationForm(props) {
 
   const transformScheduleDay = (data) => {
     let result = " ";
-    rowSchedules.data?.map((item) => {
+    rowSchedules.data?.forEach((item) => {
       if (data === item.id) {
         result = item.day;
-        console.log(result, "res");
       }
     });
     return result;
@@ -55,7 +53,7 @@ export default function ConfirmationForm(props) {
 
   const transformScheduleTime = (data) => {
     let result = " ";
-    rowSchedules.data?.map((item) => {
+    rowSchedules.data?.forEach((item) => {
       if (data === item.id) {
         result = timeFormat(item.start) + " - " + timeFormat(item.end);
       }
@@ -83,8 +81,6 @@ export default function ConfirmationForm(props) {
     setBookingFinish(valueForm);
   }, [valueForm]);
 
-  console.log(valueForm, "valueForm");
-
   const dateFormat = (date) => {
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),
@@ -98,8 +94,6 @@ export default function ConfirmationForm(props) {
   };
 
   let newDOB = dateFormat(dataPatient.dob);
-
-  console.log(dataSchedules, "dataSchedules");
 
   return (
     <div>
