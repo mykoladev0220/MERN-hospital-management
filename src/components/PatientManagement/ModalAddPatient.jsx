@@ -25,6 +25,7 @@ export default function ModalAddPatient(props) {
     dob: "",
     gender: "",
   };
+
   const initFormErr = {
     fullname: "",
     nik: "",
@@ -41,7 +42,7 @@ export default function ModalAddPatient(props) {
   const regexName = /^[A-Za-z ]*$/;
   const regexNIK = /^[0-9]{16}$/;
   const regexAddress = /^[A-Za-z0-9 ]*$/;
-  const regexAge = /^[0-9]{2}$/;
+  const regexAge = /^[0-9]{1,2}$/;
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -51,7 +52,7 @@ export default function ModalAddPatient(props) {
       if (regexName.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung huruf" });
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
       }
     }
 
@@ -59,7 +60,7 @@ export default function ModalAddPatient(props) {
       if (regexNIK.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "NIK harus 16 Digit" });
+        setformErr({ ...formErr, [name]: "NIK must be 16 digits" });
       }
     }
 
@@ -83,15 +84,7 @@ export default function ModalAddPatient(props) {
       if (regexAge.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Invalid Age" });
-      }
-    }
-
-    if (name === "dob") {
-      if (value !== "") {
-        setformErr({ ...formErr, [name]: "" });
-      } else {
-        setformErr({ ...formErr, [name]: "Invalid Date" });
+        setformErr({ ...formErr, [name]: "Age must be 1 - 2 digits" });
       }
     }
 
@@ -115,8 +108,9 @@ export default function ModalAddPatient(props) {
       formErr.nik === "" &&
       formErr.address === "" &&
       formErr.age === "" &&
-      formErr.dob === "" &&
-      formErr.no_rm === ""
+      formErr.no_rm === "" &&
+      valueForm.dob !== "" &&
+      valueForm.gender !== ""
     ) {
       sendDataToServer(valueForm);
       setRefresh(false);

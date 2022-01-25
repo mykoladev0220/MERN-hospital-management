@@ -59,7 +59,7 @@ export default function RegisterPatient(props) {
   const regexName = /^[A-Za-z ]*$/;
   const regexNIK = /^[0-9]{16}$/;
   const regexAddress = /^[A-Za-z0-9 ]*$/;
-  const regexAge = /^[0-9]{2}$/;
+  const regexAge = /^[0-9]{1,2}$/;
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -69,7 +69,7 @@ export default function RegisterPatient(props) {
       if (regexName.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung huruf" });
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
       }
     }
 
@@ -77,7 +77,7 @@ export default function RegisterPatient(props) {
       if (regexNIK.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "NIK harus 16 Digit" });
+        setformErr({ ...formErr, [name]: "NIK must be 16 digits" });
       }
     }
 
@@ -93,7 +93,7 @@ export default function RegisterPatient(props) {
       if (regexAge.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Invalid Age" });
+        setformErr({ ...formErr, [name]: "Age must be 1 - 2 digits" });
       }
     }
 
@@ -162,11 +162,11 @@ export default function RegisterPatient(props) {
       formErr.nik === "" &&
       formErr.address === "" &&
       formErr.age === "" &&
-      formErr.dob === ""
+      formErr.dob === "" &&
+      valueForm.gender !== ""
     ) {
       sendDataToServer(valueForm);
       setRefresh(false);
-      // setValueForm(initStatePatient);
     }
   };
 
@@ -203,8 +203,6 @@ export default function RegisterPatient(props) {
     }
     setErrorSnackbar(false);
   };
-
-  console.log(noRM, rmValue, valueForm, "rmValue");
 
   return (
     <div className="max-w-md mx-auto">

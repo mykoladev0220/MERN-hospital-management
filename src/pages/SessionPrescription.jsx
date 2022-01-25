@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
+import ModalDeleteBooking from "../components/BookingManagement/ModalDeleteBooking";
 import GetDataBooking from "../hooks/GetDataBooking";
 import GetDataPatients from "../hooks/GetDataPatients";
 import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
@@ -16,9 +17,10 @@ export default function SessionPrescription(props) {
   const handleAddClose = () => setOpenModalAdd(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataBooking } = GetDataBooking(refresh);
-  const { dataPatients } = GetDataPatients();
-  const { dataSessionSchedules } = GetDataSessionSchedule();
+  const { dataBooking, getDataBooking, properties } = GetDataBooking(refresh);
+  const { dataPatients, getDataPatients } = GetDataPatients();
+  const { dataSessionSchedules, getDataSessionSchedules } =
+    GetDataSessionSchedule();
 
   const { dataDoctors } = GetDataDoctors();
   const { dataFacilities } = GetDataFacilities();
@@ -107,7 +109,7 @@ export default function SessionPrescription(props) {
   };
 
   let newData = [];
-  newData = dataBooking.data?.forEach((item) => {
+  newData = dataBooking.data?.map((item) => {
     return {
       id: item.id,
       id_patient: item.id_patient,
@@ -115,11 +117,12 @@ export default function SessionPrescription(props) {
       id_session_schedule: transformSessionSchedule(item.id_session_schedule),
       date: dateFormat(item.date),
       status: item.status,
+      queue: item.patient_queue,
     };
   });
 
   let newData2 = [];
-  newData2 = newData?.forEach((item) => {
+  newData2 = newData?.map((item) => {
     return {
       id: item.id,
       patient: item.name_patient,
@@ -129,6 +132,7 @@ export default function SessionPrescription(props) {
       schedule: item.id_session_schedule[2],
       date: item.date,
       status: item.status,
+      queue: item.queue,
     };
   });
 

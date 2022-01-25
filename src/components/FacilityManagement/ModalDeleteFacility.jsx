@@ -20,8 +20,6 @@ export default function ModalDeleteFacility(props) {
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
-  console.log(valueForm);
-
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(valueForm);

@@ -45,7 +45,6 @@ export default function PatientPrescriptionDetail(props) {
     };
   });
 
-
   if (newData) {
     newData = newData.filter((item) => item.id_patient === parseInt(params.id));
   }
@@ -75,17 +74,17 @@ export default function PatientPrescriptionDetail(props) {
               <div>
                 <table className="table-auto">
                   <tr>
-                    <td className="py-2">Medicine Name</td>
+                    <td className="py-1">Medicine Name</td>
                     <td> : </td>
                     <td>{data.name}</td>
                   </tr>
                   <tr>
-                    <td className="py-2">Medicine Rules</td>
+                    <td className="py-1">Medicine Rules</td>
                     <td> : </td>
                     <td>{data.rules}</td>
                   </tr>
                   <tr>
-                    <td>Date</td>
+                    <td className="py-1">Date</td>
                     <td> : </td>
                     <td> {data.date}</td>
                   </tr>

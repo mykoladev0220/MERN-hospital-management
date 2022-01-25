@@ -24,8 +24,6 @@ export default function GetDataPatientByNoRM(refresh) {
   });
 
   const getDataPatientsByNoRM = (no_rm) => {
-    console.log(no_rm + "", "payload norm");
-
     api
       .get(`/api/v1/admins/patient/?no_rm=${no_rm + ""}`)
       .then((res) => {

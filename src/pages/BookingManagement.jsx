@@ -17,6 +17,7 @@ export default function BookingManagement() {
   const { dataBooking } = GetDataBooking(refresh);
   const { dataPatients } = GetDataPatients();
   const { dataSessionSchedules } = GetDataSessionSchedule();
+
   const { dataDoctors } = GetDataDoctors();
   const { dataFacilities } = GetDataFacilities();
   const { dataSchedules } = GetDataSchedules();
@@ -104,7 +105,7 @@ export default function BookingManagement() {
   };
 
   let newData = [];
-  newData = dataBooking.data?.forEach((item) => {
+  newData = dataBooking.data?.map((item) => {
     return {
       id: item.id,
       id_patient: transformPatient(item.id_patient),
@@ -116,7 +117,7 @@ export default function BookingManagement() {
   });
 
   let newData2 = [];
-  newData2 = newData?.forEach((item) => {
+  newData2 = newData?.map((item) => {
     return {
       id: item.id,
       patient: item.id_patient,

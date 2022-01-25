@@ -10,6 +10,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
+import InputAdornment from "@mui/material/InputAdornment";
 import AddNurse from "../../hooks/AddNurse";
 
 export default function ModalAddNurse(props) {
@@ -31,15 +32,70 @@ export default function ModalAddNurse(props) {
     message: "",
   };
 
-  console.log(resultAddNurse, submitted, "add nurse");
+  const initFormErr = {
+    fullname: "",
+    username: "",
+    password: "",
+    phone_number: "",
+    address: "",
+    dob: "",
+    gender: "",
+  };
 
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
   const [message, setMessage] = useState(initMessage);
+  const [formErr, setformErr] = useState(initFormErr);
+
+  const regexName = /^[A-Za-z ]*$/;
+  const regexUsername = /^[A-Za-z0-9]*$/;
+  const regexPassword = /^[A-Za-z0-9]*$/;
+  const regexPhone = /^[0-9]{11,12}$/;
+  const regexAddress = /^[A-Za-z0-9]*$/;
 
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    if (name === "fullname") {
+      if (regexName.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung angka" });
+      }
+    }
+
+    if (name === "username") {
+      if (regexUsername.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Username tidak valid" });
+      }
+    }
+
+    if (name === "password") {
+      if (regexPassword.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Password tidak valid" });
+      }
+    }
+
+    if (name === "phone_number") {
+      if (regexPhone.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Nomor telepon harus 11 - 12 digit" });
+      }
+    }
+
+    if (name === "address") {
+      if (regexAddress.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Alamat tidak valid" });
+      }
+    }
 
     setvalueForm({
       ...valueForm,
@@ -56,9 +112,19 @@ export default function ModalAddNurse(props) {
 
   const onClick = (e) => {
     e.preventDefault();
-    sendDataToServer(valueForm);
-    setRefresh(false);
-    setSubmittedForm(true);
+    if (
+      formErr.fullname === "" &&
+      formErr.username === "" &&
+      formErr.password === "" &&
+      formErr.phone_number === "" &&
+      formErr.address === "" &&
+      valueForm.dob !== "" &&
+      valueForm.gender !== ""
+    ) {
+      sendDataToServer(valueForm);
+      setRefresh(false);
+      setSubmittedForm(true);
+    }
   };
 
   useEffect(() => {
@@ -83,6 +149,9 @@ export default function ModalAddNurse(props) {
       <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
+            {...(formErr.fullname !== ""
+              ? { error: true, helperText: formErr.fullname }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Fullname"
@@ -96,6 +165,9 @@ export default function ModalAddNurse(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.username !== ""
+              ? { error: true, helperText: formErr.username }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Username"
@@ -109,6 +181,9 @@ export default function ModalAddNurse(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.password !== ""
+              ? { error: true, helperText: formErr.password }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Password"
@@ -122,6 +197,9 @@ export default function ModalAddNurse(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.phone_number !== ""
+              ? { error: true, helperText: formErr.phone_number }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Phone"
@@ -131,10 +209,18 @@ export default function ModalAddNurse(props) {
             color="primary"
             variant="outlined"
             size="small"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">+62</InputAdornment>
+              ),
+            }}
           />
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.address !== ""
+              ? { error: true, helperText: formErr.address }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Address"

@@ -16,8 +16,7 @@ export default function ModalAddSessionSchedule(props) {
     refresh,
     setRefresh,
   } = props;
-  const { submitted, sendDataToServer } =
-    AddSessionSchedule();
+  const { submitted, sendDataToServer } = AddSessionSchedule();
 
   const session_schedule = {
     id_facilty: "",
@@ -25,8 +24,15 @@ export default function ModalAddSessionSchedule(props) {
     id_schedule: "",
   };
 
+  const initFormErr = {
+    id_facilty: "",
+    id_doctor: "",
+    id_schedule: "",
+  };
+
   const [SessionSchedule, setSessionSchedule] = useState(session_schedule);
   const [submittedForm, setSubmittedForm] = useState(submitted);
+  const [formErr, setformErr] = useState(initFormErr);
 
   const timeFormat = (time) => {
     var d = new Date(time),
@@ -50,9 +56,54 @@ export default function ModalAddSessionSchedule(props) {
   });
 
   const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    if (name === "id_facilty") {
+      if (value === "") {
+        setformErr({
+          ...formErr,
+          [name]: "Facility is required",
+        });
+      } else {
+        setformErr({
+          ...formErr,
+          [name]: "",
+        });
+      }
+    }
+
+    if (name === "id_doctor") {
+      if (value === "") {
+        setformErr({
+          ...formErr,
+          [name]: "Doctor is required",
+        });
+      } else {
+        setformErr({
+          ...formErr,
+          [name]: "",
+        });
+      }
+    }
+
+    if (name === "id_schedule") {
+      if (value === "") {
+        setformErr({
+          ...formErr,
+          [name]: "Schedule is required",
+        });
+      } else {
+        setformErr({
+          ...formErr,
+          [name]: "",
+        });
+      }
+    }
+
     setSessionSchedule({
       ...SessionSchedule,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -80,6 +131,9 @@ export default function ModalAddSessionSchedule(props) {
               Select Facilty
             </InputLabel>
             <Select
+              {...(formErr.id_facilty !== ""
+                ? { error: true, helperText: formErr.id_facilty }
+                : null)}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               name="id_facilty"

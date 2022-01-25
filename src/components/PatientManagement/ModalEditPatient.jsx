@@ -28,8 +28,23 @@ export default function ModalEditPatient(props) {
     gender: rowData[6],
   };
 
+  const initFormErr = {
+    fullname: "",
+    nik: "",
+    address: "",
+    age: "",
+    dob: "",
+    gender: "",
+  };
+
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
+  const [formErr, setformErr] = useState(initFormErr);
+
+  const regexName = /^[A-Za-z ]*$/;
+  const regexNIK = /^[0-9]{16}$/;
+  const regexAddress = /^[A-Za-z0-9 ]*$/;
+  const regexAge = /^[0-9]{2}$/;
 
   useEffect(() => {
     setvalueForm(initState);
@@ -38,6 +53,46 @@ export default function ModalEditPatient(props) {
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    if (name === "fullname") {
+      if (regexName.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
+      }
+    }
+
+    if (name === "nik") {
+      if (regexNIK.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "NIK must be 16 digits" });
+      }
+    }
+
+    if (name === "address") {
+      if (regexAddress.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Invalid Address" });
+      }
+    }
+
+    if (name === "no_rm") {
+      if (value !== "") {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "RM must be filled" });
+      }
+    }
+
+    if (name === "age") {
+      if (regexAge.test(value)) {
+        setformErr({ ...formErr, [name]: "" });
+      } else {
+        setformErr({ ...formErr, [name]: "Age must be 1 - 2 digits" });
+      }
+    }
 
     setvalueForm({
       ...valueForm,
@@ -54,9 +109,19 @@ export default function ModalEditPatient(props) {
 
   const onClick = (e) => {
     e.preventDefault();
-    sendDataToServer(valueForm);
-    setRefresh(false);
-    setSubmittedForm(true);
+    if (
+      formErr.fullname === "" &&
+      formErr.nik === "" &&
+      formErr.address === "" &&
+      formErr.age === "" &&
+      formErr.no_rm === "" &&
+      valueForm.dob !== "" &&
+      valueForm.gender !== ""
+    ) {
+      sendDataToServer(valueForm);
+      setRefresh(false);
+      setSubmittedForm(true);
+    }
   };
 
   useEffect(() => {
@@ -67,13 +132,14 @@ export default function ModalEditPatient(props) {
     }
   }, [submitted, onClose, submittedForm, refresh]);
 
-  console.log(valueForm);
-
   return (
     <Modal open={open} onClose={onClose} title="Edit Patient">
       <form onSubmit={onClick}>
         <div className="my-4">
           <TextField
+            {...(formErr.fullname !== ""
+              ? { error: true, helperText: formErr.fullname }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Fullname"
@@ -87,6 +153,9 @@ export default function ModalEditPatient(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.nik !== ""
+              ? { error: true, helperText: formErr.nik }
+              : null)}
             fullWidth
             id="outlined-number"
             label="NIK"
@@ -101,6 +170,9 @@ export default function ModalEditPatient(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.no_rm !== ""
+              ? { error: true, helperText: formErr.no_rm }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="No RM"
@@ -114,9 +186,12 @@ export default function ModalEditPatient(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.age !== ""
+              ? { error: true, helperText: formErr.age }
+              : null)}
             fullWidth
             id="outlined-basic"
-            label="Agee"
+            label="Age"
             name="age"
             type="number"
             value={valueForm.age}
@@ -128,6 +203,9 @@ export default function ModalEditPatient(props) {
         </div>
         <div className="my-4">
           <TextField
+            {...(formErr.address !== ""
+              ? { error: true, helperText: formErr.address }
+              : null)}
             fullWidth
             id="outlined-basic"
             label="Address"

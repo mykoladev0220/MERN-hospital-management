@@ -7,8 +7,7 @@ import jwt_decode from "jwt-decode";
 
 export default function ModalAddRecipe(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
-  const { submitted, sendDataToServer } =
-    AddPrescription();
+  const { submitted, sendDataToServer } = AddPrescription();
 
   const [token, setToken] = useState({
     id: "",
@@ -32,9 +31,6 @@ export default function ModalAddRecipe(props) {
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
-  console.log("rowData", rowData);
-  console.log("valueForm", valueForm);
-
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -45,9 +41,6 @@ export default function ModalAddRecipe(props) {
     });
   };
 
-
-  console.log("valueForm", valueForm);
-  
   useEffect(() => {
     setvalueForm({
       ...valueForm,
@@ -70,7 +63,7 @@ export default function ModalAddRecipe(props) {
       setSubmittedForm(false);
       setRefresh(true);
     }
-  }, [submittedForm, refresh, onClose, setRefresh]);
+  }, [submittedForm, refresh]);
 
   return (
     <Modal title="Add Prescription" open={open} onClose={onClose}>

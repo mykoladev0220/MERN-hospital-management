@@ -21,8 +21,6 @@ export default function ModalAddSchedule(props) {
   const [valueForm, setvalueForm] = useState(initState);
   const [submittedForm, setSubmittedForm] = useState(submitted);
 
-  console.log(valueForm, "value form");
-
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
