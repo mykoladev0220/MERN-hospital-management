@@ -21,12 +21,14 @@ import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 import SessionPrescription from "../pages/SessionPrescription";
 import SessionPrescriptionDetail from "../pages/SessionPrescriptionDetail";
 import AdminRoutes from "../middleware/AdminRoutes";
+import NotFound from "../pages/NotFound";
 
 export default function routes() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/login-doctor" element={<LoginDoctor />} />
         <Route path="/login-nurse" element={<LoginNurse />} />
