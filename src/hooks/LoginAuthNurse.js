@@ -23,6 +23,11 @@ export default function LoginAuthNurse() {
     },
   });
 
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
+
   const sendDataToServer = (payload) => {
     payload = {
       username: payload.username,
@@ -33,10 +38,18 @@ export default function LoginAuthNurse() {
       .post("/api/v1/nurses/login", payload)
       .then((res) => {
         setResultLogin(res.data);
+        setProperties({
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
         setResultLogin(err.response.data);
+        setProperties({
+          loading: false,
+          error: true,
+        });
       });
   };
-  return { resultLogin, sendDataToServer };
+  return { resultLogin, sendDataToServer, properties };
 }

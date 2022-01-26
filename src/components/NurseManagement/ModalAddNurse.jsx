@@ -51,7 +51,7 @@ export default function ModalAddNurse(props) {
   const regexUsername = /^[A-Za-z0-9]*$/;
   const regexPassword = /^[A-Za-z0-9]*$/;
   const regexPhone = /^[0-9]{11,12}$/;
-  const regexAddress = /^[A-Za-z0-9]*$/;
+  const regexAddress = /^[a-zA-Z0-9\s,'-]*$/;
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -61,7 +61,7 @@ export default function ModalAddNurse(props) {
       if (regexName.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung angka" });
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
       }
     }
 
@@ -69,7 +69,7 @@ export default function ModalAddNurse(props) {
       if (regexUsername.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Username tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Username" });
       }
     }
 
@@ -77,7 +77,7 @@ export default function ModalAddNurse(props) {
       if (regexPassword.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Password tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Password" });
       }
     }
 
@@ -85,7 +85,7 @@ export default function ModalAddNurse(props) {
       if (regexPhone.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nomor telepon harus 11 - 12 digit" });
+        setformErr({ ...formErr, [name]: "Phone number must be filled in 11 -12 digits" });
       }
     }
 
@@ -93,7 +93,7 @@ export default function ModalAddNurse(props) {
       if (regexAddress.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Alamat tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Address" });
       }
     }
 
@@ -222,6 +222,8 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            multiline
+            rows={2}
             id="outlined-basic"
             label="Address"
             name="address"

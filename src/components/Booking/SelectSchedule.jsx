@@ -4,6 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { DataGrid } from "@mui/x-data-grid";
+import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
 
 export default function SelectSchedule(props) {
   const {
@@ -179,14 +181,9 @@ export default function SelectSchedule(props) {
       </div>
       <div className="flex flex-col lg:flex-row-reverse justify-items-center my-4">
         <div className="flex-1 md:my-4 mx-4 ">
-          <div className="mx-auto">
-            <div className="w-full h-80 rounded-xl bg-white shadow-md border-0">
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-              />
+          <div className="flex justify-center items-center">
+            <div className="w-full rounded-xl bg-white shadow-md border-0">
+              <Calendar locale="id-ID" className="p-4" />
             </div>
           </div>
         </div>

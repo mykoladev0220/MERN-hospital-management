@@ -6,6 +6,8 @@ import ModalDeleteDoctor from "../components/DoctorManagement/ModalDeleteDoctor"
 import GetDataDoctors from "../hooks/GetDataDoctors";
 import idLocale from "date-fns/locale/id";
 import { format } from "date-fns";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 export default function DoctorManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -19,7 +21,7 @@ export default function DoctorManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataDoctors } = GetDataDoctors(refresh);
+  const { dataDoctors, properties } = GetDataDoctors(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -111,7 +113,10 @@ export default function DoctorManagement() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Edit
+                  <div className="flex items-center">
+                    <PencilAltIcon className="mr-1 w-4 h-4" />
+                    Edit
+                  </div>
                 </button>
                 <button
                   className="btn-main btn-secondary"
@@ -120,7 +125,10 @@ export default function DoctorManagement() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Delete
+                  <div className="flex items-center">
+                    <TrashIcon className="mr-1 w-4 h-4" />
+                    Delete
+                  </div>
                 </button>
               </div>
             </>
@@ -137,6 +145,15 @@ export default function DoctorManagement() {
     print: false,
     viewColumns: false,
     actionsColumnIndex: -1,
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
     customToolbar: () => {
       return (
         <>
@@ -146,7 +163,10 @@ export default function DoctorManagement() {
               handleAddOpen();
             }}
           >
-            Add Doctor
+            <div className="flex items-center">
+              <PlusIcon className="mr-1 w-4 h-4" />
+              Add Doctor
+            </div>
           </button>
         </>
       );

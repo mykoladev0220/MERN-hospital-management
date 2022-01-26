@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MUIDataTable from "mui-datatables";
-import ModalDeleteBooking from "../components/BookingManagement/ModalDeleteBooking";
 import GetDataBooking from "../hooks/GetDataBooking";
 import GetDataPatients from "../hooks/GetDataPatients";
 import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
@@ -9,6 +8,8 @@ import GetDataFacilities from "../hooks/GetDataFacilities";
 import GetDataSchedules from "../hooks/GetDataSchedules";
 import { Link } from "react-router-dom";
 import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PlusIcon, EyeIcon } from "@heroicons/react/solid";
 
 export default function SessionPrescription(props) {
   const { id } = props;
@@ -17,10 +18,9 @@ export default function SessionPrescription(props) {
   const handleAddClose = () => setOpenModalAdd(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataBooking, getDataBooking, properties } = GetDataBooking(refresh);
-  const { dataPatients, getDataPatients } = GetDataPatients();
-  const { dataSessionSchedules, getDataSessionSchedules } =
-    GetDataSessionSchedule();
+  const { dataBooking, properties } = GetDataBooking(refresh);
+  const { dataPatients } = GetDataPatients();
+  const { dataSessionSchedules } = GetDataSessionSchedule();
 
   const { dataDoctors } = GetDataDoctors();
   const { dataFacilities } = GetDataFacilities();
@@ -238,13 +238,19 @@ export default function SessionPrescription(props) {
                         setRowData(tableMeta.rowData);
                       }}
                     >
-                      Add Recipe
+                      <div className="flex items-center">
+                        <PlusIcon className="mr-1 w-4 h-4" />
+                        Add Recipe
+                      </div>
                     </button>
                     <Link
                       to={`/prescription-session/doctor/${tableMeta.rowData[0]}/detail`}
                       className="btn-main btn-green"
                     >
-                      View Recipe
+                      <div className="flex items-center">
+                        <EyeIcon className="mr-1 w-4 h-4" />
+                        View Recipe
+                      </div>
                     </Link>
                   </>
                 ) : (
@@ -273,7 +279,17 @@ export default function SessionPrescription(props) {
       name: "id",
       direction: "desc",
     },
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
   };
+
   return (
     <div className="min-h-screen">
       <div className="mb-8">

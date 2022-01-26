@@ -6,6 +6,8 @@ import ModalDeletePatient from "../components/PatientManagement/ModalDeletePatie
 import GetDataPatients from "../hooks/GetDataPatients";
 import idLocale from "date-fns/locale/id";
 import { format } from "date-fns";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 export default function PatientManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -19,7 +21,7 @@ export default function PatientManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataPatients } = GetDataPatients(refresh);
+  const { dataPatients, properties } = GetDataPatients(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -102,7 +104,10 @@ export default function PatientManagement() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Edit
+                  <div className="flex items-center">
+                    <PencilAltIcon className="mr-1 w-4 h-4" />
+                    Edit
+                  </div>
                 </button>
                 <button
                   className="btn-main btn-secondary"
@@ -111,7 +116,10 @@ export default function PatientManagement() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Delete
+                  <div className="flex items-center">
+                    <TrashIcon className="mr-1 w-4 h-4" />
+                    Delete
+                  </div>
                 </button>
               </div>
             </>
@@ -128,6 +136,15 @@ export default function PatientManagement() {
     print: false,
     viewColumns: false,
     actionsColumnIndex: -1,
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
     customToolbar: () => {
       return (
         <>
@@ -137,7 +154,10 @@ export default function PatientManagement() {
               handleAddOpen();
             }}
           >
-            Add Patient
+            <div className="flex items-center">
+              <PlusIcon className="mr-1 w-4 h-4" />
+              Add Patient
+            </div>
           </button>
         </>
       );

@@ -21,6 +21,8 @@ import PatientPrescriptionDetail from "../pages/PatientPrescriptionDetail";
 import SessionPrescription from "../pages/SessionPrescription";
 import SessionPrescriptionDetail from "../pages/SessionPrescriptionDetail";
 import AdminRoutes from "../middleware/AdminRoutes";
+import DoctorRoutes from "../middleware/DoctorRoutes";
+import NurseRoutes from "../middleware/NurseRoutes";
 import NotFound from "../pages/NotFound";
 
 export default function routes() {
@@ -47,18 +49,22 @@ export default function routes() {
           path="/dashboard-doctor"
           exact
           element={
-            <Layout id="doctor">
-              <DashboardDoctor />
-            </Layout>
+            <DoctorRoutes>
+              <Layout id="doctor">
+                <DashboardDoctor />
+              </Layout>
+            </DoctorRoutes>
           }
         />
         <Route
           path="/dashboard-nurse"
           exact
           element={
-            <Layout id="nurse">
-              <DashboardNurse />
-            </Layout>
+            <NurseRoutes>
+              <Layout id="nurse">
+                <DashboardNurse />
+              </Layout>
+            </NurseRoutes>
           }
         />
         <Route
@@ -153,72 +159,88 @@ export default function routes() {
           path="/patient-prescription/doctor"
           exact
           element={
-            <Layout id="doctor">
-              <PatientPrescription id="doctor" />
-            </Layout>
+            <DoctorRoutes>
+              <Layout id="doctor">
+                <PatientPrescription id="doctor" />
+              </Layout>
+            </DoctorRoutes>
           }
         />
         <Route
           path="/patient-prescription/nurse"
           exact
           element={
-            <Layout id="nurse">
-              <PatientPrescription id="nurse" />
-            </Layout>
+            <NurseRoutes>
+              <Layout id="nurse">
+                <PatientPrescription id="nurse" />
+              </Layout>
+            </NurseRoutes>
           }
         />
         <Route
           path="/patient-prescription/doctor/:id/detail"
           exact
           element={
-            <Layout id="doctor">
-              <PatientPrescriptionDetail id="doctor" />
-            </Layout>
+            <DoctorRoutes>
+              <Layout id="doctor">
+                <PatientPrescriptionDetail id="doctor" />
+              </Layout>
+            </DoctorRoutes>
           }
         />
         <Route
           path="/patient-prescription/nurse/:id/detail"
           exact
           element={
-            <Layout id="nurse">
-              <PatientPrescriptionDetail id="nurse" />
-            </Layout>
+            <NurseRoutes>
+              <Layout id="nurse">
+                <PatientPrescriptionDetail id="nurse" />
+              </Layout>
+            </NurseRoutes>
           }
         />
         <Route
           path="/session-prescription/doctor"
           exact
           element={
-            <Layout id="doctor">
-              <SessionPrescription id="doctor" />
-            </Layout>
+            <DoctorRoutes>
+              <Layout id="doctor">
+                <SessionPrescription id="doctor" />
+              </Layout>
+            </DoctorRoutes>
           }
         />
         <Route
           path="/session-prescription/nurse"
           exact
           element={
-            <Layout id="nurse">
-              <SessionPrescription id="nurse" />
-            </Layout>
+            <NurseRoutes>
+              <Layout id="nurse">
+                <SessionPrescription id="nurse" />
+              </Layout>
+            </NurseRoutes>
           }
         />
         <Route
           path="/prescription-session/doctor/:id/detail"
           exact
           element={
-            <Layout id="doctor">
-              <SessionPrescriptionDetail id="doctor" />
-            </Layout>
+            <DoctorRoutes>
+              <Layout id="doctor">
+                <SessionPrescriptionDetail id="doctor" />
+              </Layout>
+            </DoctorRoutes>
           }
         />
         <Route
           path="/prescription-session/nurse/:id/detail"
           exact
           element={
-            <Layout id="nurse">
-              <SessionPrescriptionDetail id="nurse" />
-            </Layout>
+            <NurseRoutes>
+              <Layout id="nurse">
+                <SessionPrescriptionDetail id="nurse" />
+              </Layout>
+            </NurseRoutes>
           }
         />
       </Routes>

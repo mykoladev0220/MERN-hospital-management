@@ -34,7 +34,7 @@ export default function AddDoctor() {
       fullname: payload.fullname,
       specialist: payload.specialist,
       address: payload.address,
-      phone_number: payload.phone_number,
+      phone_number: "62" + payload.phone_number,
       dob: payload.dob,
       gender: payload.gender,
     };

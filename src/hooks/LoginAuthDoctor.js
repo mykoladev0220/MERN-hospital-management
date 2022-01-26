@@ -23,6 +23,11 @@ export default function LoginAuthDoctor() {
     },
   });
 
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
+
   const sendDataToServer = (payload) => {
     payload = {
       username: payload.username,
@@ -33,11 +38,19 @@ export default function LoginAuthDoctor() {
       .post("/api/v1/doctors/login", payload)
       .then((res) => {
         setResultLogin(res.data);
+        setProperties({
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
         setResultLogin(err.response.data);
+        setProperties({
+          loading: false,
+          error: true,
+        });
       });
   };
 
-  return { resultLogin, sendDataToServer };
+  return { resultLogin, sendDataToServer, properties };
 }

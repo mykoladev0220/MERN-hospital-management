@@ -4,6 +4,8 @@ import ModalAddSchedule from "../components/ScheduleManagement/ModalAddSchedule"
 import ModalEditSchedule from "../components/ScheduleManagement/ModalEditSchedule";
 import ModalDeleteSchedule from "../components/ScheduleManagement/ModalDeleteSchedule";
 import GetDataSchedules from "../hooks/GetDataSchedules";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 export default function ScheduleManagement() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -17,7 +19,7 @@ export default function ScheduleManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setrowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataSchedules } = GetDataSchedules(refresh);
+  const { dataSchedules, properties } = GetDataSchedules(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -69,7 +71,10 @@ export default function ScheduleManagement() {
                     setrowData(tableMeta.rowData);
                   }}
                 >
-                  Edit
+                  <div className="flex items-center">
+                    <PencilAltIcon className="mr-1 w-4 h-4" />
+                    Edit
+                  </div>
                 </button>
                 <button
                   className="btn-main btn-secondary"
@@ -78,7 +83,10 @@ export default function ScheduleManagement() {
                     setrowData(tableMeta.rowData);
                   }}
                 >
-                  Delete
+                  <div className="flex items-center">
+                    <TrashIcon className="mr-1 w-4 h-4" />
+                    Delete
+                  </div>
                 </button>
               </div>
             </>
@@ -95,6 +103,15 @@ export default function ScheduleManagement() {
     print: false,
     viewColumns: false,
     actionsColumnIndex: -1,
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
     customToolbar: () => {
       return (
         <>
@@ -104,7 +121,10 @@ export default function ScheduleManagement() {
               handleAddOpen();
             }}
           >
-            Add Schedule
+            <div className="flex items-center">
+              <PlusIcon className="mr-1 w-4 h-4" />
+              Add Schedule
+            </div>
           </button>
         </>
       );

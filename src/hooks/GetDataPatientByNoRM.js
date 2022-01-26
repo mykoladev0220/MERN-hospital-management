@@ -35,7 +35,7 @@ export default function GetDataPatientByNoRM(refresh) {
       })
       .catch((err) => {
         setDataPatientsByNoRM(err.response.data);
-        setProperties({ loading: false, error: true });
+        setProperties({ loading: true, error: true });
       });
   };
 

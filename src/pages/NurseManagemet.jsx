@@ -6,6 +6,8 @@ import ModalDeleteNurse from "../components/NurseManagement/ModalDeleteNurse";
 import GetDataNurses from "../hooks/GetDataNurses";
 import idLocale from "date-fns/locale/id";
 import { format } from "date-fns";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PlusIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 export default function NurseManagemet() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -19,7 +21,7 @@ export default function NurseManagemet() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataNurses } = GetDataNurses(refresh);
+  const { dataNurses, properties } = GetDataNurses(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -103,7 +105,10 @@ export default function NurseManagemet() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Edit
+                  <div className="flex items-center">
+                    <PencilAltIcon className="mr-1 w-4 h-4" />
+                    Edit
+                  </div>
                 </button>
                 <button
                   className="btn-main btn-secondary"
@@ -112,7 +117,10 @@ export default function NurseManagemet() {
                     setRowData(tableMeta.rowData);
                   }}
                 >
-                  Delete
+                  <div className="flex items-center">
+                    <TrashIcon className="mr-1 w-4 h-4" />
+                    Delete
+                  </div>
                 </button>
               </div>
             </>
@@ -129,6 +137,15 @@ export default function NurseManagemet() {
     print: false,
     viewColumns: false,
     actionsColumnIndex: -1,
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
     customToolbar: () => {
       return (
         <>
@@ -138,7 +155,10 @@ export default function NurseManagemet() {
               handleAddOpen();
             }}
           >
-            Add Nurse
+            <div className="flex items-center">
+              <PlusIcon className="mr-1 w-4 h-4" />
+              Add Nurse
+            </div>
           </button>
         </>
       );

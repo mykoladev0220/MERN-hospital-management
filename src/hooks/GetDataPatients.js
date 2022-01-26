@@ -18,14 +18,22 @@ export default function GetDataPatients(refresh) {
   });
 
   const [dataPatients, setDataPatients] = useState({});
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const getDataPatients = () => {
     api.get("/api/v1/admins/list/patient").then((res) => {
       setDataPatients(res.data);
+      setProperties({
+        loading: false,
+        error: false,
+      });
     });
   };
 
   useEffect(() => getDataPatients(), [refresh]);
 
-  return { dataPatients, getDataPatients };
+  return { dataPatients, getDataPatients, properties };
 }

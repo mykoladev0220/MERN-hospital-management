@@ -8,9 +8,10 @@ import { login } from "../store/loginSlice";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function LoginNurse() {
-  const { resultLogin, sendDataToServer } = LoginAuthNurse();
+  const { resultLogin, sendDataToServer, properties } = LoginAuthNurse();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -27,6 +28,7 @@ export default function LoginNurse() {
 
   const [messageLogin, setMessageLogin] = useState(initMessage);
   const [loginForm, setLoginForm] = useState(initLogin);
+  const [loading, setloading] = useState(false);
 
   const handleClickShowPassword = () => {
     setLoginForm({
@@ -99,7 +101,14 @@ export default function LoginNurse() {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(loginForm);
+    setloading(properties.loading);
   };
+
+  useEffect(() => {
+    if (properties?.loading === false) {
+      setloading(false);
+    }
+  }, [properties?.loading]);
 
   const redirectToDashboard = () => {
     navigate("/dashboard-nurse");
@@ -170,7 +179,12 @@ export default function LoginNurse() {
                     onSubmit={onClick}
                     className="bg-maingreen-200 text-white w-full px-2 py-2 rounded-md hover:bg-maingreen-100"
                   >
-                    Login
+                    <span>Login </span>
+                    <span>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={10} />
+                      ) : null}
+                    </span>
                   </button>
                 </div>
                 {messageLogin.status === false ? (

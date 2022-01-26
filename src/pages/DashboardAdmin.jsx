@@ -1,25 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import DoctorIcon from "../assets/img/icons8-medical-doctor-48.png";
 import NursesIcon from "../assets/img/icons8-nurse-48.png";
 import PatientsIcon from "../assets/img/icons8-protection-mask-48.png";
+import GetDataDoctors from "../hooks/GetDataDoctors";
+import GetDataNurses from "../hooks/GetDataNurses";
+import GetDataPatients from "../hooks/GetDataPatients";
+import GetDataBooking from "../hooks/GetDataBooking";
+import MedicalIcon from "../assets/img/icons8-medical-prescription-64.png";
 
 export default function Dashboard() {
-  
+  const [refresh, setRefresh] = useState(true);
+  const { dataDoctors } = GetDataDoctors(refresh);
+  const { dataNurses } = GetDataNurses(refresh);
+  const { dataPatients } = GetDataPatients(refresh);
+  const { dataBooking } = GetDataBooking(refresh);
+
+  const countDoctors = dataDoctors.data?.length;
+  const countNurses = dataNurses.data?.length;
+  const countPatients = dataPatients.data?.length;
+  const countBooking = dataBooking.data?.length;
+
   const CardStatistics = [
     {
       icon: <img src={DoctorIcon} alt="doctor" className="h-8 w-8" />,
       title: "Doctors",
-      number: "60",
+      number: countDoctors,
     },
     {
       icon: <img src={NursesIcon} alt="nurse" className="h-8 w-8" />,
       title: "Nurses",
-      number: "90",
+      number: countNurses,
     },
     {
       icon: <img src={PatientsIcon} alt="patient" className="h-8 w-8" />,
       title: "Patients",
-      number: "1200",
+      number: countPatients,
+    },
+    {
+      icon: <img src={MedicalIcon} alt="patient" className="h-8 w-8" />,
+      title: "Booking",
+      number: countBooking,
     },
   ];
 

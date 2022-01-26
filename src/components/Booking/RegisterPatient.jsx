@@ -15,6 +15,7 @@ import GetDataPatientByNoRM from "../../hooks/GetDataPatientByNoRM";
 import AddNewPatient from "../../hooks/AddNewPatient";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -23,7 +24,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function RegisterPatient(props) {
   const { dataPatient, setDataPatient } = props;
   const [refresh, setRefresh] = useState(true);
-  const { dataPatientsByNoRM, getDataPatientsByNoRM } =
+  const { dataPatientsByNoRM, getDataPatientsByNoRM, properties } =
     GetDataPatientByNoRM(refresh);
   const { resultAddNewPatien, sendDataToServer, submitted } = AddNewPatient();
 
@@ -58,7 +59,7 @@ export default function RegisterPatient(props) {
 
   const regexName = /^[A-Za-z ]*$/;
   const regexNIK = /^[0-9]{16}$/;
-  const regexAddress = /^[A-Za-z0-9 ]*$/;
+  const regexAddress = /^[a-zA-Z0-9\s,'-]*$/;
   const regexAge = /^[0-9]{1,2}$/;
 
   const onChange = (e) => {
@@ -93,7 +94,7 @@ export default function RegisterPatient(props) {
       if (regexAge.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Age must be 1 - 2 digits" });
+        setformErr({ ...formErr, [name]: "Age must be filled in 1 - 2 digits" });
       }
     }
 
@@ -287,6 +288,12 @@ export default function RegisterPatient(props) {
                 size="small"
               />
             ) : null}
+            <div>
+              {properties.loading ? <LinearProgress color="success" /> : null}
+              {properties.error ? (
+                <p className=" text-sm text-red-500 my-2">Patient Not Found!</p>
+              ) : null}
+            </div>
           </div>
           <div className="bg-maingreen-200 p-1 my-4 rounded-md" />
           <div className="mb-4">
@@ -333,6 +340,8 @@ export default function RegisterPatient(props) {
                 : null)}
               fullWidth
               required
+              multiline
+              rows={2}
               disabled={rmValue === true ? true : false}
               id="outlined-basic"
               label="Address"

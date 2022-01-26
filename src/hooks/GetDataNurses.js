@@ -18,14 +18,22 @@ export default function GetDataNurses(refresh) {
   });
 
   const [dataNurses, setDataNurses] = useState({});
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const getDataNurses = () => {
     api.get("/api/v1/admins/list/nurse").then((res) => {
       setDataNurses(res.data);
+      setProperties({
+        loading: false,
+        error: false,
+      });
     });
   };
 
   useEffect(() => getDataNurses(), [refresh]);
 
-  return { dataNurses, getDataNurses };
+  return { dataNurses, getDataNurses, properties };
 }

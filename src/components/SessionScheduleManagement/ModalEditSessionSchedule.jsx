@@ -65,7 +65,7 @@ export default function ModalEditSessionSchedule(props) {
     e.preventDefault();
     sendDataToServer(SessionSchedule);
     setRefresh(false);
-    setSessionSchedule(true);
+    setSubmittedForm(true);
   };
 
   useEffect(() => {

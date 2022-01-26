@@ -17,6 +17,25 @@
   @apply text-white bg-maingreen-200 focus:ring-green-500 hover:bg-maingreen-100;
 }
 
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1em;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  padding: 10px 6.6667px;
+  background: none;
+  text-align: center;
+  line-height: 16px;
+}
+
+.react-calendar__tile--now {
+  background: #ffff76;
+  border-radius: 10px;
+}
+
 
 body {
   margin: 0;

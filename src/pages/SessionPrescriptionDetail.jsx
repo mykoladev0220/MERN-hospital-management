@@ -5,13 +5,15 @@ import { useNavigate } from "react-router-dom";
 import GetDataPrescription from "../hooks/GetDataPrescription";
 import ModalEditPrescription from "../components/PatientPrescriptionDetail/ModalEditPrescription";
 import ModalDeletePrescription from "../components/PatientPrescriptionDetail/ModalDeletePrescription";
+import Skeleton from "@mui/material/Skeleton";
+import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 export default function SessionPrescriptionDetail(props) {
   const { id } = props;
   const params = useParams();
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(true);
-  const { dataPrescription } = GetDataPrescription(refresh);
+  const { dataPrescription, properties } = GetDataPrescription(refresh);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const handleEditOpen = () => setOpenModalEdit(true);
@@ -69,6 +71,15 @@ export default function SessionPrescriptionDetail(props) {
         </div>
       </div>
       <div>
+        {properties.loading ? (
+          <Skeleton
+            animation="wave"
+            className="rounded-md"
+            variant="rectangular"
+            width="100%"
+            height={100}
+          />
+        ) : null}
         {newData?.map((data) => (
           <div className=" bg-white p-4 rounded-md shadow-lg my-4">
             <div className="flex justify-between">
@@ -101,7 +112,10 @@ export default function SessionPrescriptionDetail(props) {
                         setRowData(data);
                       }}
                     >
-                      Edit
+                      <div className="flex items-center">
+                        <PencilAltIcon className="mr-1 w-4 h-4" />
+                        Edit
+                      </div>
                     </button>
                     <button
                       className="btn-main btn-secondary"
@@ -110,7 +124,10 @@ export default function SessionPrescriptionDetail(props) {
                         setRowData(data);
                       }}
                     >
-                      Delete
+                      <div className="flex items-center">
+                        <TrashIcon className="mr-1 w-4 h-4" />
+                        Delete
+                      </div>
                     </button>
                   </>
                 ) : null}

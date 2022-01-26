@@ -23,6 +23,10 @@ export default function LoginAuthAdmin() {
     },
   });
 
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const sendDataToServer = (payload) => {
     payload = {
@@ -34,11 +38,19 @@ export default function LoginAuthAdmin() {
       .post("/api/v1/admins/login", payload)
       .then((res) => {
         setResultLogin(res.data);
+        setProperties({
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
         setResultLogin(err.response.data);
+        setProperties({
+          loading: false,
+          error: true,
+        });
       });
   };
 
-  return { resultLogin, sendDataToServer };
+  return { resultLogin, sendDataToServer, properties };
 }

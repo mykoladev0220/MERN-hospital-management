@@ -7,6 +7,8 @@ import GetDataSessionSchedule from "../hooks/GetDataSessionSchedule";
 import GetDataDoctors from "../hooks/GetDataDoctors";
 import GetDataFacilities from "../hooks/GetDataFacilities";
 import GetDataSchedules from "../hooks/GetDataSchedules";
+import CircularProgress from "@mui/material/CircularProgress";
+import { TrashIcon } from "@heroicons/react/solid";
 
 export default function BookingManagement() {
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -14,7 +16,7 @@ export default function BookingManagement() {
   const handleDeleteClose = () => setOpenModalDelete(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataBooking } = GetDataBooking(refresh);
+  const { dataBooking, properties } = GetDataBooking(refresh);
   const { dataPatients } = GetDataPatients();
   const { dataSessionSchedules } = GetDataSessionSchedule();
 
@@ -220,7 +222,10 @@ export default function BookingManagement() {
                   setRowData(tableMeta.rowData);
                 }}
               >
-                Delete
+                <div className="flex items-center">
+                  <TrashIcon className="mr-1 w-4 h-4" />
+                  Delete
+                </div>
               </button>
             </>
           );
@@ -238,6 +243,15 @@ export default function BookingManagement() {
     sortOrder: {
       name: "id",
       direction: "desc",
+    },
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
     },
   };
 

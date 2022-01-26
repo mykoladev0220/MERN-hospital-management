@@ -41,7 +41,7 @@ export default function ModalAddPatient(props) {
 
   const regexName = /^[A-Za-z ]*$/;
   const regexNIK = /^[0-9]{16}$/;
-  const regexAddress = /^[A-Za-z0-9 ]*$/;
+  const regexAddress = /^[a-zA-Z0-9\s,'-]*$/;
   const regexAge = /^[0-9]{1,2}$/;
 
   const onChange = (e) => {
@@ -201,6 +201,8 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            multiline
+            rows={2}
             id="outlined-basic"
             label="Address"
             name="address"

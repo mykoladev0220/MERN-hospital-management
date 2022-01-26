@@ -8,9 +8,10 @@ import { login } from "../store/loginSlice";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function LoginAdmin() {
-  const { resultLogin, sendDataToServer } = LoginAuthAdmin();
+  const { resultLogin, sendDataToServer, properties } = LoginAuthAdmin();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ export default function LoginAdmin() {
 
   const [messageLogin, setMessageLogin] = useState(initMessage);
   const [loginForm, setLoginForm] = useState(initLogin);
+  const [loading, setloading] = useState(false);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -99,7 +101,14 @@ export default function LoginAdmin() {
   const onClick = (e) => {
     e.preventDefault();
     sendDataToServer(loginForm);
+    setloading(properties.loading);
   };
+
+  useEffect(() => {
+    if (properties?.loading === false) {
+      setloading(false);
+    } 
+  }, [properties?.loading]);
 
   const redirectToDashboard = () => {
     navigate("/dashboard-admin");
@@ -171,7 +180,12 @@ export default function LoginAdmin() {
                     onSubmit={onClick}
                     className="bg-maingreen-200 text-white w-full px-2 py-2 rounded-md hover:bg-maingreen-100"
                   >
-                    Login
+                    <span>Login </span>
+                    <span>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={10} />
+                      ) : null}
+                    </span>
                   </button>
                 </div>
                 {messageLogin.status === false ? (

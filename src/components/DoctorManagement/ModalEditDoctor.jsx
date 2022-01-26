@@ -11,6 +11,7 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import Modal from "../Modal";
 import EditDoctor from "../../hooks/EditDoctor";
+import InputAdornment from "@mui/material/InputAdornment";
 
 export default function ModalEditDoctor(props) {
   const { open, onClose, rowData, refresh, setRefresh } = props;
@@ -22,7 +23,9 @@ export default function ModalEditDoctor(props) {
     username: rowData[2],
     password: rowData[3],
     specialist: rowData[4],
-    phone_number: rowData[7],
+    // remover two digit in early rowData[7]
+
+    phone_number: rowData[7]?.slice(2),
     address: rowData[6],
     dob: rowData[8],
     gender: rowData[5],
@@ -53,7 +56,7 @@ export default function ModalEditDoctor(props) {
   const regexUsername = /^[A-Za-z0-9]*$/;
   const regexPassword = /^[A-Za-z0-9]*$/;
   const regexPhone = /^[0-9]{11,12}$/;
-  const regexAddress = /^[A-Za-z0-9]*$/;
+  const regexAddress = /^[a-zA-Z0-9\s,'-]*$/;
 
   useEffect(() => {
     setvalueForm(initState);
@@ -67,7 +70,7 @@ export default function ModalEditDoctor(props) {
       if (regexName.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung angka" });
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
       }
     }
 
@@ -75,7 +78,7 @@ export default function ModalEditDoctor(props) {
       if (regexUsername.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Username tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Username" });
       }
     }
 
@@ -83,7 +86,7 @@ export default function ModalEditDoctor(props) {
       if (regexPassword.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Password tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Password" });
       }
     }
 
@@ -91,7 +94,7 @@ export default function ModalEditDoctor(props) {
       if (regexPhone.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nomor telepon harus 11 - 12 digit" });
+        setformErr({ ...formErr, [name]: "Phone number must be filled in 11 -12 digits" });
       }
     }
 
@@ -99,7 +102,7 @@ export default function ModalEditDoctor(props) {
       if (value !== "") {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Specialist Harus diisi" });
+        setformErr({ ...formErr, [name]: "Specialist is required" });
       }
     }
 
@@ -107,7 +110,7 @@ export default function ModalEditDoctor(props) {
       if (regexAddress.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Alamat tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Address" });
       }
     }
 
@@ -138,7 +141,7 @@ export default function ModalEditDoctor(props) {
     ) {
       sendDataToServer(valueForm);
       setRefresh(false);
-      setSubmittedForm(true);
+      // setSubmittedForm(true);
     }
   };
 
@@ -240,6 +243,11 @@ export default function ModalEditDoctor(props) {
             color="primary"
             variant="outlined"
             size="small"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">+62</InputAdornment>
+              ),
+            }}
           />
         </div>
         <div className="my-4">
@@ -248,6 +256,8 @@ export default function ModalEditDoctor(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            multiline
+            rows={2}
             id="outlined-basic"
             label="Address"
             name="address"

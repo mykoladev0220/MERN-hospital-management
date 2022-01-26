@@ -33,7 +33,7 @@ export default function EditNurse() {
       password: payload.password,
       fullname: payload.fullname,
       address: payload.address,
-      phone_number: payload.phone_number,
+      phone_number: "62" + payload.phone_number,
       dob: payload.dob,
       gender: payload.gender,
     };

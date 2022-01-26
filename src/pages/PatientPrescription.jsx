@@ -3,6 +3,8 @@ import MUIDataTable from "mui-datatables";
 import GetDataPatients from "../hooks/GetDataPatients";
 import { Link } from "react-router-dom";
 import ModalAddRecipe from "../components/PatientPrescriptionDoctor/ModalAddRecipe";
+import CircularProgress from "@mui/material/CircularProgress";
+import { EyeIcon } from "@heroicons/react/solid";
 
 export default function PatientPrescription(props) {
   const { id } = props;
@@ -11,7 +13,7 @@ export default function PatientPrescription(props) {
   const handleAddClose = () => setOpenModalAdd(false);
   const [rowData, setRowData] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  const { dataPatients } = GetDataPatients(refresh);
+  const { dataPatients, properties } = GetDataPatients(refresh);
 
   const columns = [
     { name: "id", label: "ID", options: { sort: true } },
@@ -88,7 +90,10 @@ export default function PatientPrescription(props) {
                       to={`/patient-prescription/doctor/${tableMeta.rowData[0]}/detail`}
                       className="btn-main btn-green"
                     >
-                      View Recipe
+                      <div className="flex items-center">
+                        <EyeIcon className="mr-1 w-4 h-4" />
+                        View Prescription
+                      </div>
                     </Link>
                   </>
                 ) : (
@@ -96,7 +101,10 @@ export default function PatientPrescription(props) {
                     to={`/patient-prescription/nurse/${tableMeta.rowData[0]}/detail`}
                     className="btn-main btn-green"
                   >
-                    View Recipe
+                    <div className="flex items-center">
+                      <EyeIcon className="mr-1 w-4 h-4" />
+                      View Prescription
+                    </div>
                   </Link>
                 )}
               </div>
@@ -113,6 +121,15 @@ export default function PatientPrescription(props) {
     download: false,
     print: false,
     viewColumns: false,
+    textLabels: {
+      body: {
+        noMatch: properties.loading ? (
+          <CircularProgress className="my-5" size={35} color={"success"} />
+        ) : (
+          "Sorry, there is no matching data to display"
+        ),
+      },
+    },
   };
 
   // function yyyy-MM-dd'T'HH:mm:ss.SSS'Z' to dd-MM-YYYY

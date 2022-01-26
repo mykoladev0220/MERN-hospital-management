@@ -18,14 +18,22 @@ export default function GetDataDoctors(refresh) {
   });
 
   const [dataDoctors, setDataDoctors] = useState({});
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const getDataDoctors = () => {
     api.get("/api/v1/admins/list/doctor").then((res) => {
       setDataDoctors(res.data);
+      setProperties({
+        loading: false,
+        error: false,
+      });
     });
   };
 
   useEffect(() => getDataDoctors(), [refresh]);
 
-  return { dataDoctors, getDataDoctors };
+  return { dataDoctors, getDataDoctors, properties };
 }

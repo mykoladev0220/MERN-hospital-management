@@ -18,14 +18,22 @@ export default function GetDataFacilities(refresh) {
   });
 
   const [dataFacilities, setDataFacilities] = useState({});
+  const [properties, setProperties] = useState({
+    loading: true,
+    error: false,
+  });
 
   const getDataFacilities = () => {
     api.get("/api/v1/admins/list/facilty").then((res) => {
       setDataFacilities(res.data);
+      setProperties({
+        loading: false,
+        error: false,
+      });
     });
   };
 
   useEffect(() => getDataFacilities(), [refresh]);
 
-  return { dataFacilities, getDataFacilities };
+  return { dataFacilities, getDataFacilities, properties };
 }

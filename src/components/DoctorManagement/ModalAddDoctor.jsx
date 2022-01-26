@@ -52,8 +52,8 @@ export default function ModalAddDoctor(props) {
   const regexName = /^[A-Za-z ]*$/;
   const regexUsername = /^[A-Za-z0-9]*$/;
   const regexPassword = /^[A-Za-z0-9]*$/;
-  const regexPhone = /^[0-9]{11,12}$/;
-  const regexAddress = /^[A-Za-z0-9]*$/;
+  const regexPhone = /^[0-9]{10,12}$/;
+  const regexAddress = /^[a-zA-Z0-9\s,'-]*$/;
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -63,7 +63,7 @@ export default function ModalAddDoctor(props) {
       if (regexName.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nama tidak boleh mengandung angka" });
+        setformErr({ ...formErr, [name]: "Name cannot contain numbers" });
       }
     }
 
@@ -71,7 +71,7 @@ export default function ModalAddDoctor(props) {
       if (regexUsername.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Username tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Username" });
       }
     }
 
@@ -79,7 +79,7 @@ export default function ModalAddDoctor(props) {
       if (regexPassword.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Password tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Password" });
       }
     }
 
@@ -87,7 +87,7 @@ export default function ModalAddDoctor(props) {
       if (regexPhone.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Nomor telepon harus 11 - 12 digit" });
+        setformErr({ ...formErr, [name]: "Phone number must be filled in 11 -12 digits" });
       }
     }
 
@@ -95,7 +95,7 @@ export default function ModalAddDoctor(props) {
       if (value !== "") {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Specialist Harus diisi" });
+        setformErr({ ...formErr, [name]: "Specialist is required" });
       }
     }
 
@@ -103,7 +103,7 @@ export default function ModalAddDoctor(props) {
       if (regexAddress.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Alamat tidak valid" });
+        setformErr({ ...formErr, [name]: "Invalid Address" });
       }
     }
 
@@ -134,7 +134,7 @@ export default function ModalAddDoctor(props) {
     ) {
       sendDataToServer(valueForm);
       setRefresh(false);
-      setSubmittedForm(true);
+      // setSubmittedForm(true);
     }
   };
 
@@ -249,6 +249,8 @@ export default function ModalAddDoctor(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            multiline
+            rows={2}
             id="outlined-basic"
             label="Address"
             name="address"
