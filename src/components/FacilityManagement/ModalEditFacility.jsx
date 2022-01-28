@@ -111,6 +111,7 @@ export default function ModalEditFacility(props) {
               ? { error: true, helperText: formErr.name }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Facility"
             name="name"
@@ -127,6 +128,7 @@ export default function ModalEditFacility(props) {
               ? { error: true, helperText: formErr.capacity }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Capacity"
             name="capacity"
@@ -143,6 +145,7 @@ export default function ModalEditFacility(props) {
               ? { error: true, helperText: formErr.location }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Location"
             name="location"

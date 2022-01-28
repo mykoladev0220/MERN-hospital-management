@@ -70,6 +70,7 @@ export default function ModalEditSchedule(props) {
         <div className="my-4">
           <TextField
             fullWidth
+            required
             id="outlined-basic"
             label="Day"
             name="day"

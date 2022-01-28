@@ -56,6 +56,7 @@ export default function RegisterPatient(props) {
 
   const [valueForm, setValueForm] = useState(dataPatient);
   const [formErr, setformErr] = useState(initFormErr);
+  const [loading, setloading] = useState(false);
 
   const regexName = /^[A-Za-z ]*$/;
   const regexNIK = /^[0-9]{16}$/;
@@ -94,7 +95,10 @@ export default function RegisterPatient(props) {
       if (regexAge.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Age must be filled in 1 - 2 digits" });
+        setformErr({
+          ...formErr,
+          [name]: "Age must be filled in 1 - 2 digits",
+        });
       }
     }
 
@@ -154,6 +158,7 @@ export default function RegisterPatient(props) {
     getDataPatientsByNoRM(valueForm.no_rm);
     setRefresh(false);
     setSubmittedForm(true);
+    setloading(properties.loading);
   };
 
   const handleRegisterPatient = (e) => {
@@ -204,6 +209,12 @@ export default function RegisterPatient(props) {
     }
     setErrorSnackbar(false);
   };
+
+  useEffect(() => {
+    if (properties?.loading === false) {
+      setloading(false);
+    }
+  }, [properties?.loading]);
 
   return (
     <div className="max-w-md mx-auto">
@@ -289,8 +300,8 @@ export default function RegisterPatient(props) {
               />
             ) : null}
             <div>
-              {properties.loading ? <LinearProgress color="success" /> : null}
-              {properties.error ? (
+              {loading ? <LinearProgress color="success" /> : null}
+              {loading && properties.error ? (
                 <p className=" text-sm text-red-500 my-2">Patient Not Found!</p>
               ) : null}
             </div>

@@ -23,8 +23,6 @@ export default function ModalEditDoctor(props) {
     username: rowData[2],
     password: rowData[3],
     specialist: rowData[4],
-    // remover two digit in early rowData[7]
-
     phone_number: rowData[7]?.slice(2),
     address: rowData[6],
     dob: rowData[8],
@@ -94,7 +92,10 @@ export default function ModalEditDoctor(props) {
       if (regexPhone.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Phone number must be filled in 11 -12 digits" });
+        setformErr({
+          ...formErr,
+          [name]: "Phone number must be filled in 11 -12 digits",
+        });
       }
     }
 
@@ -170,6 +171,7 @@ export default function ModalEditDoctor(props) {
             {...(formErr.fullname !== ""
               ? { error: true, helperText: formErr.fullname }
               : null)}
+            required
             fullWidth
             id="outlined-basic"
             label="Fullname"
@@ -187,6 +189,7 @@ export default function ModalEditDoctor(props) {
               ? { error: true, helperText: formErr.username }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Username"
             name="username"
@@ -219,6 +222,7 @@ export default function ModalEditDoctor(props) {
               ? { error: true, helperText: formErr.specialist }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Specialist"
             name="specialist"
@@ -235,6 +239,7 @@ export default function ModalEditDoctor(props) {
               ? { error: true, helperText: formErr.phone_number }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Phone"
             name="phone_number"
@@ -256,6 +261,7 @@ export default function ModalEditDoctor(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            required
             multiline
             rows={2}
             id="outlined-basic"

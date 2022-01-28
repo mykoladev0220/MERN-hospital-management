@@ -31,7 +31,7 @@ export default function EditPatient() {
     payload = {
       fullname: payload.fullname,
       NIK: parseInt(payload.nik),
-      no_rm: payload.norm,
+      no_rm: payload.no_rm,
       address: payload.address,
       age: parseInt(payload.age),
       dob: payload.dob,

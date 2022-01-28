@@ -135,6 +135,7 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.fullname }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Fullname"
             name="fullname"
@@ -151,6 +152,7 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.nik }
               : null)}
             fullWidth
+            required
             id="outlined-number"
             label="NIK"
             name="nik"
@@ -168,6 +170,7 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.no_rm }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="No RM"
             name="no_rm"
@@ -184,6 +187,7 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.age }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Age"
             name="age"
@@ -201,6 +205,7 @@ export default function ModalAddPatient(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            required
             multiline
             rows={2}
             id="outlined-basic"

@@ -87,7 +87,10 @@ export default function ModalAddDoctor(props) {
       if (regexPhone.test(value)) {
         setformErr({ ...formErr, [name]: "" });
       } else {
-        setformErr({ ...formErr, [name]: "Phone number must be filled in 11 -12 digits" });
+        setformErr({
+          ...formErr,
+          [name]: "Phone number must be filled in 11 -12 digits",
+        });
       }
     }
 
@@ -163,6 +166,7 @@ export default function ModalAddDoctor(props) {
             {...(formErr.fullname !== ""
               ? { error: true, helperText: formErr.fullname }
               : null)}
+            required
             fullWidth
             id="outlined-basic"
             label="Fullname"
@@ -180,6 +184,7 @@ export default function ModalAddDoctor(props) {
               ? { error: true, helperText: formErr.username }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Username"
             name="username"
@@ -195,6 +200,7 @@ export default function ModalAddDoctor(props) {
             {...(formErr.password !== ""
               ? { error: true, helperText: formErr.password }
               : null)}
+            required
             fullWidth
             id="outlined-basic"
             label="Password"
@@ -211,6 +217,7 @@ export default function ModalAddDoctor(props) {
             {...(formErr.specialist !== ""
               ? { error: true, helperText: formErr.specialist }
               : null)}
+            required
             fullWidth
             id="outlined-basic"
             label="Specialist"
@@ -227,6 +234,7 @@ export default function ModalAddDoctor(props) {
             {...(formErr.phone_number !== ""
               ? { error: true, helperText: formErr.phone_number }
               : null)}
+            required
             fullWidth
             id="outlined-basic"
             label="Phone"
@@ -248,6 +256,7 @@ export default function ModalAddDoctor(props) {
             {...(formErr.address !== ""
               ? { error: true, helperText: formErr.address }
               : null)}
+            required
             fullWidth
             multiline
             rows={2}
@@ -279,7 +288,11 @@ export default function ModalAddDoctor(props) {
         <div className="my-4">
           <FormControl component="fieldset">
             <FormLabel component="legend">Gender</FormLabel>
-            <RadioGroup row aria-label="gender" name="row-radio-buttons-group">
+            <RadioGroup
+              row
+              aria-label="gender"
+              name="row-radio-buttons-group"
+            >
               <FormControlLabel
                 onChange={onChange}
                 name="gender"

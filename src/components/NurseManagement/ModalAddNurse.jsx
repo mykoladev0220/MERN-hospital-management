@@ -153,6 +153,7 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.fullname }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Fullname"
             name="fullname"
@@ -169,6 +170,7 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.username }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Username"
             name="username"
@@ -185,6 +187,7 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.password }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Password"
             name="password"
@@ -201,6 +204,7 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.phone_number }
               : null)}
             fullWidth
+            required
             id="outlined-basic"
             label="Phone"
             name="phone_number"
@@ -222,6 +226,7 @@ export default function ModalAddNurse(props) {
               ? { error: true, helperText: formErr.address }
               : null)}
             fullWidth
+            required
             multiline
             rows={2}
             id="outlined-basic"

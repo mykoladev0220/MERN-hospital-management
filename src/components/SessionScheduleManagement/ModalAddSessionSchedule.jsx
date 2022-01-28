@@ -131,6 +131,7 @@ export default function ModalAddSessionSchedule(props) {
               Select Facilty
             </InputLabel>
             <Select
+              required
               {...(formErr.id_facilty !== ""
                 ? { error: true, helperText: formErr.id_facilty }
                 : null)}
@@ -154,6 +155,7 @@ export default function ModalAddSessionSchedule(props) {
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Select Doctor</InputLabel>
             <Select
+              required
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               name="id_doctor"
@@ -176,6 +178,7 @@ export default function ModalAddSessionSchedule(props) {
               Select Schedule
             </InputLabel>
             <Select
+              required
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               name="id_schedule"

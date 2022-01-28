@@ -54,6 +54,7 @@ export default function ModalEditPrescription(props) {
         <div className="my-4">
           <TextField
             fullWidth
+            required
             id="outlined-basic"
             label="Medicine Name"
             name="medicine_name"
@@ -67,6 +68,7 @@ export default function ModalEditPrescription(props) {
         <div className="my-4">
           <TextField
             fullWidth
+            required
             id="outlined-basic"
             label="Medicine Rules"
             name="medication_rules"
